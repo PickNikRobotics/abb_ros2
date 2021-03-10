@@ -1,0 +1,7 @@
+<?xml version="1.0" ?>
+<robot name="abb_irb120" xmlns:xacro="http://ros.org/wiki/xacro">
+  <xacro:include filename="$(find abb_irb120_support)/urdf/irb120_3_58_macro.xacro"/>
+  <xacro:include filename="robot6dof_system_position_only.ros2_control.xacro"/>
+  <xacro:abb_irb120_3_58 prefix=""/>
+  <xacro:robot6dof_system_position_only name="ABBSystemPositionOnlyHardware" prefix=""/>
+</robot>
