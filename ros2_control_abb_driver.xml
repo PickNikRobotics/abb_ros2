@@ -1,0 +1,9 @@
+<library path="ros2_control_abb_driver">
+  <class name="ros2_control_abb_driver/ABBSystemPositionOnlyHardware"
+         type="ros2_control_abb_driver::ABBSystemPositionOnlyHardware"
+         base_class_type="hardware_interface::SystemInterface">
+    <description>
+		ROS2 Control ABB driver.
+    </description>
+  </class>
+</library>

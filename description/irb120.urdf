@@ -256,7 +256,7 @@
   </joint>
   <ros2_control name="abb_irb120_3_58" type="system">
     <hardware>
-      <classType>ros2_control_demo_driver/Robot6DofSystemHardware</classType>
+      <classType>ros2_control_driver/Robot6DofSystemHardware</classType>
       <param name="example_param_hw_start_duration_sec">2.0</param>
       <param name="example_param_hw_stop_duration_sec">3.0</param>
       <param name="example_param_hw_slowdown">2.0</param>

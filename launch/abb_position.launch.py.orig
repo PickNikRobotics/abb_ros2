@@ -8,7 +8,7 @@ from launch_ros.actions import Node
 def generate_launch_description():
 
     ld = LaunchDescription()
-    package_path = get_package_share_directory('ros2_control_demo_driver')
+    package_path = get_package_share_directory('ros2_control_driver')
     robot_description_file = os.path.join(package_path, 'description', 'irb120.urdf')
     robot_controller_file = os.path.join(package_path, 'controllers', 'robot6dof_controller_position.yaml')
     
