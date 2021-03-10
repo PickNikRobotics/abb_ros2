@@ -1,0 +1,17 @@
+repositories:
+  abb:
+    type: git
+    url: git@github.com:dignakov/abb.git
+    version: ros2-foxy
+  abb_experimental:
+    type: git
+    url: git@github.com:dignakov/abb_experimental.git
+    version: ros2-foxy
+  abb_libegm:
+    type: git
+    url: https://github.com/ros-industrial/abb_libegm.git
+    version: master
+  ros2_control_abb_driver:
+    type: git
+    url: git@github.com:dignakov/ros2_control_abb_driver.git
+    version: master

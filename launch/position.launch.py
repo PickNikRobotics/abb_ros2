@@ -12,14 +12,14 @@ def generate_launch_description():
 
     # Get URDF via xacro
     robot_description_path = os.path.join(
-        get_package_share_directory('ros2_control_abb_demo_driver'),
+        get_package_share_directory('ros2_control_abb_driver'),
         'description',
         'irb120.urdf.xacro')
     robot_description_config = xacro.process_file(robot_description_path)
     robot_description = {'robot_description': robot_description_config.toxml()}
 
     rrbot_forward_controller = os.path.join(
-        get_package_share_directory('ros2_control_abb_demo_driver'),
+        get_package_share_directory('ros2_control_abb_driver'),
         'controllers',
         'robot6dof_controller_position.yaml'
         )

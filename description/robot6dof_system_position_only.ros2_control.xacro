@@ -5,7 +5,7 @@
 
     <ros2_control name="${name}" type="system">
       <hardware>
-        <plugin>ros2_control_abb_demo_driver/ABBSystemPositionOnlyHardware</plugin>
+        <plugin>ros2_control_abb_driver/ABBSystemPositionOnlyHardware</plugin>
         <param name="example_param_hw_start_duration_sec">2.0</param>
         <param name="example_param_hw_stop_duration_sec">3.0</param>
         <param name="example_param_hw_slowdown">2.0</param>
