@@ -6,7 +6,7 @@
 
 - https://github.com/dignakov/abb
 - https://github.com/dignakov/abb_experimental
-- https://github.com/ros-industrial/abb_libegm (for the ABB driver)
+- https://github.com/ros-industrial/abb_libegm
 
 ## Compiling:
 Please follow the directions here https://github.com/ros-controls/ros2_control_demos to set up ros2_control, ros2_controllers, and ros2_control_demos.
