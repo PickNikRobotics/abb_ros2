@@ -11,7 +11,7 @@
 ## Compiling:
 Please follow the directions here https://github.com/ros-controls/ros2_control_demos to set up ros2_control, ros2_controllers, and ros2_control_demos.
 
-Since libegm is used with `add_subdirectory`, for now the directory structure should look something like this to have everything compile:
+For now the directory structure should look something like this to have everything compile:
 
 ```
 colcon_ws/src
