@@ -2,7 +2,7 @@
 
 Borrowed from: https://github.com/ros-industrial/abb_libegm/issues/18#issuecomment-473262645
 
-But with some additional details abotu setting this up.
+But with some additional details about setting up EGM. Will try to add to this over time to make it a more comprehensive guide on EGM.
 
 ## Position Only For Now
 
