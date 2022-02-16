@@ -6,6 +6,10 @@ But with some additional details about setting up EGM. Will try to add to this o
 
 ## Position Only For Now
 
+# Packaged Sim
+
+You should be able to import `egm_robot.rspag` into Robot Studio, change the IP of the control computer and try it out.
+
 # Setting Up a New Robot:
 
 1. In Robot Studio, create a new solution
