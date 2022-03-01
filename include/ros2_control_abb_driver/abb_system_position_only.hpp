@@ -60,7 +60,7 @@ public:
 
 private:
 	// Dummy parameters
-	double hw_start_sec_, hw_stop_sec_, hw_slowdown_;
+	double hw_start_sec_, hw_stop_sec_, hw_slowdown_, robotstudio_port_;
 	// Store the command for the simulated robot
 	std::vector<double> hw_commands_, hw_states_;
 
