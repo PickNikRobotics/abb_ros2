@@ -44,7 +44,8 @@ CallbackReturn ABBSystemPositionOnlyHardware::on_init(const hardware_interface::
 
 	hw_states_.resize(info_.joints.size(), std::numeric_limits<double>::quiet_NaN());
 	hw_commands_.resize(info_.joints.size(), std::numeric_limits<double>::quiet_NaN());
-
+	robotstudio_port_ = stod(info_.hardware_parameters["robotstudio_port"]);
+	
 	for (const hardware_interface::ComponentInfo &joint : info_.joints){
 
 		if(joint.command_interfaces.size() != 1){
@@ -73,7 +74,7 @@ CallbackReturn ABBSystemPositionOnlyHardware::on_init(const hardware_interface::
 	RCLCPP_INFO(rclcpp::get_logger("ABBSystemPositionOnlyHardware"),
 			"configuring EGM interface...");
 
-	  egm_interface_ = std::make_unique<abb::egm::EGMControllerInterface>(io_service_, 6511);
+	  egm_interface_ = std::make_unique<abb::egm::EGMControllerInterface>(io_service_, robotstudio_port_);
 	  if(!egm_interface_){
 		  	RCLCPP_FATAL(rclcpp::get_logger("ABBSystemPositionOnlyHardware"),
 				"Could not create EGMControllerInterface");
