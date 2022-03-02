@@ -29,7 +29,7 @@ namespace ros2_control_abb_driver
 class ABBSystemPositionOnlyHardware : public hardware_interface::SystemInterface
 {
 public:
-	RCLCPP_SHARED_PTR_DEFINITIONS(ABBSystemPositionOnlyHardware);
+	RCLCPP_SHARED_PTR_DEFINITIONS(ABBSystemPositionOnlyHardware)
 
 	ROS2_CONTROL_DRIVER_PUBLIC
 	CallbackReturn on_init(const hardware_interface::HardwareInfo & info) override;

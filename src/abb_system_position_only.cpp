@@ -94,9 +94,9 @@ CallbackReturn ABBSystemPositionOnlyHardware::on_init(const hardware_interface::
 }
 
 
-CallbackReturn ABBSystemPositionOnlyHardware::on_configure(const rclcpp_lifecycle::State & previous_state)
+CallbackReturn ABBSystemPositionOnlyHardware::on_configure(const rclcpp_lifecycle::State &  /* previous_state */)
 {
-	RCLCPP_INFO(rclcpp::get_logger("KukaSystemPositionOnlyHardware"),
+	RCLCPP_INFO(rclcpp::get_logger("ABBSystemPositionOnlyHardware"),
 	"on_configure()");
 
 	//just in case - not 100% sure this is the right thing to do . . .
@@ -141,7 +141,7 @@ std::vector<hardware_interface::CommandInterface> ABBSystemPositionOnlyHardware:
 	return command_interfaces;
 }
 
-CallbackReturn ABBSystemPositionOnlyHardware::on_activate(const rclcpp_lifecycle::State & previous_state)  // QUESTION: should this be in configure?
+CallbackReturn ABBSystemPositionOnlyHardware::on_activate(const rclcpp_lifecycle::State & /* previous_state */)  // QUESTION: should this be in configure?
 {
 	RCLCPP_INFO(rclcpp::get_logger("ABBSystemPositionOnlyHardware"),
 	"on_activate()");
@@ -218,7 +218,7 @@ CallbackReturn ABBSystemPositionOnlyHardware::on_activate(const rclcpp_lifecycle
 	return CallbackReturn::SUCCESS;
 }
 
-CallbackReturn ABBSystemPositionOnlyHardware::on_deactivate(const rclcpp_lifecycle::State & previous_state)
+CallbackReturn ABBSystemPositionOnlyHardware::on_deactivate(const rclcpp_lifecycle::State &  /* previous_state */)
 {
 
 	RCLCPP_INFO(rclcpp::get_logger("ABBSystemPositionOnlyHardware"),
