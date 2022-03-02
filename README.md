@@ -4,8 +4,8 @@
 
 ## Dependencies:
 
-- https://github.com/dignakov/abb
-- https://github.com/dignakov/abb_experimental
+- ROS2 abb package (ex. https://github.com/dignakov/abb)
+- ROS2 abb_experimental package (ex. https://github.com/dignakov/abb_experimental)
 - https://github.com/ros-industrial/abb_libegm
 
 ## Compiling:
