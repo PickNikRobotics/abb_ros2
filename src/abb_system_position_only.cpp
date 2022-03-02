@@ -32,7 +32,6 @@ using namespace std::chrono_literals;
 namespace ros2_control_abb_driver
 {
 
-// return_type ABBSystemPositionOnlyHardware::configure(const hardware_interface::HardwareInfo &info)
 CallbackReturn ABBSystemPositionOnlyHardware::on_init(const hardware_interface::HardwareInfo & info)
 {
 	RCLCPP_INFO(rclcpp::get_logger("ABBSystemPositionOnlyHardware"),
@@ -88,8 +87,6 @@ CallbackReturn ABBSystemPositionOnlyHardware::on_init(const hardware_interface::
 	}
 
 	//done
-	// status_ = hardware_interface::status::CONFIGURED;
-	// return return_type::OK;
 	return CallbackReturn::SUCCESS;
 }
 
@@ -213,8 +210,6 @@ CallbackReturn ABBSystemPositionOnlyHardware::on_activate(const rclcpp_lifecycle
 	RCLCPP_INFO(rclcpp::get_logger("ABBSystemPositionOnlyHardware"),
 	"System Sucessfully started!");
 
-	// status_ = hardware_interface::status::STARTED;
-	// return return_type::OK;
 	return CallbackReturn::SUCCESS;
 }
 
@@ -232,8 +227,6 @@ CallbackReturn ABBSystemPositionOnlyHardware::on_deactivate(const rclcpp_lifecyc
 	RCLCPP_INFO(rclcpp::get_logger("ABBSystemPositionOnlyHardware"),
 	"System sucessfully stopped!");
 
-	// status_ = hardware_interface::status::STOPPED;
-	// return return_type::OK;
 	return CallbackReturn::SUCCESS;
 }
 
