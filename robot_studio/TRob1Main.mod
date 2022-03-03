@@ -61,8 +61,8 @@ MODULE TRob1Main
     !
     !***********************************************************
     PROC main()
+        MoveAbsJ home, v200, fine, tool0;
         WHILE TRUE DO
-            MoveAbsJ home, v200, fine, tool0;
             
             ! Register an EGM id.
             EGMGetId egm_id;

@@ -4,8 +4,7 @@
 
 ## Dependencies:
 
-- https://github.com/dignakov/abb
-- https://github.com/dignakov/abb_experimental
+- A robot description and moveit_config package, e.g. from https://github.com/dignakov/abb or ./abb_experimental
 - https://github.com/ros-industrial/abb_libegm
 
 ## Compiling:

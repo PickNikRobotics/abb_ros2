@@ -32,7 +32,6 @@ using namespace std::chrono_literals;
 namespace ros2_control_abb_driver
 {
 
-// return_type ABBSystemPositionOnlyHardware::configure(const hardware_interface::HardwareInfo &info)
 CallbackReturn ABBSystemPositionOnlyHardware::on_init(const hardware_interface::HardwareInfo & info)
 {
 	RCLCPP_INFO(rclcpp::get_logger("ABBSystemPositionOnlyHardware"),
@@ -44,7 +43,8 @@ CallbackReturn ABBSystemPositionOnlyHardware::on_init(const hardware_interface::
 
 	hw_states_.resize(info_.joints.size(), std::numeric_limits<double>::quiet_NaN());
 	hw_commands_.resize(info_.joints.size(), std::numeric_limits<double>::quiet_NaN());
-
+	robotstudio_port_ = stod(info_.hardware_parameters["robotstudio_port"]);
+	
 	for (const hardware_interface::ComponentInfo &joint : info_.joints){
 
 		if(joint.command_interfaces.size() != 1){
@@ -73,7 +73,7 @@ CallbackReturn ABBSystemPositionOnlyHardware::on_init(const hardware_interface::
 	RCLCPP_INFO(rclcpp::get_logger("ABBSystemPositionOnlyHardware"),
 			"configuring EGM interface...");
 
-	  egm_interface_ = std::make_unique<abb::egm::EGMControllerInterface>(io_service_, 6511);
+	  egm_interface_ = std::make_unique<abb::egm::EGMControllerInterface>(io_service_, robotstudio_port_);
 	  if(!egm_interface_){
 		  	RCLCPP_FATAL(rclcpp::get_logger("ABBSystemPositionOnlyHardware"),
 				"Could not create EGMControllerInterface");
@@ -87,15 +87,13 @@ CallbackReturn ABBSystemPositionOnlyHardware::on_init(const hardware_interface::
 	}
 
 	//done
-	// status_ = hardware_interface::status::CONFIGURED;
-	// return return_type::OK;
 	return CallbackReturn::SUCCESS;
 }
 
 
-CallbackReturn ABBSystemPositionOnlyHardware::on_configure(const rclcpp_lifecycle::State & previous_state)
+CallbackReturn ABBSystemPositionOnlyHardware::on_configure(const rclcpp_lifecycle::State &  /* previous_state */)
 {
-	RCLCPP_INFO(rclcpp::get_logger("KukaSystemPositionOnlyHardware"),
+	RCLCPP_INFO(rclcpp::get_logger("ABBSystemPositionOnlyHardware"),
 	"on_configure()");
 
 	//just in case - not 100% sure this is the right thing to do . . .
@@ -140,7 +138,7 @@ std::vector<hardware_interface::CommandInterface> ABBSystemPositionOnlyHardware:
 	return command_interfaces;
 }
 
-CallbackReturn ABBSystemPositionOnlyHardware::on_activate(const rclcpp_lifecycle::State & previous_state)  // QUESTION: should this be in configure?
+CallbackReturn ABBSystemPositionOnlyHardware::on_activate(const rclcpp_lifecycle::State & /* previous_state */)  // QUESTION: should this be in configure?
 {
 	RCLCPP_INFO(rclcpp::get_logger("ABBSystemPositionOnlyHardware"),
 	"on_activate()");
@@ -212,12 +210,10 @@ CallbackReturn ABBSystemPositionOnlyHardware::on_activate(const rclcpp_lifecycle
 	RCLCPP_INFO(rclcpp::get_logger("ABBSystemPositionOnlyHardware"),
 	"System Sucessfully started!");
 
-	// status_ = hardware_interface::status::STARTED;
-	// return return_type::OK;
 	return CallbackReturn::SUCCESS;
 }
 
-CallbackReturn ABBSystemPositionOnlyHardware::on_deactivate(const rclcpp_lifecycle::State & previous_state)
+CallbackReturn ABBSystemPositionOnlyHardware::on_deactivate(const rclcpp_lifecycle::State &  /* previous_state */)
 {
 
 	RCLCPP_INFO(rclcpp::get_logger("ABBSystemPositionOnlyHardware"),
@@ -231,8 +227,6 @@ CallbackReturn ABBSystemPositionOnlyHardware::on_deactivate(const rclcpp_lifecyc
 	RCLCPP_INFO(rclcpp::get_logger("ABBSystemPositionOnlyHardware"),
 	"System sucessfully stopped!");
 
-	// status_ = hardware_interface::status::STOPPED;
-	// return return_type::OK;
 	return CallbackReturn::SUCCESS;
 }
 

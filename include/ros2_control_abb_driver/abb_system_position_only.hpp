@@ -29,11 +29,10 @@ namespace ros2_control_abb_driver
 class ABBSystemPositionOnlyHardware : public hardware_interface::SystemInterface
 {
 public:
-	RCLCPP_SHARED_PTR_DEFINITIONS(ABBSystemPositionOnlyHardware);
+	RCLCPP_SHARED_PTR_DEFINITIONS(ABBSystemPositionOnlyHardware)
 
 	ROS2_CONTROL_DRIVER_PUBLIC
 	CallbackReturn on_init(const hardware_interface::HardwareInfo & info) override;
-	// return_type configure(const hardware_interface::HardwareInfo & info) override;
 
 	ROS2_CONTROL_DRIVER_PUBLIC
 	CallbackReturn on_configure(const rclcpp_lifecycle::State & previous_state) override;
@@ -59,18 +58,14 @@ public:
 	return_type write() override;
 
 private:
-	// Dummy parameters
-	double hw_start_sec_, hw_stop_sec_, hw_slowdown_;
+	// Hardware parameters
+	double robotstudio_port_;
 	// Store the command for the simulated robot
 	std::vector<double> hw_commands_, hw_states_;
 
 
 	// EGM things
-	const int egm_rate_ = 250.0;
 	int sequence_number_ = 0;
-	double time = 0.0;          // [seconds] (elapsed time during an EGM communication session).
-	double last_time = 0.0;
-	bool ready_to_write_ = false;
 
 	//EGM
 	boost::asio::io_service io_service_;
