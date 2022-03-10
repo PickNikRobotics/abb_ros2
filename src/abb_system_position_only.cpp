@@ -29,7 +29,9 @@ using namespace std::chrono_literals;
 
 namespace ros2_control_abb_driver
 {
-constexpr size_t NUM_CONNECTION_TRIES = 100;
+static constexpr size_t NUM_CONNECTION_TRIES = 100;
+static constexpr auto DEG_TO_RAD = 180 / M_PI;
+
 CallbackReturn ABBSystemPositionOnlyHardware::on_init(const hardware_interface::HardwareInfo & info)
 {
   RCLCPP_INFO(rclcpp::get_logger("ABBSystemPositionOnlyHardware"), "on_init()");
@@ -98,13 +100,6 @@ CallbackReturn ABBSystemPositionOnlyHardware::on_configure(
   const rclcpp_lifecycle::State & /* previous_state */)
 {
   RCLCPP_INFO(rclcpp::get_logger("ABBSystemPositionOnlyHardware"), "on_configure()");
-
-  // just in case - not 100% sure this is the right thing to do . . .
-  for (size_t i = 0; i < hw_states_.size(); ++i) {
-    hw_states_[i] = std::numeric_limits<double>::quiet_NaN();
-    hw_commands_[i] = std::numeric_limits<double>::quiet_NaN();
-  }
-
   return CallbackReturn::SUCCESS;
 }
 
@@ -137,7 +132,7 @@ ABBSystemPositionOnlyHardware::export_command_interfaces()
 }
 
 CallbackReturn ABBSystemPositionOnlyHardware::on_activate(
-  const rclcpp_lifecycle::State & /* previous_state */)  // QUESTION: should this be in configure?
+  const rclcpp_lifecycle::State & /* previous_state */)
 {
   RCLCPP_INFO(rclcpp::get_logger("ABBSystemPositionOnlyHardware"), "on_activate()");
 
@@ -146,7 +141,7 @@ CallbackReturn ABBSystemPositionOnlyHardware::on_activate(
   bool wait = true;
   int counter = 0;
   RCLCPP_INFO(rclcpp::get_logger("ABBSystemPositionOnlyHardware"), "Connecting to Robot...");
-  while (wait && counter++ < NUM_CONNECTION_TRIES) {
+  while (rclcpp::ok() && wait && ++counter < NUM_CONNECTION_TRIES) {
     if (egm_interface_->isConnected()) {
       RCLCPP_INFO(rclcpp::get_logger("ABBSystemPositionOnlyHardware"), "Connected to Robot");
       if (
@@ -168,7 +163,6 @@ CallbackReturn ABBSystemPositionOnlyHardware::on_activate(
   }
   if (wait) {  // if still not in the right state, exit
     RCLCPP_FATAL(rclcpp::get_logger("ABBSystemPositionOnlyHardware"), "Could NOT Connect to Robot");
-    // TODO(seng): this does not seem to stop anything, and the code continues to read/write
     return CallbackReturn::ERROR;
   }
   RCLCPP_INFO(rclcpp::get_logger("ABBSystemPositionOnlyHardware"), "CONNECTED!");
@@ -176,7 +170,6 @@ CallbackReturn ABBSystemPositionOnlyHardware::on_activate(
   // SET INITIAL STATE TO CURRENT ANGLES, error if something isn't right
   if (!egm_interface_->waitForMessage(500)) {  // in [ms]
     RCLCPP_FATAL(rclcpp::get_logger("ABBSystemPositionOnlyHardware"), "NO Message Received");
-    // TODO(seng): this does not seem to stop anything, and the code continues to read/write
     return CallbackReturn::ERROR;
   }
 
@@ -185,7 +178,6 @@ CallbackReturn ABBSystemPositionOnlyHardware::on_activate(
 
   if (sequence_number_ <= 0) {
     RCLCPP_FATAL(rclcpp::get_logger("ABBSystemPositionOnlyHardware"), "Sequence number < 0");
-    // TODO(seng): this does not seem to stop anything, and the code continues to read/write
     return CallbackReturn::ERROR;
   }
 
@@ -197,7 +189,6 @@ CallbackReturn ABBSystemPositionOnlyHardware::on_activate(
     RCLCPP_FATAL(
       rclcpp::get_logger("ABBSystemPositionOnlyHardware"),
       "Robot does not match expected number of joints");
-    // TODO(seng): this does not seem to stop anything, and the code continues to read/write
     return CallbackReturn::ERROR;
   }
 
@@ -205,11 +196,10 @@ CallbackReturn ABBSystemPositionOnlyHardware::on_activate(
   output_pos_.mutable_robot()->mutable_joints()->mutable_position()->CopyFrom(current_positions_);
 
   for (size_t i = 0; i < hw_states_.size(); ++i) {
-    hw_states_[i] = current_positions_.values(i) / 180.0 * 3.14159;
+    hw_states_[i] = current_positions_.values(i) / DEG_TO_RAD;
     hw_commands_[i] =
-      current_positions_.values(i) / 180.0 * 3.14159;  // QUESTION: should I do this here?
+      current_positions_.values(i) / DEG_TO_RAD;
   }
-
   RCLCPP_INFO(rclcpp::get_logger("ABBSystemPositionOnlyHardware"), "System Sucessfully started!");
 
   return CallbackReturn::SUCCESS;
@@ -220,7 +210,6 @@ CallbackReturn ABBSystemPositionOnlyHardware::on_deactivate(
 {
   RCLCPP_INFO(rclcpp::get_logger("ABBSystemPositionOnlyHardware"), "on_deactivate()");
 
-  // EGM TODO: what's left?
   io_service_.stop();
   thread_group_.join_all();
 
@@ -233,12 +222,12 @@ return_type ABBSystemPositionOnlyHardware::read()
 {
   RCLCPP_INFO(rclcpp::get_logger("ABBSystemPositionOnlyHardware"), "read()");
 
-  abb::egm::wrapper::Input tmp_input;  // TODO(seng): function no longer const, change this
+  abb::egm::wrapper::Input tmp_input;
   abb::egm::wrapper::Joints tmp_current_positions;
   egm_interface_->read(&tmp_input);
   tmp_current_positions.CopyFrom(tmp_input.feedback().robot().joints().position());
 
-  for (size_t i = 0; i < hw_states_.size(); i++) {
+  for (size_t i = 0; i < hw_states_.size(); ++i) {
     hw_states_[i] = tmp_current_positions.values(i) / 180.0 * 3.14159;
     RCLCPP_INFO(
       rclcpp::get_logger("ABBSystemPositionOnlyHardware"), "Got state %.5f for joint %ld!",
