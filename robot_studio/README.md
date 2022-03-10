@@ -1,64 +1,71 @@
-# Robot Studio Simulation
+# RobotStudio Simulation
 
-Borrowed from: https://github.com/ros-industrial/abb_libegm/issues/18#issuecomment-473262645
+The simulation files are a modified version from the [abb_libegm library](https://github.com/ros-industrial/abb_libegm/issues/18#issuecomment-473262645 with some additional details about setting up EGM. 
 
-But with some additional details about setting up EGM. Will try to add to this over time to make it a more comprehensive guide on EGM.
+Running this simulation requires two computers communicating over the network: a Windows computer running RobotStudio, and a ROS2 computer running the driver.
 
-## Position Only For Now
+## Packaged Sim
 
-# Packaged Sim
+This directory contains a Pack and Go file for RobotStudio, which packages the station with the virtual controller and add-in configuration. To set up the robot using the packaged solution:
 
-You should be able to import `IRB1200_5_90.rspag` into Robot Studio, change the IP of the control computer and try it out.
+1. Download `IRB1200_5_90.rspag` onto the computer with RobotStudio
+2. Run Robot Studio
+3. Under File, select Open
+4. Navigate to the folder with the downloaded Pack and Go file and select it
 
-# Setting Up a New Robot:
+This should open the station with most of the required parameters set up. However, note that network parameters for connecting between the robot and the control computer will likely be different, and will need to be reconfigured. See Step 3 in [Setting Up a New Robot](#setting-up-a-new-robot) to do this.
 
-1. In Robot Studio, create a new solution
+## Setting Up a New Robot:
 
-File --> New --> Solution with Station and Virtual Controller
+These steps cover how to set up a new robot in RobotStudio to work with the ABB driver. If using the Pack and Go, skip to step 3 for network configuration, and then to step 6 to start the controller.
 
-Make sure you have `Customize options` selected
+1. Open Robot Studio and create a new solution by selecting File --> New --> Solution with Station and Virtual Controller. Make sure you have `Customize options` selected.
 
-![create solution](https://raw.githubusercontent.com/dignakov/ros2_control_abb_driver/rolling/docs/images/egm0.png)
+![create solution](../docs/images/egm0.png)
 
-2. Add EGM to the controller
-
-When customizing controller options under `Engineering Tools` choose:
+2. In the window that pops up for controller customization, add EGM to the controller. This can be done by selecting `Engineering Tools` on the sidebar, and selecting the following options:
 - `689-1 Externally Guided Motion (EGM)`
 - (not sure if needed) `623-1 Multitasking`
 
-![customize](https://raw.githubusercontent.com/dignakov/ros2_control_abb_driver/rolling/docs/images/egm1.png)
+![customize](../docs/images/egm1.png)
 
-3. Add The ROS2 computer IP and port so EGM can talk to it.
-
-Under the `Controller Tab` --> `Configuration` --> `Communication`
-
-On the right, udner `Transmission Protocol` right click and add new.
+3. Configure the communication settings for the controller to connect with the ROS2 computer. Identify the IP of the ROS2 computer, and the port used for EGM communitcation. The port is set by the `robotstudio_port` hardware parameter in the robot ros2_control description file. To configure the controller, navigate to the `Controller Tab` --> `Configuration` --> `Communication`. On the right, udner `Transmission Protocol` right click and `Add new`.
 
 
-![communication](https://raw.githubusercontent.com/dignakov/ros2_control_abb_driver/rolling/docs/images/egm2.png)
+![communication](../docs/images/egm2.png)
 
 
-![add transmission porotocol](https://raw.githubusercontent.com/dignakov/ros2_control_abb_driver/rolling/docs/images/egm3.png)
+ - Set the name to be `ROB_1`
+ - Set the type to `UDPUC`. If you don't see this option, EGM was not added to the controller.
+ -  Set the Remote Address to be that of the ROS2 computer. In the Pack and Go file, this is set to `169.254.53.52`, but this will likely need to be changed.
+ - Set the Remote port number to match what ROS2 control driver is expecting. In the sample solution, it is set to `6511`.
+ - Leave the local port number set to `0`
+ - Press OK at the bottom of the window to confirm the changes
 
-Name it `ROB_1`. Type should be `UDPUC` (if you don't have this you didn't add EGM to the controller).
+![add transmission porotocol](../docs/images/egm3.png)
 
-Set the Remote Address to be that of the ROS2 computer (in the sample solution it's set to `169.254.53.52`, but will likely be different on your setup).
+4. Add the code from `TRob1Main.mod` to the RAPID module. This can be done by selecting the module on the sidebar, and copy-pasting the code into the editor.
 
-The port should match what ros2 control driver is expecting. This is a hardware parameter set in the robot ros2control xacro. In the sample solution, it is set to `6511`.
+![add module](../docs/images/egm4.png)
 
-Local port should be `0`
+## Running the simulation
 
+Once the simulation is set up, either via the Pack and Go or by setting up a new robot, the simulation should be ready to run.
 
-![add transmission porotocol](https://raw.githubusercontent.com/dignakov/ros2_control_abb_driver/rolling/docs/images/egm4.png)
+Start the controller under the `RAPID` tab by selecting `TRob1Main` as the task under `Selected Tasks`, and pressing the `Start` icon on the ribbon.
 
+The simulation will then try to connect with the ROS2 driver every few seconds. Once the connection is established, the simulated robot can be controlled from the ROS2 computer.
 
-5. Add the code from `TRob1Main.mod` to the rapid module.
-
-6. Under the `RAPID` tab, select TRob1Main as the task, and press the `Start` icon on the ribbon.
-
-The simulation will then try to connect with the ros2 driver every few seconds. Once the connection is established, you can control the simulated robot from ROS.
-
-Occasionally, when you connect for the first time, you will need to stop the rapid program and start it again...
+![start](../docs/images/egm5.png)
 
 
-![add transmission porotocol](https://raw.githubusercontent.com/dignakov/ros2_control_abb_driver/rolling/docs/images/egm5.png)
+## Troubleshooting
+
+ - Occasionally, when connecting for the first time, you will need to stop the RAPID program and start it again
+ - The warning message `41822 No data from the UdcUc device[*]` indicates a connection issue between the RobotStudio and the ROS2 computer
+    - Check that the communication settings are correct
+    - Test the connection between the computers by pinging the ROS2 computer from the RobotStudio computer and vice-versa
+    - Check that the firewall settings on the RobotStudio computer allow communcation over UDP on the correct port
+    - Verify that the ros2_control_node is listening on the correct UDP socket on the ROS2 computer
+    - If using a container, verify that the required port is forwarded correctly
+    - It may help switch the port by changing both the `robotstudio_port` hardware parameter on the ROS2 control side, and the port number under the `ROB_1` configuration on the RobotStudio side

@@ -1,6 +1,4 @@
-# WIP ros2_control ABB Driver
-
-
+# ros2_control ABB Driver
 
 ## Dependencies:
 
@@ -22,4 +20,5 @@ colcon_ws/src
 ```
 
 ## ABB Driver:
-For testing, this needs a real robot or RobotWare compatible with libegm. More details will be added soon.
+
+For testing, this needs a real robot or RobotWare compatible with libegm. RobotStudio testing setup instructions can be found [here](robot_studio/README.md).
