@@ -68,6 +68,7 @@ public:
 private:
   // Hardware parameters
   double robotstudio_port_;
+  
   // Store the command for the simulated robot
   std::vector<double> hw_commands_, hw_states_;
 
