@@ -29,6 +29,7 @@ using namespace std::chrono_literals;
 
 namespace ros2_control_abb_driver
 {
+constexpr size_t NUM_CONNECTION_TRIES = = 100;
 CallbackReturn ABBSystemPositionOnlyHardware::on_init(const hardware_interface::HardwareInfo & info)
 {
   RCLCPP_INFO(rclcpp::get_logger("ABBSystemPositionOnlyHardware"), "on_init()");
@@ -113,7 +114,7 @@ ABBSystemPositionOnlyHardware::export_state_interfaces()
   RCLCPP_INFO(rclcpp::get_logger("ABBSystemPositionOnlyHardware"), "export_state_interfaces()");
 
   std::vector<hardware_interface::StateInterface> state_interfaces;
-  for (size_t i = 0; i < info_.joints.size(); i++) {
+  for (size_t i = 0; i < info_.joints.size(); ++i) {
     state_interfaces.emplace_back(
       hardware_interface::StateInterface(
         info_.joints[i].name, hardware_interface::HW_IF_POSITION, &hw_states_[i]));
@@ -127,7 +128,7 @@ ABBSystemPositionOnlyHardware::export_command_interfaces()
   RCLCPP_INFO(rclcpp::get_logger("ABBSystemPositionOnlyHardware"), "export_command_interfaces()");
 
   std::vector<hardware_interface::CommandInterface> command_interfaces;
-  for (size_t i = 0; i < info_.joints.size(); i++) {
+  for (size_t i = 0; i < info_.joints.size(); ++i) {
     command_interfaces.emplace_back(
       hardware_interface::CommandInterface(
         info_.joints[i].name, hardware_interface::HW_IF_POSITION, &hw_commands_[i]));
@@ -143,10 +144,9 @@ CallbackReturn ABBSystemPositionOnlyHardware::on_activate(
   thread_group_.create_thread(boost::bind(&boost::asio::io_service::run, &io_service_));
 
   bool wait = true;
-  int num_tries = 100;
   int counter = 0;
   RCLCPP_INFO(rclcpp::get_logger("ABBSystemPositionOnlyHardware"), "Connecting to Robot...");
-  while (wait && counter++ < num_tries) {
+  while (wait && counter++ < NUM_CONNECTION_TRIES) {
     if (egm_interface_->isConnected()) {
       RCLCPP_INFO(rclcpp::get_logger("ABBSystemPositionOnlyHardware"), "Connected to Robot");
       if (
@@ -204,7 +204,7 @@ CallbackReturn ABBSystemPositionOnlyHardware::on_activate(
   output_.mutable_robot()->mutable_joints()->mutable_position()->CopyFrom(current_positions_);
   output_pos_.mutable_robot()->mutable_joints()->mutable_position()->CopyFrom(current_positions_);
 
-  for (size_t i = 0; i < hw_states_.size(); i++) {
+  for (size_t i = 0; i < hw_states_.size(); ++i) {
     hw_states_[i] = current_positions_.values(i) / 180.0 * 3.14159;
     hw_commands_[i] =
       current_positions_.values(i) / 180.0 * 3.14159;  // QUESTION: should I do this here?
