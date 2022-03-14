@@ -11,7 +11,3 @@ repositories:
     type: git
     url: https://github.com/ros-industrial/abb_libegm.git
     version: master
-  ros2_control_abb_driver:
-    type: git
-    url: git@github.com:dignakov/ros2_control_abb_driver.git
-    version: master
