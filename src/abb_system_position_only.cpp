@@ -139,7 +139,7 @@ CallbackReturn ABBSystemPositionOnlyHardware::on_activate(
   thread_group_.create_thread(boost::bind(&boost::asio::io_service::run, &io_service_));
 
   bool wait = true;
-  int counter = 0;
+  size_t counter = 0;
   RCLCPP_INFO(rclcpp::get_logger("ABBSystemPositionOnlyHardware"), "Connecting to Robot...");
   while (rclcpp::ok() && wait && ++counter < NUM_CONNECTION_TRIES) {
     if (egm_interface_->isConnected()) {
@@ -197,8 +197,7 @@ CallbackReturn ABBSystemPositionOnlyHardware::on_activate(
 
   for (size_t i = 0; i < hw_states_.size(); ++i) {
     hw_states_[i] = current_positions_.values(i) / DEG_TO_RAD;
-    hw_commands_[i] =
-      current_positions_.values(i) / DEG_TO_RAD;
+    hw_commands_[i] = current_positions_.values(i) / DEG_TO_RAD;
   }
   RCLCPP_INFO(rclcpp::get_logger("ABBSystemPositionOnlyHardware"), "System Sucessfully started!");
 
@@ -222,13 +221,13 @@ return_type ABBSystemPositionOnlyHardware::read()
 {
   RCLCPP_INFO(rclcpp::get_logger("ABBSystemPositionOnlyHardware"), "read()");
 
-  abb::egm::wrapper::Input tmp_input;
-  abb::egm::wrapper::Joints tmp_current_positions;
-  egm_interface_->read(&tmp_input);
-  tmp_current_positions.CopyFrom(tmp_input.feedback().robot().joints().position());
+  abb::egm::wrapper::Input temp_input;
+  abb::egm::wrapper::Joints temp_current_positions;
+  egm_interface_->read(&temp_input);
+  temp_current_positions.CopyFrom(temp_input.feedback().robot().joints().position());
 
   for (size_t i = 0; i < hw_states_.size(); ++i) {
-    hw_states_[i] = tmp_current_positions.values(i) / 180.0 * 3.14159;
+    hw_states_[i] = temp_current_positions.values(i) / DEG_TO_RAD;
     RCLCPP_INFO(
       rclcpp::get_logger("ABBSystemPositionOnlyHardware"), "Got state %.5f for joint %ld!",
       hw_states_[i], i);
@@ -241,7 +240,7 @@ return_type ABBSystemPositionOnlyHardware::write()
 {
   RCLCPP_INFO(rclcpp::get_logger("ABBSystemPositionOnlyHardware"), "write()");
 
-  for (size_t i = 0; i < hw_commands_.size(); i++) {
+  for (size_t i = 0; i < hw_commands_.size(); ++i) {
     RCLCPP_INFO(
       rclcpp::get_logger("ABBSystemPositionOnlyHardware"), "Got command %.5f for joint %ld!",
       hw_commands_[i], i);
