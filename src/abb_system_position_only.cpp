@@ -29,7 +29,7 @@ using namespace std::chrono_literals;
 
 namespace ros2_control_abb_driver
 {
-constexpr size_t NUM_CONNECTION_TRIES = = 100;
+constexpr size_t NUM_CONNECTION_TRIES = 100;
 CallbackReturn ABBSystemPositionOnlyHardware::on_init(const hardware_interface::HardwareInfo & info)
 {
   RCLCPP_INFO(rclcpp::get_logger("ABBSystemPositionOnlyHardware"), "on_init()");
