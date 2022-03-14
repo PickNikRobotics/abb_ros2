@@ -19,10 +19,10 @@ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
 endif()
 
 set(THIS_PACKAGE_INCLUDE_DEPENDS
+    abb_libegm
     hardware_interface
     pluginlib
     rclcpp
-    abb_libegm
 )
 
 # find dependencies
