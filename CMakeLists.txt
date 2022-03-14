@@ -12,46 +12,47 @@ if(NOT CMAKE_CXX_STANDARD)
 endif()
 
 if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
-  add_compile_options(-Wall -Wextra -Wpedantic)
+  add_compile_options(-W -Wall -Wextra
+      -Wwrite-strings -Wunreachable-code -Wpointer-arith
+    -Winit-self -Wredundant-decls
+      -Wno-unused-parameter -Wno-unused-function)
 endif()
+
+set(THIS_PACKAGE_INCLUDE_DEPENDS
+    abb_libegm
+    hardware_interface
+    pluginlib
+    rclcpp
+)
 
 # find dependencies
 find_package(ament_cmake REQUIRED)
-find_package(hardware_interface REQUIRED)
-find_package(pluginlib REQUIRED)
-find_package(rclcpp REQUIRED)
-find_package(abb_libegm REQUIRED)
-# uncomment the following section in order to fill in
-# further dependencies manually.
-# find_package(<dependency> REQUIRED)
 
-#add_subdirectory(../abb_libegm deps_libegm)
+foreach(Dependency IN ITEMS ${THIS_PACKAGE_INCLUDE_DEPENDS})
+  find_package(${Dependency} REQUIRED)
+endforeach()
+
+###########
+## Build ##
+###########
 
 add_library(
-	${PROJECT_NAME}
-	SHARED
-	src/abb_system_position_only.cpp
-)
-target_include_directories(
-	${PROJECT_NAME}
-	PRIVATE
-	include
-)
-# NOT SURE IF THIS IS THE RIGHT WAY TO DO THIS...
-target_link_libraries(
-	${PROJECT_NAME}
-	abb_libegm::abb_libegm
-)
-ament_target_dependencies(
   ${PROJECT_NAME}
-  hardware_interface
-  pluginlib
-  rclcpp
+  SHARED
+  src/abb_system_position_only.cpp
+)
+ament_target_dependencies(${PROJECT_NAME} ${THIS_PACKAGE_INCLUDE_DEPENDS})
+target_include_directories(
+  ${PROJECT_NAME}
+  PRIVATE
+  include
 )
 
-pluginlib_export_plugin_description_file(hardware_interface
-										 ros2_control_abb_driver.xml)
+pluginlib_export_plugin_description_file(hardware_interface ros2_control_abb_driver.xml)
 
+#############
+## Install ##
+#############
 
 install(
   TARGETS ${PROJECT_NAME}
@@ -62,27 +63,17 @@ install(
   DESTINATION include
 )
 
+#############
+## Testing ##
+#############
+
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
-  # the following line skips the linter which checks for copyrights
-  # uncomment the line when a copyright and license is not present in all source files
-  #set(ament_cmake_copyright_FOUND TRUE)
-  # the following line skips cpplint (only works in a git repo)
-  # uncomment the line when this package is not in a git repo
-  #set(ament_cmake_cpplint_FOUND TRUE)
-  #ament_lint_auto_find_test_dependencies()
+  ament_lint_auto_find_test_dependencies()
 endif()
 
-ament_export_include_directories(
-  include
-)
-ament_export_libraries(
-  ${PROJECT_NAME}
-)
-ament_export_dependencies(
-  hardware_interface
-  pluginlib
-  rclcpp
-)
+ament_export_include_directories(include)
+ament_export_libraries(${PROJECT_NAME})
+ament_export_dependencies(${THIS_PACKAGE_INCLUDE_DEPENDS})
 
 ament_package()

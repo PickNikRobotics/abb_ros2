@@ -19,8 +19,8 @@
  * library cannot have, but the consuming code must have inorder to link.
  */
 
-#ifndef ROS2_CONTROL_DRIVER__VISIBILITY_CONTROL_H_
-#define ROS2_CONTROL_DRIVER__VISIBILITY_CONTROL_H_
+#ifndef ROS2_CONTROL_ABB_DRIVER__VISIBILITY_CONTROL_H_
+#define ROS2_CONTROL_ABB_DRIVER__VISIBILITY_CONTROL_H_
 
 // This logic was borrowed (then namespaced) from the examples on the gcc wiki:
 //     https://gcc.gnu.org/wiki/Visibility
@@ -53,4 +53,4 @@
 #define ROS2_CONTROL_DRIVER_PUBLIC_TYPE
 #endif
 
-#endif  // ROS2_CONTROL_DRIVER__VISIBILITY_CONTROL_H_
+#endif  // ROS2_CONTROL_ABB_DRIVER__VISIBILITY_CONTROL_H_
