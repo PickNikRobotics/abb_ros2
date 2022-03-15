@@ -89,7 +89,7 @@ The simulation will then try to connect with the ROS2 driver every few seconds. 
 
 To launch with RobotStudio, set `use_fake_hardware:=false`. As far as ROS is aware, RobotStudio is a real robot:
 
-    ros2 launch abb_bringup abb_control.launch.py description_package:=abb_irb1200_support description_file:=irb1200_5_90.xacro launch_rviz:=false moveit_config_package:=abb_irb1200_5_90_moveit_config
+    ros2 launch abb_bringup abb_control.launch.py description_package:=abb_irb1200_support description_file:=irb1200_5_90.xacro launch_rviz:=false moveit_config_package:=abb_irb1200_5_90_moveit_config moveit_config_file:=abb_irb1200_5_90.srdf
 
 After launching the controllers, launch MoveIt:
 

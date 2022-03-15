@@ -1,25 +1,13 @@
-import os
-import yaml
+from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument
+from launch.actions import OpaqueFunction
+from launch.conditions import IfCondition
 from launch.substitutions import Command, FindExecutable, LaunchConfiguration, PathJoinSubstitution
 from launch_ros.actions import Node
 from launch_ros.substitutions import FindPackageShare
-from ament_index_python.packages import get_package_share_directory
-import xacro
-
-# TODO(andyz): add robot type arguments
-
-def load_file(package_name, file_path):
-    package_path = get_package_share_directory(package_name)
-    #absolute_file_path = os.path.join(package_path, file_path)
-    absolute_file_path = package_path + "/" + file_path
-
-    try:
-        with open(absolute_file_path, "r") as file:
-            return file.read()
-    except EnvironmentError:  # parent of IOError, OSError *and* WindowsError where available
-        return None
+import os
+import yaml
 
 
 def load_yaml(package_name, file_path):
@@ -32,37 +20,12 @@ def load_yaml(package_name, file_path):
     except EnvironmentError:  # parent of IOError, OSError *and* WindowsError where available
         return None
 
-
-def generate_launch_description():
+def launch_setup(context, *args, **kwargs):
     # Command-line arguments
     robot_xacro_file = LaunchConfiguration("robot_xacro_file")
     support_package = LaunchConfiguration("support_package")
     moveit_config_package = LaunchConfiguration("moveit_config_package")
-
-    declared_arguments = []
-
-    # TODO(andyz): add other options
-    declared_arguments.append(
-        DeclareLaunchArgument(
-            "robot_xacro_file",
-            description="Xacro describing the robot.",
-            choices=["irb1200_5_90.xacro"],
-        )
-    )
-    declared_arguments.append(
-        DeclareLaunchArgument(
-            "support_package",
-            description="Name of the support package",
-            choices=["abb_irb1200_support"],
-        )
-    )
-    declared_arguments.append(
-        DeclareLaunchArgument(
-            "moveit_config_package",
-            description="Name of the support package",
-            choices=["abb_irb1200_5_90_moveit_config"],
-        )
-    )
+    moveit_config_file = LaunchConfiguration("moveit_config_file")
 
     # Planning context
     robot_description_content = Command(
@@ -74,11 +37,17 @@ def generate_launch_description():
     )
     robot_description = {"robot_description": robot_description_content}
 
-    robot_description_semantic_config = load_file(
-        "abb_irb1200_5_90_moveit_config", "config/abb_irb1200_5_90.srdf"
+    robot_description_semantic_content = Command(
+        [
+            PathJoinSubstitution([FindExecutable(name="xacro")]),
+            " ",
+            PathJoinSubstitution(
+                [FindPackageShare(moveit_config_package), "config", moveit_config_file]
+            ),
+        ]
     )
     robot_description_semantic = {
-        "robot_description_semantic": robot_description_semantic_config
+        "robot_description_semantic": robot_description_semantic_content
     }
 
     kinematics_yaml = load_yaml(
@@ -122,7 +91,7 @@ def generate_launch_description():
     }
 
     # Start the actual move_group node/action server
-    run_move_group_node = Node(
+    move_group_node = Node(
         package="moveit_ros_move_group",
         executable="move_group",
         output="screen",
@@ -172,11 +141,42 @@ def generate_launch_description():
         parameters=[robot_description],
     )
 
-    return LaunchDescription(
-        [
-            rviz_node,
-            static_tf,
-            robot_state_publisher,
-            run_move_group_node,
-        ]
+    nodes_to_start = [move_group_node, rviz_node, static_tf, robot_state_publisher]
+    return nodes_to_start
+
+
+def generate_launch_description():
+
+    declared_arguments = []
+
+    # TODO(andyz): add other options
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            "robot_xacro_file",
+            description="Xacro describing the robot.",
+            choices=["irb1200_5_90.xacro"],
+        )
     )
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            "support_package",
+            description="Name of the support package",
+            choices=["abb_irb1200_support"],
+        )
+    )
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            "moveit_config_package",
+            description="Name of the support package",
+            choices=["abb_irb1200_5_90_moveit_config"],
+        )
+    )
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            "moveit_config_file",
+            description="Name of the SRDF file",
+            choices=["abb_irb1200_5_90.srdf.xacro"],
+        )
+    )
+
+    return LaunchDescription(declared_arguments + [OpaqueFunction(function=launch_setup)])
