@@ -1,6 +1,7 @@
 <?xml version="1.0"?>
 <?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="3">
+<<<<<<< HEAD:abb_hardware_interface/package.xml
   <name>abb_hardware_interface</name>
   <version>0.0.0</version>
   <description>ABB EGM driver for ros2 control</description>
@@ -11,6 +12,13 @@
   <maintainer email="zelenak@picknik.ai">Andy Zelenak</maintainer>
 
   <license>Apache2</license>
+=======
+  <name>ros2_control_abb_driver</name>
+  <version>0.0.1</version>
+  <description>ABB egm driver for ros2 control</description>
+  <maintainer email="dmitri.ignakov@taigarobotics.com">Dmitri</maintainer>
+  <license>Apache License 2.0</license>
+>>>>>>> 36fcf76... Switch to using EGMManager:package.xml
 
   <buildtool_depend>ament_cmake</buildtool_depend>
   
@@ -18,6 +26,7 @@
   <depend>pluginlib</depend>
   <depend>rclcpp</depend>
   <depend>abb_libegm</depend>
+  <depend>abb_egm_rws_managers</depend>
 
   <test_depend>ament_cmake_gtest</test_depend>
 

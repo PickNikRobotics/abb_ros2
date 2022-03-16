@@ -14,7 +14,7 @@
 
 #pragma once
 
-#include <abb_libegm/egm_controller_interface.h>
+#include <abb_egm_rws_managers/egm_manager.h>
 
 #include <chrono>
 #include <memory>
@@ -65,6 +65,7 @@ public:
   return_type write() override;
 
 private:
+
   // Hardware parameters
   size_t robotstudio_port_;
   
@@ -76,14 +77,9 @@ private:
   boost::asio::io_service io_service_;
   boost::thread_group thread_group_;
   std::unique_ptr<abb::egm::EGMControllerInterface> egm_interface_;
+  std::unique_ptr<abb::robot::EGMManager> egm_manager_;
 
-  abb::egm::wrapper::Input input_;
-  abb::egm::wrapper::Output output_;
-  abb::egm::wrapper::Output output_pos_;
-  abb::egm::wrapper::Output output_vel_;
-  abb::egm::wrapper::Joints current_positions_;
-  abb::egm::wrapper::Joints current_velocities_;
-  abb::egm::wrapper::Joints initial_positions_;
+  abb::robot::MotionData motion_data_;
 };
 
 }  // namespace abb_hardware_interface
