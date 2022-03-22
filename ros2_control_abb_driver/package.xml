@@ -3,9 +3,14 @@
 <package format="3">
   <name>ros2_control_abb_driver</name>
   <version>0.0.1</version>
-  <description>ABB egm driver for ros2 control</description>
-  <maintainer email="dmitri.ignakov@taigarobotics.com">Dmitri</maintainer>
-  <license>TODO: License declaration</license>
+  <description>ABB EGM driver for ros2 control</description>
+
+  <author email="dmitri.ignakov@taigarobotics.com">Dmitri Ignakov</author>
+
+  <maintainer email="stephanie.eng@picknik.ai">Stephanie Eng</maintainer>
+  <maintainer email="zelenak@picknik.ai">Andy Zelenak</maintainer>
+
+  <license>Apache2</license>
 
   <buildtool_depend>ament_cmake</buildtool_depend>
   

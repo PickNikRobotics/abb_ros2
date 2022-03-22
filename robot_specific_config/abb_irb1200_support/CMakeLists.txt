@@ -1,0 +1,11 @@
+cmake_minimum_required(VERSION 3.10.2)
+
+project(abb_irb1200_support)
+
+find_package(ament_cmake REQUIRED)
+
+ament_package()
+
+install(DIRECTORY config launch meshes rviz urdf
+  DESTINATION share/${PROJECT_NAME})
+  
