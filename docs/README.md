@@ -6,10 +6,10 @@ Running this simulation requires two computers communicating over the network: a
 
 ## Packaged Sim
 
-This directory contains a Pack and Go file for RobotStudio, which packages the station with the virtual controller and add-in configuration. To set up the robot using the packaged solution:
+The `robot_studio_resources` directory contains a Pack and Go file for RobotStudio, which packages the station with the virtual controller and add-in configuration. To set up the robot using the packaged solution:
 
 1. Download `IRB1200_5_90.rspag` onto the computer with RobotStudio
-2. Run Robot Studio
+2. Run RobotStudio
 3. Under File, select Open
 4. Navigate to the folder with the downloaded Pack and Go file and select it
 
@@ -19,20 +19,20 @@ This should open the station with most of the required parameters set up. Howeve
 
 These steps cover how to set up a new robot in RobotStudio to work with the ABB driver. If using the Pack and Go, skip to step 3 for network configuration, and then to step 6 to start the controller.
 
-1. Open Robot Studio and create a new solution by selecting File --> New --> Solution with Station and Virtual Controller. Make sure you have `Customize options` selected.
+1. Open RobotStudio and create a new solution by selecting File --> New --> Solution with Station and Virtual Controller. Make sure you have `Customize options` selected.
 
-![create solution](../docs/images/egm0.png)
+![create solution](images/egm0.png)
 
 2. In the window that pops up for controller customization, add EGM to the controller. This can be done by selecting `Engineering Tools` on the sidebar, and selecting the following options:
 - `689-1 Externally Guided Motion (EGM)`
 - (not sure if needed) `623-1 Multitasking`
 
-![customize](../docs/images/egm1.png)
+![customize](images/egm1.png)
 
 3. Configure the communication settings for the controller to connect with the ROS2 computer. Identify the IP of the ROS2 computer, and the port used for EGM communitcation. The port is set by the `robotstudio_port` hardware parameter in the robot ros2_control description file. To configure the controller, navigate to the `Controller Tab` --> `Configuration` --> `Communication`. On the right, under `Transmission Protocol` right click and `Add new`.
 
 
-![communication](../docs/images/egm2.png)
+![communication](images/egm2.png)
 
 
  - Set the name to be `ROB_1`
@@ -42,11 +42,11 @@ These steps cover how to set up a new robot in RobotStudio to work with the ABB 
  - Leave the local port number set to `0`
  - Press OK at the bottom of the window to confirm the changes
 
-![add transmission porotocol](../docs/images/egm3.png)
+![add transmission porotocol](images/egm3.png)
 
 4. Add the code from `TRob1Main.mod` to the RAPID module. This can be done by selecting the module on the sidebar, and copy-pasting the code into the editor.
 
-![add module](../docs/images/egm4.png)
+![add module](images/egm4.png)
 
 ## Running the simulation
 
@@ -56,8 +56,25 @@ Start the controller under the `RAPID` tab by selecting `TRob1Main` as the task 
 
 The simulation will then try to connect with the ROS2 driver every few seconds. Once the connection is established, the simulated robot can be controlled from the ROS2 computer.
 
-![start](../docs/images/egm5.png)
+![start](images/egm5.png)
 
+## Connecting with ROS2
+
+To launch and view the robot's URDF without connecting to RobotStudio:
+
+    ros2 launch abb_irb1200_support view_robot.launch.py
+
+To launch with fake, simulated ros2_control simulated controllers (without connecting to RobotStudio):
+
+    ros2 launch abb_bringup abb_control.launch.py description_package:=abb_irb1200_support description_file:=irb1200_5_90.xacro launch_rviz:=false moveit_config_package:=abb_irb1200_5_90_moveit_config use_fake_hardware:=true
+
+To launch with RobotStudio, set `use_fake_hardware:=false`. As far as ROS is aware, RobotStudio is a real robot:
+
+    ros2 launch abb_bringup abb_control.launch.py description_package:=abb_irb1200_support description_file:=irb1200_5_90.xacro launch_rviz:=false moveit_config_package:=abb_irb1200_5_90_moveit_config
+
+After launching the controllers (fake or real), launch MoveIt:
+
+    ros2 launch abb_bringup abb_moveit.launch.py robot_xacro_file:=irb1200_5_90.xacro support_package:=abb_irb1200_support
 
 ## Troubleshooting
 
