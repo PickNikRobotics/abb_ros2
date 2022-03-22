@@ -43,8 +43,8 @@ public:
   ROS2_CONTROL_DRIVER_PUBLIC
   CallbackReturn on_init(const hardware_interface::HardwareInfo & info) override;
 
-  ROS2_CONTROL_DRIVER_PUBLIC
-  CallbackReturn on_configure(const rclcpp_lifecycle::State & previous_state) override;
+  // ROS2_CONTROL_DRIVER_PUBLIC
+  // CallbackReturn on_configure(const rclcpp_lifecycle::State & previous_state) override;
 
   ROS2_CONTROL_DRIVER_PUBLIC
   std::vector<hardware_interface::StateInterface> export_state_interfaces() override;
@@ -55,8 +55,8 @@ public:
   ROS2_CONTROL_DRIVER_PUBLIC
   CallbackReturn on_activate(const rclcpp_lifecycle::State & previous_state) override;
 
-  ROS2_CONTROL_DRIVER_PUBLIC
-  CallbackReturn on_deactivate(const rclcpp_lifecycle::State & previous_state) override;
+  // ROS2_CONTROL_DRIVER_PUBLIC
+  // CallbackReturn on_deactivate(const rclcpp_lifecycle::State & previous_state) override;
 
   ROS2_CONTROL_DRIVER_PUBLIC
   return_type read() override;
@@ -65,9 +65,6 @@ public:
   return_type write() override;
 
 private:
-
-  // Hardware parameters
-  size_t robotstudio_port_;
   
   // Store the command for the simulated robot
   std::vector<double> hw_commands_, hw_states_;
