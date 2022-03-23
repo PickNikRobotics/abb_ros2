@@ -70,10 +70,7 @@ private:
   std::vector<double> hw_commands_, hw_states_;
 
   // EGM
-  int sequence_number_ = 0;
-  boost::asio::io_service io_service_;
-  boost::thread_group thread_group_;
-  std::unique_ptr<abb::egm::EGMControllerInterface> egm_interface_;
+  abb::robot::RobotControllerDescription robot_controller_description_;
   std::unique_ptr<abb::robot::EGMManager> egm_manager_;
 
   abb::robot::MotionData motion_data_;
