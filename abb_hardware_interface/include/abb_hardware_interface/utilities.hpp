@@ -34,8 +34,7 @@
  ***********************************************************************************************************************
  */
 
-#ifndef ABB_ROBOT_CPP_UTILITIES_INITIALIZATION_H
-#define ABB_ROBOT_CPP_UTILITIES_INITIALIZATION_H
+#pragma once
 
 #include <abb_egm_rws_managers/rws_manager.h>
 
@@ -45,7 +44,6 @@ namespace robot
 {
 namespace utilities
 {
-
 /**
  * \brief Attempts to establish a connection to a robot controller's RWS server.
  *
@@ -59,12 +57,10 @@ namespace utilities
  *
  * \throw std::runtime_error if unable to establish a connection.
  */
-RobotControllerDescription establishRWSConnection(RWSManager& rws_manager,
-                                                  const std::string& robot_controller_id,
-                                                  const bool no_connection_timeout);
+RobotControllerDescription establishRWSConnection(
+  RWSManager & rws_manager, const std::string & robot_controller_id,
+  const bool no_connection_timeout);
 
-}
-}
-}
-
-#endif
+}  // namespace utilities
+}  // namespace robot
+}  // namespace abb

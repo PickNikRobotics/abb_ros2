@@ -15,20 +15,26 @@
 #pragma once
 
 #include <abb_egm_rws_managers/egm_manager.h>
+#include <abb_egm_rws_managers/rws_manager.h>
+#include <abb_hardware_interface/visibility_control.h>
 
 #include <chrono>
+#include <cmath>
+#include <limits>
 #include <memory>
 #include <string>
 #include <vector>
 
-#include "hardware_interface/handle.hpp"
-#include "hardware_interface/hardware_info.hpp"
-#include "hardware_interface/system_interface.hpp"
-#include "hardware_interface/types/hardware_interface_return_values.hpp"
-#include "rclcpp/macros.hpp"
-#include "rclcpp_lifecycle/node_interfaces/lifecycle_node_interface.hpp"
-#include "rclcpp_lifecycle/state.hpp"
-#include "abb_hardware_interface/visibility_control.h"
+#include <hardware_interface/handle.hpp>
+#include <hardware_interface/hardware_info.hpp>
+#include <hardware_interface/system_interface.hpp>
+#include <hardware_interface/types/hardware_interface_return_values.hpp>
+#include <hardware_interface/types/hardware_interface_type_values.hpp>
+#include <rclcpp/macros.hpp>
+#include <rclcpp/rclcpp.hpp>
+#include <rclcpp_lifecycle/node_interfaces/lifecycle_node_interface.hpp>
+#include <rclcpp_lifecycle/state.hpp>
+
 
 using hardware_interface::return_type;
 using CallbackReturn = rclcpp_lifecycle::node_interfaces::LifecycleNodeInterface::CallbackReturn;
@@ -43,9 +49,6 @@ public:
   ROS2_CONTROL_DRIVER_PUBLIC
   CallbackReturn on_init(const hardware_interface::HardwareInfo & info) override;
 
-  // ROS2_CONTROL_DRIVER_PUBLIC
-  // CallbackReturn on_configure(const rclcpp_lifecycle::State & previous_state) override;
-
   ROS2_CONTROL_DRIVER_PUBLIC
   std::vector<hardware_interface::StateInterface> export_state_interfaces() override;
 
@@ -55,9 +58,6 @@ public:
   ROS2_CONTROL_DRIVER_PUBLIC
   CallbackReturn on_activate(const rclcpp_lifecycle::State & previous_state) override;
 
-  // ROS2_CONTROL_DRIVER_PUBLIC
-  // CallbackReturn on_deactivate(const rclcpp_lifecycle::State & previous_state) override;
-
   ROS2_CONTROL_DRIVER_PUBLIC
   return_type read() override;
 
@@ -65,14 +65,11 @@ public:
   return_type write() override;
 
 private:
-  
-  // Store the command for the simulated robot
-  std::vector<double> hw_commands_, hw_states_;
-
   // EGM
   abb::robot::RobotControllerDescription robot_controller_description_;
   std::unique_ptr<abb::robot::EGMManager> egm_manager_;
 
+  // Store the state and commands for the robot(s)
   abb::robot::MotionData motion_data_;
 };
 

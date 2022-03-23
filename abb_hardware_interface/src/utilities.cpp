@@ -34,8 +34,10 @@
  ***********************************************************************************************************************
  */
 
+#include <abb_hardware_interface/utilities.hpp>
+
 #include <stdexcept>
-#include "ros2_control_abb_driver/utilities.hpp"
+
 #include "rclcpp/rclcpp.hpp"
 
 namespace
@@ -48,14 +50,15 @@ constexpr unsigned int RWS_MAX_CONNECTION_ATTEMPTS{5};
 /**
  * \brief Error message for failed connection attempts when trying to connect to a robot controller via RWS.
  */
-constexpr char RWS_CONNECTION_ERROR_MESSAGE[]{"Failed to establish RWS connection to the robot controller"};
+constexpr char RWS_CONNECTION_ERROR_MESSAGE[]{
+  "Failed to establish RWS connection to the robot controller"};
 
 /**
  * \brief Time [s] to wait before trying to reconnect to a robot controller via RWS.
  */
 constexpr uint8_t RWS_RECONNECTION_WAIT_TIME{1};
 auto LOGGER = rclcpp::get_logger("ABBSystemPositionOnlyHardware");
-}
+}  // namespace
 
 namespace abb
 {
@@ -63,36 +66,29 @@ namespace robot
 {
 namespace utilities
 {
-
 /***********************************************************************************************************************
  * Utility function definitions
  */
 
-RobotControllerDescription establishRWSConnection(RWSManager& rws_manager,
-                                                  const std::string& robot_controller_id,
-                                                  const bool no_connection_timeout)
+RobotControllerDescription establishRWSConnection(
+  RWSManager & rws_manager, const std::string & robot_controller_id,
+  const bool no_connection_timeout)
 {
-//   rclcpp::Duration reconnection_wait_time{rclcpp::Duration::from_seconds(RWS_RECONNECTION_WAIT_TIME)};
-
   unsigned int attempt{0};
 
-  while(rclcpp::ok() && (no_connection_timeout || attempt++ < RWS_MAX_CONNECTION_ATTEMPTS))
-  {
-    try
-    {
+  while (rclcpp::ok() && (no_connection_timeout || attempt++ < RWS_MAX_CONNECTION_ATTEMPTS)) {
+    try {
       return rws_manager.collectAndParseSystemData(robot_controller_id);
-    }
-    catch(const std::runtime_error& exception)
-    {
-      if(!no_connection_timeout)
-      {
-        RCLCPP_WARN_STREAM(LOGGER, RWS_CONNECTION_ERROR_MESSAGE << " (attempt " << attempt << "/" <<
-                                            RWS_MAX_CONNECTION_ATTEMPTS << "), reason: '" << exception.what() << "'");
-      }
-      else
-      {
-        RCLCPP_WARN_STREAM(LOGGER, RWS_CONNECTION_ERROR_MESSAGE << " (waiting indefinitely), reason: '" <<
-                                            exception.what() << "'");
+    } catch (const std::runtime_error & exception) {
+      if (!no_connection_timeout) {
+        RCLCPP_WARN_STREAM(
+          LOGGER, RWS_CONNECTION_ERROR_MESSAGE << " (attempt " << attempt << "/"
+                                               << RWS_MAX_CONNECTION_ATTEMPTS << "), reason: '"
+                                               << exception.what() << "'");
+      } else {
+        RCLCPP_WARN_STREAM(
+          LOGGER, RWS_CONNECTION_ERROR_MESSAGE << " (waiting indefinitely), reason: '"
+                                               << exception.what() << "'");
       }
       rclcpp::sleep_for(std::chrono::seconds(RWS_RECONNECTION_WAIT_TIME));
     }
@@ -101,6 +97,6 @@ RobotControllerDescription establishRWSConnection(RWSManager& rws_manager,
   throw std::runtime_error{RWS_CONNECTION_ERROR_MESSAGE};
 }
 
-}
-}
-}
+}  // namespace utilities
+}  // namespace robot
+}  // namespace abb
