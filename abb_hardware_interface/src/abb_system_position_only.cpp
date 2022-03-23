@@ -96,9 +96,11 @@ CallbackReturn ABBSystemPositionOnlyHardware::on_init(const hardware_interface::
     return CallbackReturn::ERROR;
   }
 
-  auto mech_unit_group = abb::robot::findMechanicalUnitGroup("", robot_controller_description);
-  auto channel_configuration = abb::robot::EGMManager::ChannelConfiguration{static_cast<uint16_t>(robotstudio_port), mech_unit_group};
-  auto channel_configurations = std::vector<abb::robot::EGMManager::ChannelConfiguration>{channel_configuration};
+  std::vector<abb::robot::EGMManager::ChannelConfiguration> channel_configurations;
+  for(const auto& group : robot_controller_description.mechanical_units_groups()){
+    auto channel_configuration = abb::robot::EGMManager::ChannelConfiguration{static_cast<uint16_t>(robotstudio_port), group};
+    channel_configurations.emplace_back(channel_configuration);
+  }
   try
   {
     egm_manager_ = std::make_unique<abb::robot::EGMManager>(channel_configurations);
