@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "ros2_control_abb_driver/abb_system_position_only.hpp"
+#include "abb_hardware_interface/abb_system_position_only.hpp"
 
 #include <chrono>
 #include <cmath>
@@ -27,7 +27,7 @@
 
 using namespace std::chrono_literals;
 
-namespace ros2_control_abb_driver
+namespace abb_hardware_interface
 {
 static constexpr size_t NUM_CONNECTION_TRIES = 100;
 static constexpr auto DEG_TO_RAD = 180 / M_PI;
@@ -252,9 +252,9 @@ return_type ABBSystemPositionOnlyHardware::write()
   return return_type::OK;
 }
 
-}  // namespace ros2_control_abb_driver
+}  // namespace abb_hardware_interface
 
 #include "pluginlib/class_list_macros.hpp"
 
 PLUGINLIB_EXPORT_CLASS(
-  ros2_control_abb_driver::ABBSystemPositionOnlyHardware, hardware_interface::SystemInterface)
+  abb_hardware_interface::ABBSystemPositionOnlyHardware, hardware_interface::SystemInterface)

@@ -1,24 +1,25 @@
-# ros2_control ABB Driver
+This is a meta-package containing everything to run an ABB robot or simulation with ROS2.
 
-## Dependencies:
+- `abb_bringup`: Launch files and ros2_control config files that are generic to many types of ABB robots.
+- `abb_hardware_interface`: A ros2_control hardware interface using abb_libegm.
+- `robot_specific_config`: Packages containing robot description and config files that are unique to each type of ABB robot.
+- `abb_resources`: A small package containing ABB-related xacro resources.
+- `docs`: More detailed documentation.
+- `robot_studio_resources`: Code and a pack-and-go solution to begin using RobotStudio easily.
+- `abb_ros2`: A meta-package that exists to reserve the repo name in rosdistro
 
-- A robot description and moveit_config package, e.g. from https://github.com/dignakov/abb or ./abb_experimental
-- https://github.com/ros-industrial/abb_libegm
+## Getting Started:
 
-## Compiling:
-Please follow the directions here https://github.com/ros-controls/ros2_control_demos to set up ros2_control, ros2_controllers, and ros2_control_demos.
+There are three ways to use this package:
 
-For now the directory structure should look something like this to have everything compile:
+- With an actual, physical ABB robot
 
-```
-colcon_ws/src
-|
-├── abb (https://github.com/dignakov/abb)
-├── abb_experimental (https://github.com/dignakov/abb_experimental)
-├── abb_libegm (https://github.com/ros-industrial/abb_libegm)
-└── ros2_control_abb_driver
-```
+- With ROS2 simulating the robot controllers
 
-## ABB Driver:
+- With an ABB RobotStudio simulation. Requires 2 PC's (one Windows, one Linux)
 
-For testing, this needs a real robot or RobotWare compatible with libegm. RobotStudio testing setup instructions can be found [here](robot_studio/README.md).
+Detailed setup instructions can be found [here](docs/README.md).
+
+## Limitations:
+
+The IRB1200-5-0.9 is the only robot that has robot description and config files as of March 2022. Pull requests to add additional robot types are welcome.

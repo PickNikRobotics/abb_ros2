@@ -1,0 +1,5 @@
+repositories:
+  abb_libegm:
+    type: git
+    url: https://github.com/ros-industrial/abb_libegm.git
+    version: master

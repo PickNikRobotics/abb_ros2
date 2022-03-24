@@ -1,0 +1,16 @@
+<?xml version="1.0" ?>
+<robot name="abb_irb1200_5_90" xmlns:xacro="http://ros.org/wiki/xacro">
+  <xacro:arg name="use_fake_hardware" default="true"/>
+  <xacro:property name="use_fake_hardware" value="$(arg use_fake_hardware)"/>
+  <!-- Robot description -->
+  <xacro:include filename="$(find abb_irb1200_support)/urdf/irb1200_5_90_macro.xacro"/>
+  <xacro:abb_irb1200_5_90 prefix=""/>
+
+  <!-- ros2_control -->
+  <xacro:include filename="$(find abb_irb1200_support)/urdf/irb1200.ros2_control.xacro" />
+  <xacro:abb_ros2_control
+    name="ABBMultiInterfaceHardware"
+    prefix=""
+    use_fake_hardware="${use_fake_hardware}"/>
+</robot>
+

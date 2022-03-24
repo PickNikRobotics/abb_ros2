@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<package format="3">
+  <name>abb_ros2</name>
+  <version>0.0.0</version>
+  <description>Meta package containing everything to run an ABB robot or simulation with ROS2</description>
+
+  <author email="dmitri.ignakov@taigarobotics.com">Dmitri Ignakov</author>
+  <author email="levi.armstrong@swri.org">Levi Armstrong (Southwest Research Institute)</author>
+  <author email="andrewjshort@gmail.com">Andrew Short</author>
+  <author>Geoffrey Chiou (Southwest Research Institute)</author>
+  <author email="stephanie.eng@picknik.ai">Stephanie Eng</author>
+  <author email="zelenak@picknik.ai">Andy Zelenak</author>
+
+  <maintainer email="stephanie.eng@picknik.ai">Stephanie Eng</maintainer>
+  <maintainer email="zelenak@picknik.ai">Andy Zelenak</maintainer>
+
+  <license>Apache2</license>
+
+  <url type="repository">TODO</url>
+
+  <buildtool_depend>ament_cmake</buildtool_depend>
+
+  <test_depend>ament_lint_auto</test_depend>
+  <test_depend>ament_lint_common</test_depend>
+
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
+</package>

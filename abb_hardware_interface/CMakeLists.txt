@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.5)
-project(ros2_control_abb_driver)
+project(abb_hardware_interface)
 
 # Default to C99
 if(NOT CMAKE_C_STANDARD)
@@ -48,7 +48,7 @@ target_include_directories(
   include
 )
 
-pluginlib_export_plugin_description_file(hardware_interface ros2_control_abb_driver.xml)
+pluginlib_export_plugin_description_file(hardware_interface abb_hardware_interface.xml)
 
 #############
 ## Install ##
