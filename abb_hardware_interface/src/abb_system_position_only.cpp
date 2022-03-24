@@ -30,14 +30,8 @@ CallbackReturn ABBSystemPositionOnlyHardware::on_init(const hardware_interface::
     return CallbackReturn::ERROR;
   }
 
-  // TODO(seng):
-  // Rename robotstudio_port to egm_port
-  // Create new hardware parameter for:
-  //  - rws_port (8000)
-  //  - rws_ip (localhost)
-  auto robotstudio_port = stoi(info_.hardware_parameters["robotstudio_port"]);
-  auto rws_port = 8000;
-  auto rws_ip = "127.0.0.1";
+  auto rws_port = stoi(info_.hardware_parameters["rws_port"]);
+  auto rws_ip = info_.hardware_parameters["rws_ip"];
 
   // Get robot controller description from RWS
   // TODO(seng): Get RWS port and IP from hardware parameter
@@ -85,12 +79,12 @@ CallbackReturn ABBSystemPositionOnlyHardware::on_init(const hardware_interface::
   // Create channel configuration for each mechanical unit group
   std::vector<abb::robot::EGMManager::ChannelConfiguration> channel_configurations;
   for (const auto & group : robot_controller_description_.mechanical_units_groups()) {
-    // Each channel needs a new port number, start with port from hardware parameters and increment
-    // by 1 for each channel
+    auto egm_port = stoi(info_.hardware_parameters[group.name() + "egm_port"]);
     auto channel_configuration =
-      abb::robot::EGMManager::ChannelConfiguration{static_cast<uint16_t>(robotstudio_port), group};
+      abb::robot::EGMManager::ChannelConfiguration{static_cast<uint16_t>(egm_port), group};
     channel_configurations.emplace_back(channel_configuration);
-    robotstudio_port += 1;
+    RCLCPP_INFO_STREAM(LOGGER, "Configuring EGM for mechanical unit group "
+                                << group.name() << " on port " << egm_port);
   }
   try {
     egm_manager_ = std::make_unique<abb::robot::EGMManager>(channel_configurations);

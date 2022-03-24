@@ -14,7 +14,9 @@
         <!-- physical hardware or RobotStudio simulation -->
         <xacro:unless value="${use_fake_hardware}">
           <plugin>abb_hardware_interface/ABBSystemPositionOnlyHardware</plugin>
-          <param name="robotstudio_port">6511</param>
+          <param name="rws_port">80</param>
+          <param name="rws_ip">127.0.0.1</param>
+          <param name="rob1egm_port">6511</param>
         </xacro:unless>
       </hardware>
       <joint name="${prefix}joint_1">
