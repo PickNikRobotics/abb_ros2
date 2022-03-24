@@ -40,7 +40,7 @@ CallbackReturn ABBSystemPositionOnlyHardware::on_init(const hardware_interface::
   auto rws_ip = "127.0.0.1";
 
   // Get robot controller description from RWS
-  // TODO(seng): Do not hardcode RWS port or IP
+  // TODO(seng): Get RWS port and IP from hardware parameter
   abb::robot::RWSManager rws_manager(rws_ip, rws_port, "Default User", "robotics");
   auto robot_controller_description_ =
     abb::robot::utilities::establishRWSConnection(rws_manager, "IRB1200", true);
@@ -73,7 +73,7 @@ CallbackReturn ABBSystemPositionOnlyHardware::on_init(const hardware_interface::
   // Configure EGM
   RCLCPP_INFO(LOGGER, "Configuring EGM interface...");
 
-  // Initialize motion data
+  // Initialize motion data from robot controller description
   try {
     abb::robot::initializeMotionData(motion_data_, robot_controller_description_);
   } catch (...) {
@@ -81,12 +81,16 @@ CallbackReturn ABBSystemPositionOnlyHardware::on_init(const hardware_interface::
       LOGGER, "Failed to initialize motion data from robot controller description");
     return CallbackReturn::ERROR;
   }
-
+  
+  // Create channel configuration for each mechanical unit group
   std::vector<abb::robot::EGMManager::ChannelConfiguration> channel_configurations;
   for (const auto & group : robot_controller_description_.mechanical_units_groups()) {
+    // Each channel needs a new port number, start with port from hardware parameters and increment
+    // by 1 for each channel
     auto channel_configuration =
       abb::robot::EGMManager::ChannelConfiguration{static_cast<uint16_t>(robotstudio_port), group};
     channel_configurations.emplace_back(channel_configuration);
+    robotstudio_port += 1;
   }
   try {
     egm_manager_ = std::make_unique<abb::robot::EGMManager>(channel_configurations);
@@ -95,7 +99,7 @@ CallbackReturn ABBSystemPositionOnlyHardware::on_init(const hardware_interface::
     return CallbackReturn::ERROR;
   }
 
-  // done
+  // Done
   return CallbackReturn::SUCCESS;
 }
 
@@ -150,15 +154,16 @@ CallbackReturn ABBSystemPositionOnlyHardware::on_activate(const rclcpp_lifecycle
   size_t counter = 0;
   RCLCPP_INFO(LOGGER, "Connecting to robot...");
   while (rclcpp::ok() && ++counter < NUM_CONNECTION_TRIES) {
+    // Wait for a message on any of the configured EGM channels.
     if (egm_manager_->waitForMessage(500)) {
       RCLCPP_INFO(LOGGER, "Connected to robot");
       break;
-    } else {
-      RCLCPP_INFO(LOGGER, "Not Connected to robot...");
-      if (counter == NUM_CONNECTION_TRIES) {
-        RCLCPP_ERROR(LOGGER, "Failed to connect to robot");
-        return CallbackReturn::ERROR;
-      }
+    }
+    
+    RCLCPP_INFO(LOGGER, "Not connected to robot...");
+    if (counter == NUM_CONNECTION_TRIES) {
+      RCLCPP_ERROR(LOGGER, "Failed to connect to robot");
+      return CallbackReturn::ERROR;
     }
     rclcpp::sleep_for(500ms);
   }
