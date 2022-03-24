@@ -1,8 +1,7 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
 
-  <xacro:macro name="abb_ros2_control" params="name prefix use_fake_hardware:=true">
-
+  <xacro:macro name="abb_ros2_control" params="name prefix use_fake_hardware:=true robotstudio_ip">
     <ros2_control name="${name}" type="system">
       <hardware>
         <!-- ros2_control simulation -->
@@ -15,7 +14,7 @@
         <xacro:unless value="${use_fake_hardware}">
           <plugin>abb_hardware_interface/ABBSystemPositionOnlyHardware</plugin>
           <param name="rws_port">80</param>
-          <param name="rws_ip">127.0.0.1</param>
+          <param name="rws_ip">${robotstudio_ip}</param>
           <param name="rob1egm_port">6511</param>
         </xacro:unless>
       </hardware>

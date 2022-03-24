@@ -33,8 +33,12 @@ CallbackReturn ABBSystemPositionOnlyHardware::on_init(const hardware_interface::
   auto rws_port = stoi(info_.hardware_parameters["rws_port"]);
   auto rws_ip = info_.hardware_parameters["rws_ip"];
 
+  if (rws_ip == "None"){
+    RCLCPP_FATAL(LOGGER, "Robot studio IP not specified");
+    return CallbackReturn::ERROR;
+  }
+
   // Get robot controller description from RWS
-  // TODO(seng): Get RWS port and IP from hardware parameter
   abb::robot::RWSManager rws_manager(rws_ip, rws_port, "Default User", "robotics");
   auto robot_controller_description_ =
     abb::robot::utilities::establishRWSConnection(rws_manager, "IRB1200", true);

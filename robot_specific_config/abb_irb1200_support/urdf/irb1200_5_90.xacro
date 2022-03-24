@@ -2,6 +2,8 @@
 <robot name="abb_irb1200_5_90" xmlns:xacro="http://ros.org/wiki/xacro">
   <xacro:arg name="use_fake_hardware" default="true"/>
   <xacro:property name="use_fake_hardware" value="$(arg use_fake_hardware)"/>
+  <xacro:arg name="robotstudio_ip" default="None"/>
+  <xacro:property name="robotstudio_ip" value="$(arg robotstudio_ip)"/>
   <!-- Robot description -->
   <xacro:include filename="$(find abb_irb1200_support)/urdf/irb1200_5_90_macro.xacro"/>
   <xacro:abb_irb1200_5_90 prefix=""/>
@@ -11,6 +13,7 @@
   <xacro:abb_ros2_control
     name="ABBMultiInterfaceHardware"
     prefix=""
-    use_fake_hardware="${use_fake_hardware}"/>
+    use_fake_hardware="${use_fake_hardware}"
+    robotstudio_ip="${robotstudio_ip}"/>
 </robot>
 

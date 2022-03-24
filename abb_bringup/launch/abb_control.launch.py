@@ -69,6 +69,14 @@ def generate_launch_description():
     )
     declared_arguments.append(
         DeclareLaunchArgument(
+            "robotstudio_ip",
+            default_value="None",
+            description="IP of RobotStudio computer. \
+            Used only if 'use_fake_hardware' parameter is false.",
+        )
+    )
+    declared_arguments.append(
+        DeclareLaunchArgument(
             "fake_sensor_commands",
             default_value="false",
             description="Enable fake command interfaces for sensors used for simple simulations. \
@@ -97,6 +105,7 @@ def generate_launch_description():
     prefix = LaunchConfiguration("prefix")
     use_fake_hardware = LaunchConfiguration("use_fake_hardware")
     fake_sensor_commands = LaunchConfiguration("fake_sensor_commands")
+    robotstudio_ip = LaunchConfiguration("robotstudio_ip")
     initial_joint_controller = LaunchConfiguration("initial_joint_controller")
     launch_rviz = LaunchConfiguration("launch_rviz")
 
@@ -116,6 +125,9 @@ def generate_launch_description():
             " ",
             "fake_sensor_commands:=",
             fake_sensor_commands,
+            " ",
+            "robotstudio_ip:=",
+            robotstudio_ip,
             " ",
         ]
     )
