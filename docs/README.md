@@ -52,7 +52,13 @@ These steps cover how to set up a new robot in RobotStudio to work with the ABB 
 
 2. In the window that pops up for controller customization, add EGM to the controller. This can be done by selecting `Engineering Tools` on the sidebar, and selecting the following options:
 - `689-1 Externally Guided Motion (EGM)`
-- (not sure if needed) `623-1 Multitasking`
+
+For MultiMove support, also select the following
+- `623-1 Multitasking` also under `Engineering Tools`
+- `604-1 MultiMove Independent` under `Motion Coordination: `
+- OR `604-2 MultiMove Coordinated`
+
+Use MultiMove Independent if robots move independently and do not need coordination or synchronization, or use MultiMove Coordinated if multi-robot coordination is needed (ex. multiple robots working simultaneously on a moving work object). THe example Pack and Go file has MultiMove Independent enabled.
 
 ![customize](images/egm1.png)
 
@@ -87,6 +93,20 @@ The simulation will then try to connect with the ROS2 driver every few seconds. 
 
 ## Connecting with ROS2
 
+The driver reqiures some network information to connect to EGM and RWS. This information is store in the ros2_control [robot description file](robot_specific_config/abb_irb1200_support/urdf/irb1200.ros2_control.xacro). Change the following lines as required:
+
+```
+<param name="rws_port">80</param>
+<param name="rws_ip">127.0.0.1</param>
+<param name="rob1egm_port">6511</param>
+```
+
+- `rws_port` should be the port for RWS
+- `rws_ip` should be the IP address of the RobotStudio computer (see [Adding the local computer to the virtual controller whitelist](#adding-the-local-computer-to-the-virtual-controller-whitelist))
+- `<MECHANICAL_UNIT_GROUP_NAME>egm_port` should match the `Remote port` setting from the RobotStudio controller configuration
+     - Change `<MECHANICAL_UNIT_GROUP_NAME>` to match the mechanical unit group name - in the sample Pack and Go file, this is `rob1`
+     - If not using MultiMove, change the paramter name to be `egm_port`
+
 To launch with RobotStudio, set `use_fake_hardware:=false`. As far as ROS is aware, RobotStudio is a real robot:
 
     ros2 launch abb_bringup abb_control.launch.py description_package:=abb_irb1200_support description_file:=irb1200_5_90.xacro launch_rviz:=false moveit_config_package:=abb_irb1200_5_90_moveit_config use_fake_hardware:=false
@@ -94,6 +114,84 @@ To launch with RobotStudio, set `use_fake_hardware:=false`. As far as ROS is awa
 After launching the controllers, launch MoveIt:
 
     ros2 launch abb_bringup abb_moveit.launch.py robot_xacro_file:=irb1200_5_90.xacro support_package:=abb_irb1200_support moveit_config_package:=abb_irb1200_5_90_moveit_config moveit_config_file:=abb_irb1200_5_90.srdf.xacro
+
+## Connecting to RWS
+
+RWS is a platform that allows interaction with the robot controller over HTTP, which is used by the driver to get information about the robot. Note that only RWS 1.0 is supported - RobotWare 7.0 and higher use RWS 2.0 and are not currently supported.
+
+### Changing the RWS port
+
+RWS by default runs on port 80 of the RobotStudio computer. If you want to change this, (ex. if port 80 is taken by another application), you can do this by navigating to and opening this file:
+
+`C:\Users\<USERNAME>\AppData\Local\ABB\RobotWare\RobotWare_<VERSION NUMBER>\system\appweb.conf`
+
+There should be a line that says `Listen -1` line - change the `-1` to your desired port number and save the file.
+
+To verify the port used by RWS, open Task Manager and click the `Details` tab. Look for `RobVC.exe` and note the PID. Open command prompt, and run the following command, substituting `<PID_NUMBER>` with the PID from earlier.
+
+`netstat -aon | findStr <PID NUMBER>`
+
+You should see something like the following - in this case, RWS is listening on port 80:
+
+![netstat](images/netstat.PNG)
+
+Note that if you change the RWS port, you may need to change the `rws_port` parameter in the [robot description file](robot_specific_config/abb_irb1200_support/urdf/irb1200.ros2_control.xacro) to match the port you selected.
+
+See [this forum post](https://forums.robotstudio.com/discussion/12177/how-to-change-the-listening-port-of-the-virtual-controller-robotware-6-x-and-7-x) for more detail.
+
+### Adding the local computer to the virtual controller whitelist
+
+To access the virtual controller with RWS from a networked ROS2 computer, you will need to whitelist the ROS2 computer's IP on the RobotStudio computer. Without this whitelist, if you will get an RAPI Unidentified Error when trying to access the controller. You can verify this if you try to navigate to `<ROBOTSTUDIO_COMPUTER_IP>:80` from the ROS2 computer. The default credentials are:
+
+Username: Default User
+Password: robotics
+
+To whitelist the ROS2 computer's IP, on the RobotStudio computer, navigate to:
+
+`C:\Users\<USER>\AppData\Roaming\ABB Industrial IT\Robotics IT\RobVC\`
+
+Look for a file called `vcconf.xml`. Create it if it does not exist.
+
+Paste the following into`vcconf.xml`:
+
+```
+<VCConfiguration>
+<RemoteVCConfiguration PublicationEnabled="true" />
+<hosts>
+<host ip="ROS2_COMPUTER_IP"/>
+</hosts>
+</VCConfiguration>
+```
+
+Change ROS2_COMPUTER_IP to the IP of the ROS2 computer. Up to 10 IP addresses can be whitelisted by adding additional `<host ip="..."/>` lines.
+
+See [this forum post](https://forums.robotstudio.com/discussion/12082/using-robotwebservices-to-access-a-remote-virtual-controller) for more details.
+
+### Configuring SSH port forwarding
+
+If you'd prefer to avoid the [whitelisting solution](#adding-the-local-computer-to-the-virtual-controller-whitelist), you can also use ssh port forwarding.
+
+[Install OpenSSH](https://docs.microsoft.com/en-us/windows-server/administration/openssh/openssh_install_firstuse#install-openssh-using-windows-settings) on the RobotStudio computer.
+
+Start the SSH server by running the following command in PowerShell as an administrator:
+
+```Start-Service sshd```
+
+On the ROS2 computer, set up the SSH port forward by typing the following command into the terminal:
+
+```ssh -L <DESTINATION_PORT>:localhost:<RWS_PORT> <ROBOTSTUDIO_USER>@<ROBOTSTUDIO_IP>```
+
+Change `<DESTINATION_PORT>` to a port of your choice. Note that `sudo` is required to use ports 0-1023, as they are reserved. You may also need to change the `rws_port` parameter in the [robot description file](robot_specific_config/abb_irb1200_support/urdf/irb1200.ros2_control.xacro) to match the port you selected.
+
+Change `<RWS_PORT>` to the port used for RWS on the RobotStudio machine, typically 80.
+
+Change `<ROBOTSTUDIO_USER>` to the Windows username on the RobotStudio computer. This account must have a password.
+
+Change `<ROBOTSTUDIO_IP>` to the IP of the RobotStudio computer.
+
+Enter the Windows login password for the `<ROBOTSTUDIO_USER>` account when prompted.
+
+This will allow you to access RWS on the ROS2 computer on `127.0.0.1:<DESTINATION_PORT>`. You will also need to change the `rws_ip` parameter in the [robot description file](robot_specific_config/abb_irb1200_support/urdf/irb1200.ros2_control.xacro) to `127.0.0.1`.
 
 ## Troubleshooting
 
