@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package format="2">
   <name>abb_irb1200_5_90_moveit_config</name>
-  <version>0.2.0</version>
+  <version>0.0.0</version>
   <description>
     <p>
       MoveIt package for the ABB IRB 1200-5/0.9.

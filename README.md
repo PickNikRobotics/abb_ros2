@@ -6,6 +6,7 @@ This is a meta-package containing everything to run an ABB robot or simulation w
 - `abb_resources`: A small package containing ABB-related xacro resources.
 - `docs`: More detailed documentation.
 - `robot_studio_resources`: Code and a pack-and-go solution to begin using RobotStudio easily.
+- `abb_ros2`: A meta-package that exists to reserve the repo name in rosdistro
 
 ## Getting Started:
 
