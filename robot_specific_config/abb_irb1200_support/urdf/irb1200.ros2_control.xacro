@@ -13,7 +13,7 @@
         </xacro:if>
         <!-- physical hardware or RobotStudio simulation -->
         <xacro:unless value="${use_fake_hardware}">
-          <plugin>ros2_control_abb_driver/ABBSystemPositionOnlyHardware</plugin>
+          <plugin>abb_hardware_interface/ABBSystemPositionOnlyHardware</plugin>
           <param name="robotstudio_port">6511</param>
         </xacro:unless>
       </hardware>

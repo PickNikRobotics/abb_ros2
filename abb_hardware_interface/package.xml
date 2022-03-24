@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="3">
-  <name>ros2_control_abb_driver</name>
+  <name>abb_hardware_interface</name>
   <version>0.0.1</version>
   <description>ABB EGM driver for ros2 control</description>
 

@@ -1,3 +1,30 @@
+# Building the package in ROS2
+
+Create a ROS2 workspace per the online tutorial. Clone this package into /src.
+
+Import package dependencies:
+
+    sudo apt update
+    sudo apt dist-upgrade
+    rosdep update
+    cd /src
+    vcs import < abb_ros2/abb.repos
+    rosdep install -r --from-paths . --ignore-src --rosdistro $ROS_DISTRO -y
+
+Quickly verify the build by launching RViz and viewing the robot:
+
+    ros2 launch abb_irb1200_support view_robot.launch.py
+
+# Simulating a robot in ROS2
+
+For this simulation, ROS2 simulates the robot controllers. RobotStudio or a physical robot are not needed.
+
+    ros2 launch abb_bringup abb_control.launch.py description_package:=abb_irb1200_support description_file:=irb1200_5_90.xacro launch_rviz:=false moveit_config_package:=abb_irb1200_5_90_moveit_config use_fake_hardware:=true
+
+After launching the controllers, launch MoveIt:
+
+    ros2 launch abb_bringup abb_moveit.launch.py robot_xacro_file:=irb1200_5_90.xacro support_package:=abb_irb1200_support
+
 # RobotStudio Simulation
 
 The simulation files are a modified version from the [abb_libegm library](https://github.com/ros-industrial/abb_libegm/issues/18#issuecomment-473262645) with some additional details about setting up EGM. 
@@ -60,19 +87,11 @@ The simulation will then try to connect with the ROS2 driver every few seconds. 
 
 ## Connecting with ROS2
 
-To launch and view the robot's URDF without connecting to RobotStudio:
-
-    ros2 launch abb_irb1200_support view_robot.launch.py
-
-To launch with fake, simulated ros2_control simulated controllers (without connecting to RobotStudio):
-
-    ros2 launch abb_bringup abb_control.launch.py description_package:=abb_irb1200_support description_file:=irb1200_5_90.xacro launch_rviz:=false moveit_config_package:=abb_irb1200_5_90_moveit_config use_fake_hardware:=true
-
 To launch with RobotStudio, set `use_fake_hardware:=false`. As far as ROS is aware, RobotStudio is a real robot:
 
     ros2 launch abb_bringup abb_control.launch.py description_package:=abb_irb1200_support description_file:=irb1200_5_90.xacro launch_rviz:=false moveit_config_package:=abb_irb1200_5_90_moveit_config
 
-After launching the controllers (fake or real), launch MoveIt:
+After launching the controllers, launch MoveIt:
 
     ros2 launch abb_bringup abb_moveit.launch.py robot_xacro_file:=irb1200_5_90.xacro support_package:=abb_irb1200_support
 

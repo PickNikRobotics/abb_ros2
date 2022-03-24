@@ -12,8 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef ROS2_CONTROL_ABB_DRIVER__ABB_SYSTEM_POSITION_ONLY_HPP_
-#define ROS2_CONTROL_ABB_DRIVER__ABB_SYSTEM_POSITION_ONLY_HPP_
+#pragma once
 
 #include <abb_libegm/egm_controller_interface.h>
 
@@ -29,12 +28,12 @@
 #include "rclcpp/macros.hpp"
 #include "rclcpp_lifecycle/node_interfaces/lifecycle_node_interface.hpp"
 #include "rclcpp_lifecycle/state.hpp"
-#include "ros2_control_abb_driver/visibility_control.h"
+#include "abb_hardware_interface/visibility_control.h"
 
 using hardware_interface::return_type;
 using CallbackReturn = rclcpp_lifecycle::node_interfaces::LifecycleNodeInterface::CallbackReturn;
 
-namespace ros2_control_abb_driver
+namespace abb_hardware_interface
 {
 class ABBSystemPositionOnlyHardware : public hardware_interface::SystemInterface
 {
@@ -87,6 +86,4 @@ private:
   abb::egm::wrapper::Joints initial_positions_;
 };
 
-}  // namespace ros2_control_abb_driver
-
-#endif  // ROS2_CONTROL_ABB_DRIVER__ABB_SYSTEM_POSITION_ONLY_HPP_
+}  // namespace abb_hardware_interface
