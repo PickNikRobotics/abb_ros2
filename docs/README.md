@@ -55,10 +55,9 @@ These steps cover how to set up a new robot in RobotStudio to work with the ABB 
 
 For MultiMove support, also select the following
 - `623-1 Multitasking` also under `Engineering Tools`
-- `604-1 MultiMove Independent` under `Motion Coordination: `
-- OR `604-2 MultiMove Coordinated`
+- `604-1 MultiMove Independent` 
 
-Use MultiMove Independent if robots move independently and do not need coordination or synchronization, or use MultiMove Coordinated if multi-robot coordination is needed (ex. multiple robots working simultaneously on a moving work object). THe example Pack and Go file has MultiMove Independent enabled.
+Note that EGM Position Stream does not support MultiMove Coordinated.
 
 ![customize](images/egm1.png)
 
