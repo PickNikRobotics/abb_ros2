@@ -34,12 +34,21 @@
  ***********************************************************************************************************************
  */
 
+// This file is a modified copy from
+// https://github.com/ros-industrial/abb_robot_driver/blob/master/abb_robot_cpp_utilities/src/initialization.cpp
+
 #include <abb_hardware_interface/utilities.hpp>
 
 #include <stdexcept>
 
 #include "rclcpp/rclcpp.hpp"
 
+namespace abb
+{
+namespace robot
+{
+namespace utilities
+{
 namespace
 {
 /**
@@ -57,18 +66,8 @@ constexpr char RWS_CONNECTION_ERROR_MESSAGE[]{
  * \brief Time [s] to wait before trying to reconnect to a robot controller via RWS.
  */
 constexpr uint8_t RWS_RECONNECTION_WAIT_TIME{1};
-auto LOGGER = rclcpp::get_logger("ABBSystemPositionOnlyHardware");
+auto LOGGER = rclcpp::get_logger("ABBHardwareInterfaceUtilities");
 }  // namespace
-
-namespace abb
-{
-namespace robot
-{
-namespace utilities
-{
-/***********************************************************************************************************************
- * Utility function definitions
- */
 
 RobotControllerDescription establishRWSConnection(
   RWSManager & rws_manager, const std::string & robot_controller_id,

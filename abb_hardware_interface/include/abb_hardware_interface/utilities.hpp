@@ -34,6 +34,9 @@
  ***********************************************************************************************************************
  */
 
+// This file is a modified copy from
+// https://github.com/ros-industrial/abb_robot_driver/blob/master/abb_robot_cpp_utilities/include/abb_robot_cpp_utilities/initialization.h
+
 #pragma once
 
 #include <abb_egm_rws_managers/rws_manager.h>

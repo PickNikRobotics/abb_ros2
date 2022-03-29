@@ -53,11 +53,11 @@ These steps cover how to set up a new robot in RobotStudio to work with the ABB 
 2. In the window that pops up for controller customization, add EGM to the controller. This can be done by selecting `Engineering Tools` on the sidebar, and selecting the following options:
 - `689-1 Externally Guided Motion (EGM)`
 
-For MultiMove support, also select the following
+For MultiMove support, e.g. for external axes, also select the following:
 - `623-1 Multitasking` also under `Engineering Tools`
 - `604-1 MultiMove Independent` 
 
-Note that EGM Position Stream does not support MultiMove Coordinated.
+Note that EGM Position Stream does not support MultiMove Coordinated - this means that coordinated, synchronized robot movement is not supported (i.e. for tasks that involved multiple robots that are working on the same moving work object).
 
 ![customize](images/egm1.png)
 
@@ -92,7 +92,7 @@ The simulation will then try to connect with the ROS2 driver every few seconds. 
 
 ## Connecting with ROS2
 
-The driver reqiures some network information to connect to EGM and RWS. This information is store in the ros2_control [robot description file](../robot_specific_config/abb_irb1200_support/urdf/irb1200.ros2_control.xacro). Change the following lines as required:
+The driver reqiures some network information to connect to EGM and RWS. This information is stored in the ros2_control [robot description file](../robot_specific_config/abb_irb1200_support/urdf/irb1200.ros2_control.xacro). Change the following lines as required:
 
 ```
 <param name="rws_port">80</param>
@@ -104,7 +104,7 @@ The driver reqiures some network information to connect to EGM and RWS. This inf
 - `rws_ip` should be the IP address of the RobotStudio computer (see [Adding the local computer to the virtual controller whitelist](#adding-the-local-computer-to-the-virtual-controller-whitelist))
 - `<MECHANICAL_UNIT_GROUP_NAME>egm_port` should match the `Remote port` setting from the RobotStudio controller configuration
      - Change `<MECHANICAL_UNIT_GROUP_NAME>` to match the mechanical unit group name - in the sample Pack and Go file, this is `rob1`
-     - If not using MultiMove, change the paramter name to be `egm_port`
+     - If not using MultiMove, change the parameter name to `egm_port`
 
 To launch with RobotStudio, set `use_fake_hardware:=false` and `robotstudio_ip:=<ROBOTSTUDIO_IP>`, substituting `<ROBOTSTUDIO_IP>` with the IP of the RobotStudio computer. As far as ROS is aware, RobotStudio is a real robot:
 
@@ -140,7 +140,7 @@ See [this forum post](https://forums.robotstudio.com/discussion/12177/how-to-cha
 
 ### Adding the local computer to the virtual controller whitelist
 
-To access the virtual controller with RWS from a networked ROS2 computer, you will need to whitelist the ROS2 computer's IP on the RobotStudio computer. Without this whitelist, if you will get an RAPI Unidentified Error when trying to access the controller. You can verify this if you try to navigate to `<ROBOTSTUDIO_COMPUTER_IP>:80` from the ROS2 computer. The default credentials are:
+To access the virtual controller with RWS from a networked ROS2 computer, you will need to whitelist the ROS2 computer's IP on the RobotStudio computer. Without this whitelist, you will get an RAPI Unidentified Error when trying to access the controller. You can verify this if you try to navigate to `<ROBOTSTUDIO_COMPUTER_IP>:80` from the ROS2 computer. The default credentials are:
 
 ```
 Username: Default User
@@ -194,7 +194,7 @@ This will allow you to access RWS on the ROS2 computer on `127.0.0.1:<DESTINATIO
 ## Troubleshooting
 
  - Occasionally, when connecting for the first time, you will need to stop the RAPID program and start it again
- - The warning message `41822 No data from the UdcUc device[*]` indicates a connection issue between the RobotStudio and the ROS2 computer
+ - The warning message `41822 No data from the UdpUc device[*]` indicates a connection issue between the RobotStudio and the ROS2 computer
     - Check that the communication settings are correct
     - Test the connection between the computers by pinging the ROS2 computer from the RobotStudio computer and vice-versa
     - Check that the firewall settings on the RobotStudio computer allow communcation over UDP on the correct port
