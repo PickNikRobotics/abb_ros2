@@ -40,7 +40,9 @@ The `robot_studio_resources` directory contains a Pack and Go file for RobotStud
 3. Under File, select Open
 4. Navigate to the folder with the downloaded Pack and Go file and select it
 
-This should open the station with most of the required parameters set up. However, note that network parameters for connecting between the robot and the control computer will likely be different, and will need to be reconfigured. See Step 3 in [Setting Up a New Robot](./RobotStudioSetup.md) to do this.
+This should open the station with most of the required parameters set up. However, note that network parameters for connecting between the robot and the control computer will likely be different, and will need to be reconfigured. See the [controller configuration step](./RobotStudioSetup.md#controller-configuration) in Setting Up a New Robot to do this.
+
+If you would like to set up your own simulation from scratch, see [Setting Up a New Robot](./RobotStudioSetup.md#setting-up-a-new-robot). For MultiMove, see [Setting Up a New Robot with MultiMove](./RobotStudioSetup.md#setting-up-a-new-multimove-robot)
 
 ## Running the Simulation
 
@@ -67,6 +69,7 @@ The driver reqiures some network information to connect to EGM and RWS. This inf
 - `rws_ip` is passed in as a launch argument
 - `<MECHANICAL_UNIT_GROUP_NAME>egm_port` should match the `Remote port` setting from the RobotStudio controller configuration
      - Change `<MECHANICAL_UNIT_GROUP_NAME>` to match the mechanical unit group name - in the sample Pack and Go file, this is `rob1`
+     - If using the MultiMove example, add a line for the `extax` mechanical unit group and port 6512
      - If not using MultiMove, change the parameter name to `egm_port`
 
 To launch with RobotStudio, set `use_fake_hardware:=false` and `robotstudio_ip:=<ROBOTSTUDIO_IP>`, substituting `<ROBOTSTUDIO_IP>` with the IP of the RobotStudio computer. As far as ROS is aware, RobotStudio is a real robot:
@@ -82,7 +85,11 @@ After launching the controllers, launch MoveIt:
 RWS is a platform that allows interaction with the robot controller over HTTP, which is used by the driver to get information about the robot. Note that only RWS 1.0 is supported - RobotWare 7.0 and higher use RWS 2.0 and are not currently supported.
 
 ## Connecting with ROS2
-- Need external axis in URDF - is this useful to provide?
-- Add the external axis port number to the [robot description file](../robot_specific_config/abb_irb1200_support/urdf/irb1200.ros2_control.xacro). For the example Pack and Go, this parameter name should be `extaxegm_port` and value should be `6512`:
+Add the external axis port number to the [robot description file](../robot_specific_config/abb_irb1200_support/urdf/irb1200.ros2_control.xacro). For the example Pack and Go, this parameter name should be `extaxegm_port` and value should be `6512`:
 
 ```<param name="extaxegm_port">6512</param>```
+
+# More Info
+- [Robot Studio Setup Guide](./RobotStudioSetup.md)
+- [Network Configuration](./NetworkingConfiguration.md)
+- [Troubleshooting](./Troubleshooting.md)

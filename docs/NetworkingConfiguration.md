@@ -1,4 +1,7 @@
-# RWS Configuration Changes
+# Networking Configuration
+
+This document covers various options to configure the network connection between the ROS2 computer and the RWS server. For general driver setup instructions, see [the README](./README.md).
+
 ## Changing the RWS port
 
 RWS by default runs on port 80 of the RobotStudio computer. If you want to change this, (ex. if port 80 is taken by another application), you can do this by navigating to and opening this file:
@@ -45,16 +48,15 @@ Paste the following into`vcconf.xml`:
 </VCConfiguration>
 ```
 
-Change ROS2_COMPUTER_IP to the IP of the ROS2 computer. Up to 10 IP addresses can be whitelisted by adding additional `<host ip="..."/>` lines.
+Change ROS2_COMPUTER_IP to the IP of the ROS2 computer. Up to 10 IP addresses can be whitelisted by adding additional `<host ip="..."/>` lines. Restart RobotStudio after the update.
 
 See [this forum post](https://forums.robotstudio.com/discussion/12082/using-robotwebservices-to-access-a-remote-virtual-controller) for more details.
 
-# Networking Configuration
 ## Configuring SSH port forwarding
 
 If you'd prefer to avoid the [whitelisting solution](#adding-the-local-computer-to-the-virtual-controller-whitelist), you can also use ssh port forwarding.
 
-[Install OpenSSH](https://docs.microsoft.com/en-us/windows-server/administration/openssh/openssh_install_firstuse#install-openssh-using-windows-settings) on the RobotStudio computer.
+[Install "OpenSSH Server"](https://docs.microsoft.com/en-us/windows-server/administration/openssh/openssh_install_firstuse#install-openssh-using-windows-settings) on the RobotStudio computer.
 
 Start the SSH server by running the following command in PowerShell as an administrator:
 
@@ -71,7 +73,7 @@ On the ROS2 computer, set up the SSH port forward by typing the following comman
 
 Enter the Windows login password for the `<ROBOTSTUDIO_USER>` account when prompted.
 
-This will allow you to access RWS on the ROS2 computer on `127.0.0.1:<DESTINATION_PORT>`. This means, When lauching, you will need to set `robotstudio_ip:=127.0.0.1`. The full launch command would be:
+This will allow you to access RWS on the ROS2 computer on `127.0.0.1:<DESTINATION_PORT>`. When launching ROS, use this value for robotstudio_ip: `127.0.0.1`. The full launch command would be:
 
     ros2 launch abb_bringup abb_control.launch.py description_package:=abb_irb1200_support description_file:=irb1200_5_90.xacro launch_rviz:=false moveit_config_package:=abb_irb1200_5_90_moveit_config use_fake_hardware:=false robotstudio_ip:=127.0.0.1
 
