@@ -71,7 +71,7 @@ These steps cover how to set up a new robot in RobotStudio to work with the ABB 
 
 ![add transmission porotocol](images/egm3.png)
 
-4. Add the code from `TRob1Main.mod` to the RAPID module. This can be done by selecting the module on the sidebar, and copy-pasting the code into the editor.
+4. Add the code from [TRob1Main.mod](../robot_studio_resources/TRob1Main.mod) to the RAPID module. This can be done by right-clicking the `T_ROB1` task on the sidebar (under RAPID), selecting Load Module..., and navigating to the [TRob1Main.mod] file in the file browser.
 
 ![add module](images/egm4.png)
 
