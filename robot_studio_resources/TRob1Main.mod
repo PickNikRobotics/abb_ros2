@@ -79,14 +79,12 @@ MODULE TRob1Main
                         \J5:=egm_condition
                         \J6:=egm_condition
                         \MaxSpeedDeviation:=20.0;
-                        
+            
             ! Start the EGM communication session.
-            EGMRunJoint egm_id, EGM_STOP_RAMP_DOWN, \J1 \J2 \J3 \J4 \J5 \J6 \CondTime:=5 \RampOutTime:=5;
+            EGMRunJoint egm_id, EGM_STOP_HOLD, \J1 \J2 \J3 \J4 \J5 \J6 \CondTime:=5 \RampOutTime:=5;
             
             ! Release the EGM id.
             EGMReset egm_id;
-            
-            WaitTime 5;
         ENDWHILE
         
     ERROR

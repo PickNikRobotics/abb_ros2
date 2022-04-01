@@ -77,8 +77,6 @@ MODULE TExtAxisMain
             
             ! Release the EGM id.
             EGMReset egm_id;
-            
-            WaitTime 5;
         ENDWHILE
         
     ERROR
