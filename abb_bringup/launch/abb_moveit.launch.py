@@ -76,7 +76,7 @@ def launch_setup(context, *args, **kwargs):
 
     # Trajectory Execution Functionality
     moveit_simple_controllers_yaml = load_yaml(
-        "abb_irb1200_5_90_moveit_config", "config/controllers.yaml"
+        "abb_irb1200_5_90_moveit_config", "config/moveit_controllers.yaml"
     )
     moveit_controllers = {
         "moveit_simple_controller_manager": moveit_simple_controllers_yaml,
@@ -84,7 +84,8 @@ def launch_setup(context, *args, **kwargs):
     }
 
     trajectory_execution = {
-        "moveit_manage_controllers": True,
+        # MoveIt does not handle controller switching automatically
+        "moveit_manage_controllers": False,
         "trajectory_execution.allowed_execution_duration_scaling": 1.2,
         "trajectory_execution.allowed_goal_duration_margin": 0.5,
         "trajectory_execution.allowed_start_tolerance": 0.01,
@@ -133,7 +134,7 @@ def launch_setup(context, *args, **kwargs):
     )
 
     # Static TF
-    static_tf = Node(
+    static_tf_node = Node(
         package="tf2_ros",
         executable="static_transform_publisher",
         name="static_transform_publisher",
@@ -142,7 +143,7 @@ def launch_setup(context, *args, **kwargs):
     )
 
     # Publish TF
-    robot_state_publisher = Node(
+    robot_state_pub_node = Node(
         package="robot_state_publisher",
         executable="robot_state_publisher",
         name="robot_state_publisher",
@@ -150,7 +151,7 @@ def launch_setup(context, *args, **kwargs):
         parameters=[robot_description],
     )
 
-    nodes_to_start = [move_group_node, rviz_node, static_tf, robot_state_publisher]
+    nodes_to_start = [move_group_node, rviz_node, static_tf_node, robot_state_pub_node]
     return nodes_to_start
 
 
