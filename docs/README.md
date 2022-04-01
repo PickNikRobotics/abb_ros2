@@ -57,7 +57,7 @@ For MultiMove support, e.g. for external axes, also select the following:
 - `623-1 Multitasking` also under `Engineering Tools`
 - `604-1 MultiMove Independent` 
 
-Note that EGM Position Stream does not support MultiMove Coordinated - this means that coordinated, synchronized robot movement is not supported (i.e. for tasks that involved multiple robots that are working on the same moving work object).
+Note that EGM Position Stream does not support MultiMove Coordinated - this means that coordinated, synchronized robot movement is not supported (i.e. for tasks that involve multiple robots working on the same moving work object).
 
 ![customize](images/egm1.png)
 
