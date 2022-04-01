@@ -82,12 +82,18 @@ CallbackReturn ABBSystemPositionOnlyHardware::on_init(const hardware_interface::
   // Create channel configuration for each mechanical unit group
   std::vector<abb::robot::EGMManager::ChannelConfiguration> channel_configurations;
   for (const auto & group : robot_controller_description_.mechanical_units_groups()) {
-    const auto egm_port = stoi(info_.hardware_parameters[group.name() + "egm_port"]);
-    const auto channel_configuration =
-      abb::robot::EGMManager::ChannelConfiguration{static_cast<uint16_t>(egm_port), group};
-    channel_configurations.emplace_back(channel_configuration);
-    RCLCPP_INFO_STREAM(LOGGER, "Configuring EGM for mechanical unit group "
-                                << group.name() << " on port " << egm_port);
+    try{
+      const auto egm_port = stoi(info_.hardware_parameters[group.name() + "egm_port"]);
+      const auto channel_configuration =
+        abb::robot::EGMManager::ChannelConfiguration{static_cast<uint16_t>(egm_port), group};
+      channel_configurations.emplace_back(channel_configuration);
+      RCLCPP_INFO_STREAM(LOGGER, "Configuring EGM for mechanical unit group "
+                                  << group.name() << " on port " << egm_port);
+    }
+    catch (std::invalid_argument & e){
+      RCLCPP_FATAL_STREAM(LOGGER, "EGM port for mechanical unit group \"" << group.name() << "\" not specified in hardware parameters");
+      return CallbackReturn::ERROR;
+    }
   }
   try {
     egm_manager_ = std::make_unique<abb::robot::EGMManager>(channel_configurations);
