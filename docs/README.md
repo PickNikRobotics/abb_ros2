@@ -164,7 +164,7 @@ Paste the following into`vcconf.xml`:
 </VCConfiguration>
 ```
 
-Change ROS2_COMPUTER_IP to the IP of the ROS2 computer. Up to 10 IP addresses can be whitelisted by adding additional `<host ip="..."/>` lines.
+Change ROS2_COMPUTER_IP to the IP of the ROS2 computer. Up to 10 IP addresses can be whitelisted by adding additional `<host ip="..."/>` lines. Restart RobotStudio after the update.
 
 See [this forum post](https://forums.robotstudio.com/discussion/12082/using-robotwebservices-to-access-a-remote-virtual-controller) for more details.
 
@@ -172,7 +172,7 @@ See [this forum post](https://forums.robotstudio.com/discussion/12082/using-robo
 
 If you'd prefer to avoid the [whitelisting solution](#adding-the-local-computer-to-the-virtual-controller-whitelist), you can also use ssh port forwarding.
 
-[Install OpenSSH](https://docs.microsoft.com/en-us/windows-server/administration/openssh/openssh_install_firstuse#install-openssh-using-windows-settings) on the RobotStudio computer.
+[Install "OpenSSH Server"](https://docs.microsoft.com/en-us/windows-server/administration/openssh/openssh_install_firstuse#install-openssh-using-windows-settings) on the RobotStudio computer.
 
 Start the SSH server by running the following command in PowerShell as an administrator:
 
@@ -189,7 +189,7 @@ On the ROS2 computer, set up the SSH port forward by typing the following comman
 
 Enter the Windows login password for the `<ROBOTSTUDIO_USER>` account when prompted.
 
-This will allow you to access RWS on the ROS2 computer on `127.0.0.1:<DESTINATION_PORT>`. You will also need to change the `rws_ip` parameter in the [robot description file](../robot_specific_config/abb_irb1200_support/urdf/irb1200.ros2_control.xacro) to `127.0.0.1`.
+This will allow you to access RWS on the ROS2 computer on `127.0.0.1:<DESTINATION_PORT>`. When launching ROS, use this value for robotstudio_ip: `127.0.0.1`.
 
 ## Troubleshooting
 
