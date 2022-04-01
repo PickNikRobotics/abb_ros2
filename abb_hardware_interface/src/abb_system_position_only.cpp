@@ -12,243 +12,172 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "abb_hardware_interface/abb_system_position_only.hpp"
-
-#include <chrono>
-#include <cmath>
-#include <limits>
-#include <memory>
-#include <thread>
-#include <vector>
-
-#include "abb_libegm/egm_controller_interface.h"
-#include "hardware_interface/types/hardware_interface_type_values.hpp"
-#include "rclcpp/rclcpp.hpp"
+#include <abb_hardware_interface/abb_system_position_only.hpp>
+#include <abb_hardware_interface/utilities.hpp>
 
 using namespace std::chrono_literals;
 
 namespace abb_hardware_interface
 {
 static constexpr size_t NUM_CONNECTION_TRIES = 100;
-static constexpr auto DEG_TO_RAD = 180 / M_PI;
+static const rclcpp::Logger LOGGER = rclcpp::get_logger("ABBSystemPositionOnlyHardware");
 
 CallbackReturn ABBSystemPositionOnlyHardware::on_init(const hardware_interface::HardwareInfo & info)
 {
-  RCLCPP_INFO(rclcpp::get_logger("ABBSystemPositionOnlyHardware"), "on_init()");
 
   if (hardware_interface::SystemInterface::on_init(info) != CallbackReturn::SUCCESS) {
     return CallbackReturn::ERROR;
   }
 
-  hw_states_.resize(info_.joints.size(), std::numeric_limits<double>::quiet_NaN());
-  hw_commands_.resize(info_.joints.size(), std::numeric_limits<double>::quiet_NaN());
-  robotstudio_port_ = stod(info_.hardware_parameters["robotstudio_port"]);
+  const auto rws_port = stoi(info_.hardware_parameters["rws_port"]);
+  const auto rws_ip = info_.hardware_parameters["rws_ip"];
+
+  if (rws_ip == "None"){
+    RCLCPP_FATAL(LOGGER, "Robot studio IP not specified");
+    return CallbackReturn::ERROR;
+  }
+
+  // Get robot controller description from RWS
+  abb::robot::RWSManager rws_manager(rws_ip, rws_port, "Default User", "robotics");
+  const auto robot_controller_description_ =
+    abb::robot::utilities::establishRWSConnection(rws_manager, "IRB1200", true);
+  RCLCPP_INFO_STREAM(
+    LOGGER, "Robot controller description:\n"
+      << abb::robot::summaryText(robot_controller_description_));
 
   for (const hardware_interface::ComponentInfo & joint : info_.joints) {
     if (joint.command_interfaces.size() != 1) {
-      RCLCPP_FATAL(
-        rclcpp::get_logger("ABBSystemPositionOnlyHardware"),
-        "expecting exactly 1 command interface");
+      RCLCPP_FATAL(LOGGER, "Expecting exactly 1 command interface");
       return CallbackReturn::ERROR;
     }
 
     if (joint.command_interfaces[0].name != hardware_interface::HW_IF_POSITION) {
-      RCLCPP_FATAL(
-        rclcpp::get_logger("ABBSystemPositionOnlyHardware"),
-        "expecting only POSITION command interface");
+      RCLCPP_FATAL(LOGGER, "Expecting only POSITION command interface");
       return CallbackReturn::ERROR;
     }
 
     if (joint.state_interfaces.size() != 1) {
-      RCLCPP_FATAL(
-        rclcpp::get_logger("ABBSystemPositionOnlyHardware"), "expecting exactly 1 state interface");
+      RCLCPP_FATAL(LOGGER, "Expecting exactly 1 state interface");
       return CallbackReturn::ERROR;
     }
 
     if (joint.state_interfaces[0].name != hardware_interface::HW_IF_POSITION) {
-      RCLCPP_FATAL(
-        rclcpp::get_logger("ABBSystemPositionOnlyHardware"),
-        "expecting only POSITION state interface");
+      RCLCPP_FATAL(LOGGER, "Expecting only POSITION state interface");
       return CallbackReturn::ERROR;
     }
   }
 
   // Configure EGM
-  RCLCPP_INFO(rclcpp::get_logger("ABBSystemPositionOnlyHardware"), "Configuring EGM interface...");
+  RCLCPP_INFO(LOGGER, "Configuring EGM interface...");
 
-  egm_interface_ =
-    std::make_unique<abb::egm::EGMControllerInterface>(io_service_, robotstudio_port_);
-  if (!egm_interface_) {
-    RCLCPP_FATAL(
-      rclcpp::get_logger("ABBSystemPositionOnlyHardware"),
-      "Could not create EGMControllerInterface");
+  // Initialize motion data from robot controller description
+  try {
+    abb::robot::initializeMotionData(motion_data_, robot_controller_description_);
+  } catch (...) {
+    RCLCPP_ERROR_STREAM(
+      LOGGER, "Failed to initialize motion data from robot controller description");
+    return CallbackReturn::ERROR;
+  }
+  
+  // Create channel configuration for each mechanical unit group
+  std::vector<abb::robot::EGMManager::ChannelConfiguration> channel_configurations;
+  for (const auto & group : robot_controller_description_.mechanical_units_groups()) {
+    const auto egm_port = stoi(info_.hardware_parameters[group.name() + "egm_port"]);
+    const auto channel_configuration =
+      abb::robot::EGMManager::ChannelConfiguration{static_cast<uint16_t>(egm_port), group};
+    channel_configurations.emplace_back(channel_configuration);
+    RCLCPP_INFO_STREAM(LOGGER, "Configuring EGM for mechanical unit group "
+                                << group.name() << " on port " << egm_port);
+  }
+  try {
+    egm_manager_ = std::make_unique<abb::robot::EGMManager>(channel_configurations);
+  } catch (std::runtime_error & e) {
+    RCLCPP_ERROR_STREAM(LOGGER, "Failed to initialize EGM connection");
     return CallbackReturn::ERROR;
   }
 
-  if (!egm_interface_->isInitialized()) {
-    RCLCPP_FATAL(
-      rclcpp::get_logger("ABBSystemPositionOnlyHardware"),
-      "EGM UDP Server interface failed to initialize (e.g. due to port already bound)");
-    return CallbackReturn::ERROR;
-  }
-
-  // done
-  return CallbackReturn::SUCCESS;
-}
-
-CallbackReturn ABBSystemPositionOnlyHardware::on_configure(
-  const rclcpp_lifecycle::State & /* previous_state */)
-{
-  RCLCPP_INFO(rclcpp::get_logger("ABBSystemPositionOnlyHardware"), "on_configure()");
   return CallbackReturn::SUCCESS;
 }
 
 std::vector<hardware_interface::StateInterface>
 ABBSystemPositionOnlyHardware::export_state_interfaces()
 {
-  RCLCPP_INFO(rclcpp::get_logger("ABBSystemPositionOnlyHardware"), "export_state_interfaces()");
-
   std::vector<hardware_interface::StateInterface> state_interfaces;
-  for (size_t i = 0; i < info_.joints.size(); ++i) {
-    state_interfaces.emplace_back(
-      hardware_interface::StateInterface(
-        info_.joints[i].name, hardware_interface::HW_IF_POSITION, &hw_states_[i]));
+  for (auto & group : motion_data_.groups) {
+    for (auto & unit : group.units) {
+      for (auto & joint : unit.joints) {
+        // TODO(seng): Consider changing joint names in robot description to match what comes
+        // from the ABB robot description to avoid needing to strip the prefix here
+        const auto pos = joint.name.find("joint");
+        const auto joint_name = joint.name.substr(pos);
+        state_interfaces.emplace_back(
+          hardware_interface::StateInterface(
+            joint_name, hardware_interface::HW_IF_POSITION, &joint.state.position));
+      }
+    }
   }
   return state_interfaces;
 }
 
-std::vector<hardware_interface::CommandInterface>
-ABBSystemPositionOnlyHardware::export_command_interfaces()
+std::vector<hardware_interface::CommandInterface> ABBSystemPositionOnlyHardware::export_command_interfaces()
 {
-  RCLCPP_INFO(rclcpp::get_logger("ABBSystemPositionOnlyHardware"), "export_command_interfaces()");
 
   std::vector<hardware_interface::CommandInterface> command_interfaces;
-  for (size_t i = 0; i < info_.joints.size(); ++i) {
-    command_interfaces.emplace_back(
-      hardware_interface::CommandInterface(
-        info_.joints[i].name, hardware_interface::HW_IF_POSITION, &hw_commands_[i]));
+  for (auto & group : motion_data_.groups) {
+    for (auto & unit : group.units) {
+      for (auto & joint : unit.joints) {
+        // TODO(seng): Consider changing joint names in robot description to match what comes
+        // from the ABB robot description to avoid needing to strip the prefix here
+        const auto pos = joint.name.find("joint");
+        const auto joint_name = joint.name.substr(pos);
+        command_interfaces.emplace_back(
+          hardware_interface::CommandInterface(
+            joint_name, hardware_interface::HW_IF_POSITION, &joint.command.position));
+      }
+    }
   }
+
   return command_interfaces;
 }
 
-CallbackReturn ABBSystemPositionOnlyHardware::on_activate(
-  const rclcpp_lifecycle::State & /* previous_state */)
+CallbackReturn ABBSystemPositionOnlyHardware::on_activate(const rclcpp_lifecycle::State & /* previous_state */)
 {
-  RCLCPP_INFO(rclcpp::get_logger("ABBSystemPositionOnlyHardware"), "on_activate()");
 
-  thread_group_.create_thread(boost::bind(&boost::asio::io_service::run, &io_service_));
-
-  bool wait = true;
   size_t counter = 0;
-  RCLCPP_INFO(rclcpp::get_logger("ABBSystemPositionOnlyHardware"), "Connecting to Robot...");
-  while (rclcpp::ok() && wait && ++counter < NUM_CONNECTION_TRIES) {
-    if (egm_interface_->isConnected()) {
-      RCLCPP_INFO(rclcpp::get_logger("ABBSystemPositionOnlyHardware"), "Connected to Robot");
-      if (
-        egm_interface_->getStatus().rapid_execution_state() ==
-        abb::egm::wrapper::Status_RAPIDExecutionState_RAPID_UNDEFINED)
-      {
-        RCLCPP_WARN(
-          rclcpp::get_logger("ABBSystemPositionOnlyHardware"),
-          "configure RAPID execution state is UNDEFINED (might happen first time after controller "
-          "start/restart). Try to restart the RAPID program.");
-      } else {
-        wait = egm_interface_->getStatus().rapid_execution_state() !=
-          abb::egm::wrapper::Status_RAPIDExecutionState_RAPID_RUNNING;
-      }
-    } else {
-      RCLCPP_INFO(rclcpp::get_logger("ABBSystemPositionOnlyHardware"), "Not Connected to Robot...");
+  RCLCPP_INFO(LOGGER, "Connecting to robot...");
+  while (rclcpp::ok() && ++counter < NUM_CONNECTION_TRIES) {
+    // Wait for a message on any of the configured EGM channels.
+    if (egm_manager_->waitForMessage(500)) {
+      RCLCPP_INFO(LOGGER, "Connected to robot");
+      break;
+    }
+    
+    RCLCPP_INFO(LOGGER, "Not connected to robot...");
+    if (counter == NUM_CONNECTION_TRIES) {
+      RCLCPP_ERROR(LOGGER, "Failed to connect to robot");
+      return CallbackReturn::ERROR;
     }
     rclcpp::sleep_for(500ms);
   }
-  if (wait) {  // if still not in the right state, exit
-    RCLCPP_FATAL(rclcpp::get_logger("ABBSystemPositionOnlyHardware"), "Could NOT Connect to Robot");
-    return CallbackReturn::ERROR;
-  }
-  RCLCPP_INFO(rclcpp::get_logger("ABBSystemPositionOnlyHardware"), "CONNECTED!");
 
-  // SET INITIAL STATE TO CURRENT ANGLES, error if something isn't right
-  if (!egm_interface_->waitForMessage(500)) {  // in [ms]
-    RCLCPP_FATAL(rclcpp::get_logger("ABBSystemPositionOnlyHardware"), "NO Message Received");
-    return CallbackReturn::ERROR;
-  }
+  egm_manager_->read(motion_data_);
 
-  egm_interface_->read(&input_);
-  sequence_number_ = input_.header().sequence_number();
-
-  if (sequence_number_ <= 0) {
-    RCLCPP_FATAL(rclcpp::get_logger("ABBSystemPositionOnlyHardware"), "Sequence number < 0");
-    return CallbackReturn::ERROR;
-  }
-
-  output_.Clear();
-  output_pos_.Clear();
-  current_positions_.CopyFrom(input_.feedback().robot().joints().position());
-
-  if (static_cast<size_t>(current_positions_.values_size()) != hw_states_.size()) {
-    RCLCPP_FATAL(
-      rclcpp::get_logger("ABBSystemPositionOnlyHardware"),
-      "Robot does not match expected number of joints");
-    return CallbackReturn::ERROR;
-  }
-
-  output_.mutable_robot()->mutable_joints()->mutable_position()->CopyFrom(current_positions_);
-  output_pos_.mutable_robot()->mutable_joints()->mutable_position()->CopyFrom(current_positions_);
-
-  for (size_t i = 0; i < hw_states_.size(); ++i) {
-    hw_states_[i] = current_positions_.values(i) / DEG_TO_RAD;
-    hw_commands_[i] = current_positions_.values(i) / DEG_TO_RAD;
-  }
-  RCLCPP_INFO(rclcpp::get_logger("ABBSystemPositionOnlyHardware"), "System Sucessfully started!");
-
-  return CallbackReturn::SUCCESS;
-}
-
-CallbackReturn ABBSystemPositionOnlyHardware::on_deactivate(
-  const rclcpp_lifecycle::State & /* previous_state */)
-{
-  RCLCPP_INFO(rclcpp::get_logger("ABBSystemPositionOnlyHardware"), "on_deactivate()");
-
-  io_service_.stop();
-  thread_group_.join_all();
-
-  RCLCPP_INFO(rclcpp::get_logger("ABBSystemPositionOnlyHardware"), "System sucessfully stopped!");
+  RCLCPP_INFO(LOGGER, "ros2_control hardware interface was successfully started!");
 
   return CallbackReturn::SUCCESS;
 }
 
 return_type ABBSystemPositionOnlyHardware::read()
 {
-  RCLCPP_INFO(rclcpp::get_logger("ABBSystemPositionOnlyHardware"), "read()");
-
-  abb::egm::wrapper::Input temp_input;
-  abb::egm::wrapper::Joints temp_current_positions;
-  egm_interface_->read(&temp_input);
-  temp_current_positions.CopyFrom(temp_input.feedback().robot().joints().position());
-
-  for (size_t i = 0; i < hw_states_.size(); ++i) {
-    hw_states_[i] = temp_current_positions.values(i) / DEG_TO_RAD;
-    RCLCPP_INFO(
-      rclcpp::get_logger("ABBSystemPositionOnlyHardware"), "Got state %.5f for joint %ld!",
-      hw_states_[i], i);
+  if (!egm_manager_->read(motion_data_)) {
+    RCLCPP_INFO(LOGGER, "Failed to read EGM feedback - is EGM session active?");
   }
-
   return return_type::OK;
 }
 
 return_type ABBSystemPositionOnlyHardware::write()
 {
-  RCLCPP_INFO(rclcpp::get_logger("ABBSystemPositionOnlyHardware"), "write()");
-
-  for (size_t i = 0; i < hw_commands_.size(); ++i) {
-    RCLCPP_INFO(
-      rclcpp::get_logger("ABBSystemPositionOnlyHardware"), "Got command %.5f for joint %ld!",
-      hw_commands_[i], i);
-    output_pos_.mutable_robot()->mutable_joints()->mutable_position()->set_values(
-      i, (hw_commands_[i] * 180.0 / 3.14159));
-  }
-  egm_interface_->write(output_pos_);
-
+  egm_manager_->write(motion_data_);
   return return_type::OK;
 }
 

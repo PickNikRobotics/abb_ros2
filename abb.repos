@@ -3,3 +3,11 @@ repositories:
     type: git
     url: https://github.com/ros-industrial/abb_libegm.git
     version: master
+  abb_librws:
+    type: git
+    url: https://github.com/ros-industrial/abb_librws.git
+    version: master
+  abb_egm_rws_managers:
+    type: git
+    url: https://github.com/ros-industrial/abb_egm_rws_managers.git
+    version: master

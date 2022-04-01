@@ -14,21 +14,27 @@
 
 #pragma once
 
-#include <abb_libegm/egm_controller_interface.h>
+#include <abb_egm_rws_managers/egm_manager.h>
+#include <abb_egm_rws_managers/rws_manager.h>
+#include <abb_hardware_interface/visibility_control.h>
 
 #include <chrono>
+#include <cmath>
+#include <limits>
 #include <memory>
 #include <string>
 #include <vector>
 
-#include "hardware_interface/handle.hpp"
-#include "hardware_interface/hardware_info.hpp"
-#include "hardware_interface/system_interface.hpp"
-#include "hardware_interface/types/hardware_interface_return_values.hpp"
-#include "rclcpp/macros.hpp"
-#include "rclcpp_lifecycle/node_interfaces/lifecycle_node_interface.hpp"
-#include "rclcpp_lifecycle/state.hpp"
-#include "abb_hardware_interface/visibility_control.h"
+#include <hardware_interface/handle.hpp>
+#include <hardware_interface/hardware_info.hpp>
+#include <hardware_interface/system_interface.hpp>
+#include <hardware_interface/types/hardware_interface_return_values.hpp>
+#include <hardware_interface/types/hardware_interface_type_values.hpp>
+#include <rclcpp/macros.hpp>
+#include <rclcpp/rclcpp.hpp>
+#include <rclcpp_lifecycle/node_interfaces/lifecycle_node_interface.hpp>
+#include <rclcpp_lifecycle/state.hpp>
+
 
 using hardware_interface::return_type;
 using CallbackReturn = rclcpp_lifecycle::node_interfaces::LifecycleNodeInterface::CallbackReturn;
@@ -44,9 +50,6 @@ public:
   CallbackReturn on_init(const hardware_interface::HardwareInfo & info) override;
 
   ROS2_CONTROL_DRIVER_PUBLIC
-  CallbackReturn on_configure(const rclcpp_lifecycle::State & previous_state) override;
-
-  ROS2_CONTROL_DRIVER_PUBLIC
   std::vector<hardware_interface::StateInterface> export_state_interfaces() override;
 
   ROS2_CONTROL_DRIVER_PUBLIC
@@ -56,34 +59,18 @@ public:
   CallbackReturn on_activate(const rclcpp_lifecycle::State & previous_state) override;
 
   ROS2_CONTROL_DRIVER_PUBLIC
-  CallbackReturn on_deactivate(const rclcpp_lifecycle::State & previous_state) override;
-
-  ROS2_CONTROL_DRIVER_PUBLIC
   return_type read() override;
 
   ROS2_CONTROL_DRIVER_PUBLIC
   return_type write() override;
 
 private:
-  // Hardware parameters
-  size_t robotstudio_port_;
-  
-  // Store the command for the simulated robot
-  std::vector<double> hw_commands_, hw_states_;
-
   // EGM
-  int sequence_number_ = 0;
-  boost::asio::io_service io_service_;
-  boost::thread_group thread_group_;
-  std::unique_ptr<abb::egm::EGMControllerInterface> egm_interface_;
+  abb::robot::RobotControllerDescription robot_controller_description_;
+  std::unique_ptr<abb::robot::EGMManager> egm_manager_;
 
-  abb::egm::wrapper::Input input_;
-  abb::egm::wrapper::Output output_;
-  abb::egm::wrapper::Output output_pos_;
-  abb::egm::wrapper::Output output_vel_;
-  abb::egm::wrapper::Joints current_positions_;
-  abb::egm::wrapper::Joints current_velocities_;
-  abb::egm::wrapper::Joints initial_positions_;
+  // Store the state and commands for the robot(s)
+  abb::robot::MotionData motion_data_;
 };
 
 }  // namespace abb_hardware_interface
