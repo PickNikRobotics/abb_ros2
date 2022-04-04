@@ -11,6 +11,11 @@ Import package dependencies:
     vcs import < abb_ros2/abb.repos
     rosdep install -r --from-paths . --ignore-src --rosdistro $ROS_DISTRO -y
 
+Build the package:
+
+    cd <COLCON_WORKSPACE>
+    colcon build
+
 Quickly verify the build by launching RViz and viewing the robot:
 
     ros2 launch abb_irb1200_support view_robot.launch.py

@@ -11,7 +11,7 @@
     - It may help switch the port by changing both the `robotstudio_port` hardware parameter on the ROS2 control side, and the port number under the `ROB_1` configuration on the RobotStudio side
 
 ## RWS Connection Issues
- - Try navigating to `<ROBOTSTUDIO_IP>:80?debug=true` in the browser and logging in with the default credentials (Default User, robotics)
+ - Try navigating to `<ROBOTSTUDIO_IP>:80?debug=true` in the browser and logging in with the default credentials (user = `Default User`, pw = `robotics`)
  - If you don't see a login prompt, the ROS2 computer is not communicating with the RWS server.
  - After logging in, if you see `RAPI Unidentified Error`, try [whitelisting the ROS computer's IP](./NetworkingConfiguration.md#adding-the-local-computer-to-the-virtual-controller-whitelist)
  - A workaround to the whitelisting solution is to [use SSH port forwarding](./NetworkingConfiguration.md#configuring-ssh-port-forwarding)
