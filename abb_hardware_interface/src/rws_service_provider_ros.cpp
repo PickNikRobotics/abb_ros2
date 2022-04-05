@@ -138,6 +138,7 @@ RWSServiceProviderROS::RWSServiceProviderROS(const rclcpp::Node::SharedPtr& node
           std::bind(&RWSServiceProviderROS::set_sg_command, this, std::placeholders::_1, std::placeholders::_2)));
     }
   }
+  RCLCPP_INFO(node_->get_logger(), "RWS client services initialized!");
 }
 
 void RWSServiceProviderROS::system_state_callback(const abb_robot_msgs::msg::SystemState& msg) { system_state_ = msg; }
@@ -172,7 +173,7 @@ bool RWSServiceProviderROS::get_file_contents(const abb_robot_msgs::srv::GetFile
     } else {
       res->message = abb_robot_msgs::msg::ServiceResponses::FAILED;
       res->result_code = abb_robot_msgs::msg::ServiceResponses::RC_FAILED;
-      // ROS_DEBUG_STREAM_NAMED(ROS_LOG_SERVICES, interface.getLogTextLatestEvent());
+      RCLCPP_DEBUG_STREAM(node_->get_logger(), interface.getLogTextLatestEvent());
     }
   });
 
@@ -196,7 +197,7 @@ bool RWSServiceProviderROS::get_io_signal(const abb_robot_msgs::srv::GetIOSignal
     } else {
       res->message = abb_robot_msgs::msg::ServiceResponses::FAILED;
       res->result_code = abb_robot_msgs::msg::ServiceResponses::RC_FAILED;
-      // ROS_DEBUG_STREAM_NAMED(ROS_LOG_SERVICES, interface.getLogTextLatestEvent());
+      RCLCPP_DEBUG_STREAM(node_->get_logger(), interface.getLogTextLatestEvent());
     }
   });
 
@@ -220,7 +221,7 @@ bool RWSServiceProviderROS::get_rapid_bool(const abb_robot_msgs::srv::GetRAPIDBo
     } else {
       res->message = abb_robot_msgs::msg::ServiceResponses::FAILED;
       res->result_code = abb_robot_msgs::msg::ServiceResponses::RC_FAILED;
-      // ROS_DEBUG_STREAM_NAMED(ROS_LOG_SERVICES, interface.getLogTextLatestEvent());
+      RCLCPP_DEBUG_STREAM(node_->get_logger(), interface.getLogTextLatestEvent());
     }
   });
 
@@ -244,7 +245,7 @@ bool RWSServiceProviderROS::get_rapid_dnum(const abb_robot_msgs::srv::GetRAPIDDn
     } else {
       res->message = abb_robot_msgs::msg::ServiceResponses::FAILED;
       res->result_code = abb_robot_msgs::msg::ServiceResponses::RC_FAILED;
-      // ROS_DEBUG_STREAM_NAMED(ROS_LOG_SERVICES, interface.getLogTextLatestEvent());
+      RCLCPP_DEBUG_STREAM(node_->get_logger(), interface.getLogTextLatestEvent());
     }
   });
 
@@ -268,7 +269,7 @@ bool RWSServiceProviderROS::get_rapid_num(const abb_robot_msgs::srv::GetRAPIDNum
     } else {
       res->message = abb_robot_msgs::msg::ServiceResponses::FAILED;
       res->result_code = abb_robot_msgs::msg::ServiceResponses::RC_FAILED;
-      // ROS_DEBUG_STREAM_NAMED(ROS_LOG_SERVICES, interface.getLogTextLatestEvent());
+      RCLCPP_DEBUG_STREAM(node_->get_logger(), interface.getLogTextLatestEvent());
     }
   });
 
@@ -292,7 +293,7 @@ bool RWSServiceProviderROS::get_rapid_string(const abb_robot_msgs::srv::GetRAPID
     } else {
       res->message = abb_robot_msgs::msg::ServiceResponses::FAILED;
       res->result_code = abb_robot_msgs::msg::ServiceResponses::RC_FAILED;
-      // ROS_DEBUG_STREAM_NAMED(ROS_LOG_SERVICES, interface.getLogTextLatestEvent());
+      RCLCPP_DEBUG_STREAM(node_->get_logger(), interface.getLogTextLatestEvent());
     }
   });
 
@@ -316,7 +317,7 @@ bool RWSServiceProviderROS::get_rapid_symbol(const abb_robot_msgs::srv::GetRAPID
     } else {
       res->message = abb_robot_msgs::msg::ServiceResponses::FAILED;
       res->result_code = abb_robot_msgs::msg::ServiceResponses::RC_FAILED;
-      // ROS_DEBUG_STREAM_NAMED(ROS_LOG_SERVICES, interface.getLogTextLatestEvent());
+      RCLCPP_DEBUG_STREAM(node_->get_logger(), interface.getLogTextLatestEvent());
     }
   });
 
@@ -336,6 +337,7 @@ bool RWSServiceProviderROS::get_speed_ratio(const abb_robot_msgs::srv::GetSpeedR
     } catch (const std::runtime_error& exception) {
       res->message = exception.what();
       res->result_code = abb_robot_msgs::msg::ServiceResponses::RC_FAILED;
+      RCLCPP_DEBUG_STREAM(node_->get_logger(), interface.getLogTextLatestEvent());
     }
   });
 
@@ -359,7 +361,7 @@ bool RWSServiceProviderROS::pp_to_main(const abb_robot_msgs::srv::TriggerWithRes
       res->result_code = abb_robot_msgs::msg::ServiceResponses::RC_SUCCESS;
     } else {
       res->message = abb_robot_msgs::msg::ServiceResponses::FAILED;
-      // ROS_DEBUG_STREAM_NAMED(ROS_LOG_SERVICES, interface.getLogTextLatestEvent());
+      RCLCPP_DEBUG_STREAM(node_->get_logger(), interface.getLogTextLatestEvent());
     }
   });
 
@@ -386,7 +388,7 @@ bool RWSServiceProviderROS::run_rapid_routine(const abb_robot_msgs::srv::Trigger
     } else {
       res->message = abb_robot_msgs::msg::ServiceResponses::FAILED;
       res->result_code = abb_robot_msgs::msg::ServiceResponses::RC_FAILED;
-      // ROS_DEBUG_STREAM_NAMED(ROS_LOG_SERVICES, interface.getLogTextLatestEvent());
+      RCLCPP_DEBUG_STREAM(node_->get_logger(), interface.getLogTextLatestEvent());
     }
   });
 
@@ -414,7 +416,7 @@ bool RWSServiceProviderROS::run_sg_routine(const abb_robot_msgs::srv::TriggerWit
     } else {
       res->message = abb_robot_msgs::msg::ServiceResponses::FAILED;
       res->result_code = abb_robot_msgs::msg::ServiceResponses::RC_FAILED;
-      // ROS_DEBUG_STREAM_NAMED(ROS_LOG_SERVICES, interface.getLogTextLatestEvent());
+      RCLCPP_DEBUG_STREAM(node_->get_logger(), interface.getLogTextLatestEvent());
     }
   });
 
@@ -436,7 +438,7 @@ bool RWSServiceProviderROS::set_file_contents(const abb_robot_msgs::srv::SetFile
     } else {
       res->message = abb_robot_msgs::msg::ServiceResponses::FAILED;
       res->result_code = abb_robot_msgs::msg::ServiceResponses::RC_FAILED;
-      // ROS_DEBUG_STREAM_NAMED(ROS_LOG_SERVICES, interface.getLogTextLatestEvent());
+      RCLCPP_DEBUG_STREAM(node_->get_logger(), interface.getLogTextLatestEvent());
     }
   });
 
@@ -458,7 +460,7 @@ bool RWSServiceProviderROS::set_io_signal(const abb_robot_msgs::srv::SetIOSignal
     } else {
       res->message = abb_robot_msgs::msg::ServiceResponses::FAILED;
       res->result_code = abb_robot_msgs::msg::ServiceResponses::RC_FAILED;
-      // ROS_DEBUG_STREAM_NAMED(ROS_LOG_SERVICES, interface.getLogTextLatestEvent());
+      RCLCPP_DEBUG_STREAM(node_->get_logger(), interface.getLogTextLatestEvent());
     }
   });
 
@@ -476,7 +478,7 @@ bool RWSServiceProviderROS::set_motors_off(const abb_robot_msgs::srv::TriggerWit
       res->result_code = abb_robot_msgs::msg::ServiceResponses::RC_SUCCESS;
     } else {
       res->message = abb_robot_msgs::msg::ServiceResponses::FAILED;
-      // ROS_DEBUG_STREAM_NAMED(ROS_LOG_SERVICES, interface.getLogTextLatestEvent());
+      RCLCPP_DEBUG_STREAM(node_->get_logger(), interface.getLogTextLatestEvent());
     }
   });
 
@@ -500,7 +502,7 @@ bool RWSServiceProviderROS::set_motors_on(const abb_robot_msgs::srv::TriggerWith
       res->result_code = abb_robot_msgs::msg::ServiceResponses::RC_SUCCESS;
     } else {
       res->message = abb_robot_msgs::msg::ServiceResponses::FAILED;
-      // ROS_DEBUG_STREAM_NAMED(ROS_LOG_SERVICES, interface.getLogTextLatestEvent());
+      RCLCPP_DEBUG_STREAM(node_->get_logger(), interface.getLogTextLatestEvent());
     }
   });
 
@@ -526,7 +528,7 @@ bool RWSServiceProviderROS::set_rapid_bool(const abb_robot_msgs::srv::SetRAPIDBo
     } else {
       res->message = abb_robot_msgs::msg::ServiceResponses::FAILED;
       res->result_code = abb_robot_msgs::msg::ServiceResponses::RC_FAILED;
-      // ROS_DEBUG_STREAM_NAMED(ROS_LOG_SERVICES, interface.getLogTextLatestEvent());
+      RCLCPP_DEBUG_STREAM(node_->get_logger(), interface.getLogTextLatestEvent());
     }
   });
 
@@ -552,7 +554,7 @@ bool RWSServiceProviderROS::set_rapid_dnum(const abb_robot_msgs::srv::SetRAPIDDn
     } else {
       res->message = abb_robot_msgs::msg::ServiceResponses::FAILED;
       res->result_code = abb_robot_msgs::msg::ServiceResponses::RC_FAILED;
-      // ROS_DEBUG_STREAM_NAMED(ROS_LOG_SERVICES, interface.getLogTextLatestEvent());
+      RCLCPP_DEBUG_STREAM(node_->get_logger(), interface.getLogTextLatestEvent());
     }
   });
 
@@ -578,7 +580,7 @@ bool RWSServiceProviderROS::set_rapid_num(const abb_robot_msgs::srv::SetRAPIDNum
     } else {
       res->message = abb_robot_msgs::msg::ServiceResponses::FAILED;
       res->result_code = abb_robot_msgs::msg::ServiceResponses::RC_FAILED;
-      // ROS_DEBUG_STREAM_NAMED(ROS_LOG_SERVICES, interface.getLogTextLatestEvent());
+      RCLCPP_DEBUG_STREAM(node_->get_logger(), interface.getLogTextLatestEvent());     
     }
   });
 
@@ -604,7 +606,7 @@ bool RWSServiceProviderROS::set_rapid_string(const abb_robot_msgs::srv::SetRAPID
     } else {
       res->message = abb_robot_msgs::msg::ServiceResponses::FAILED;
       res->result_code = abb_robot_msgs::msg::ServiceResponses::RC_FAILED;
-      // ROS_DEBUG_STREAM_NAMED(ROS_LOG_SERVICES, interface.getLogTextLatestEvent());
+      RCLCPP_DEBUG_STREAM(node_->get_logger(), interface.getLogTextLatestEvent());
     }
   });
 
@@ -629,7 +631,7 @@ bool RWSServiceProviderROS::set_rapid_symbol(const abb_robot_msgs::srv::SetRAPID
     } else {
       res->message = abb_robot_msgs::msg::ServiceResponses::FAILED;
       res->result_code = abb_robot_msgs::msg::ServiceResponses::RC_FAILED;
-      // ROS_DEBUG_STREAM_NAMED(ROS_LOG_SERVICES, interface.getLogTextLatestEvent());
+      RCLCPP_DEBUG_STREAM(node_->get_logger(), interface.getLogTextLatestEvent());
     }
   });
 
@@ -652,10 +654,10 @@ bool RWSServiceProviderROS::set_speed_ratio(const abb_robot_msgs::srv::SetSpeedR
       } else {
         res->message = abb_robot_msgs::msg::ServiceResponses::FAILED;
         res->result_code = abb_robot_msgs::msg::ServiceResponses::RC_FAILED;
-        // ROS_DEBUG_STREAM_NAMED(ROS_LOG_SERVICES, interface.getLogTextLatestEvent());
       }
     } catch (const std::exception& exception) {
       res->message = exception.what();
+      RCLCPP_DEBUG_STREAM(node_->get_logger(), interface.getLogTextLatestEvent());
     }
   });
 
@@ -679,7 +681,7 @@ bool RWSServiceProviderROS::start_rapid(const abb_robot_msgs::srv::TriggerWithRe
       res->result_code = abb_robot_msgs::msg::ServiceResponses::RC_SUCCESS;
     } else {
       res->message = abb_robot_msgs::msg::ServiceResponses::FAILED;
-      // ROS_DEBUG_STREAM_NAMED(ROS_LOG_SERVICES, interface.getLogTextLatestEvent());
+      RCLCPP_DEBUG_STREAM(node_->get_logger(), interface.getLogTextLatestEvent());
     }
   });
 
@@ -697,7 +699,7 @@ bool RWSServiceProviderROS::stop_rapid(const abb_robot_msgs::srv::TriggerWithRes
       res->result_code = abb_robot_msgs::msg::ServiceResponses::RC_SUCCESS;
     } else {
       res->message = abb_robot_msgs::msg::ServiceResponses::FAILED;
-      // ROS_DEBUG_STREAM_NAMED(ROS_LOG_SERVICES, interface.getLogTextLatestEvent());
+      RCLCPP_DEBUG_STREAM(node_->get_logger(), interface.getLogTextLatestEvent());
     }
   });
 
@@ -728,7 +730,7 @@ bool RWSServiceProviderROS::get_egm_settings(const abb_rapid_sm_addin_msgs::srv:
     } else {
       res->message = abb_robot_msgs::msg::ServiceResponses::FAILED;
       res->result_code = abb_robot_msgs::msg::ServiceResponses::RC_FAILED;
-      // ROS_DEBUG_STREAM_NAMED(ROS_LOG_SERVICES, interface.getLogTextLatestEvent());
+      RCLCPP_DEBUG_STREAM(node_->get_logger(), interface.getLogTextLatestEvent());
     }
   });
 
@@ -764,7 +766,7 @@ bool RWSServiceProviderROS::set_egm_settings(const abb_rapid_sm_addin_msgs::srv:
     } else {
       res->message = abb_robot_msgs::msg::ServiceResponses::FAILED;
       res->result_code = abb_robot_msgs::msg::ServiceResponses::RC_FAILED;
-      // ROS_DEBUG_STREAM_NAMED(ROS_LOG_SERVICES, interface.getLogTextLatestEvent());
+      RCLCPP_DEBUG_STREAM(node_->get_logger(), interface.getLogTextLatestEvent());
     }
   });
 
@@ -799,7 +801,7 @@ bool RWSServiceProviderROS::set_rapid_routine(
     } else {
       res->message = abb_robot_msgs::msg::ServiceResponses::FAILED;
       res->result_code = abb_robot_msgs::msg::ServiceResponses::RC_FAILED;
-      // ROS_DEBUG_STREAM_NAMED(ROS_LOG_SERVICES, interface.getLogTextLatestEvent());
+      RCLCPP_DEBUG_STREAM(node_->get_logger(), interface.getLogTextLatestEvent());
     }
   });
 
@@ -846,7 +848,7 @@ bool RWSServiceProviderROS::set_sg_command(const abb_rapid_sm_addin_msgs::srv::S
     } else {
       res->message = abb_robot_msgs::msg::ServiceResponses::FAILED;
       res->result_code = abb_robot_msgs::msg::ServiceResponses::RC_FAILED;
-      // ROS_DEBUG_STREAM_NAMED(ROS_LOG_SERVICES, interface.getLogTextLatestEvent());
+      RCLCPP_DEBUG_STREAM(node_->get_logger(), interface.getLogTextLatestEvent());
     }
   });
 
@@ -874,7 +876,7 @@ bool RWSServiceProviderROS::start_egm_joint(const abb_robot_msgs::srv::TriggerWi
     } else {
       res->message = abb_robot_msgs::msg::ServiceResponses::FAILED;
       res->result_code = abb_robot_msgs::msg::ServiceResponses::RC_FAILED;
-      // ROS_DEBUG_STREAM_NAMED(ROS_LOG_SERVICES, interface.getLogTextLatestEvent());
+      RCLCPP_DEBUG_STREAM(node_->get_logger(), interface.getLogTextLatestEvent());
     }
   });
 
@@ -902,7 +904,7 @@ bool RWSServiceProviderROS::start_egm_pose(const abb_robot_msgs::srv::TriggerWit
     } else {
       res->message = abb_robot_msgs::msg::ServiceResponses::FAILED;
       res->result_code = abb_robot_msgs::msg::ServiceResponses::RC_FAILED;
-      // ROS_DEBUG_STREAM_NAMED(ROS_LOG_SERVICES, interface.getLogTextLatestEvent());
+      RCLCPP_DEBUG_STREAM(node_->get_logger(), interface.getLogTextLatestEvent());
     }
   });
 
@@ -930,6 +932,7 @@ bool RWSServiceProviderROS::start_egm_stream(const abb_robot_msgs::srv::TriggerW
     } else {
       res->message = abb_robot_msgs::msg::ServiceResponses::FAILED;
       res->result_code = abb_robot_msgs::msg::ServiceResponses::RC_FAILED;
+      RCLCPP_DEBUG_STREAM(node_->get_logger(), interface.getLogTextLatestEvent());
     }
   });
 
@@ -954,7 +957,7 @@ bool RWSServiceProviderROS::stop_egm(const abb_robot_msgs::srv::TriggerWithResul
     } else {
       res->message = abb_robot_msgs::msg::ServiceResponses::FAILED;
       res->result_code = abb_robot_msgs::msg::ServiceResponses::RC_FAILED;
-      // ROS_DEBUG_STREAM_NAMED(ROS_LOG_SERVICES, interface.getLogTextLatestEvent());
+      RCLCPP_DEBUG_STREAM(node_->get_logger(), interface.getLogTextLatestEvent());
     }
   });
 
@@ -979,7 +982,7 @@ bool RWSServiceProviderROS::stop_egm_stream(const abb_robot_msgs::srv::TriggerWi
     } else {
       res->message = abb_robot_msgs::msg::ServiceResponses::FAILED;
       res->result_code = abb_robot_msgs::msg::ServiceResponses::RC_FAILED;
-      // ROS_DEBUG_STREAM_NAMED(ROS_LOG_SERVICES, interface.getLogTextLatestEvent());
+      RCLCPP_DEBUG_STREAM(node_->get_logger(), interface.getLogTextLatestEvent());
     }
   });
 
