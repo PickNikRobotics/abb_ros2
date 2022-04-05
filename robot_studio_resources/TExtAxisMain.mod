@@ -61,23 +61,23 @@ MODULE TExtAxisMain
     !
     !***********************************************************
     PROC main()
-        WHILE TRUE DO
-            
-            ! Register an EGM id.
-            EGMGetId egm_id;
-            
-            ! Setup the EGM communication.
-            EGMSetupUC MU_250__01, egm_id, "default", "EXTAX", \Joint;
-            
-            ! Prepare for an EGM communication session.
-            EGMActJoint egm_id;
-            
+        
+        ! Register an EGM id.
+        EGMGetId egm_id;
+        
+        ! Setup the EGM communication.
+        EGMSetupUC MU_250__01, egm_id, "default", "EXTAX", \Joint;
+        
+        ! Prepare for an EGM communication session.
+        EGMActJoint egm_id, \MaxSpeedDeviation:=20.0;
+
+        WHILE TRUE DO            
             ! Start the EGM communication session.
             EGMRunJoint egm_id, EGM_STOP_HOLD;
-            
-            ! Release the EGM id.
-            EGMReset egm_id;
-        ENDWHILE
+        ENDWHILE            
+        ! Release the EGM id.
+        EGMReset egm_id;
+
         
     ERROR
         IF ERRNO = ERR_UDPUC_COMM THEN
