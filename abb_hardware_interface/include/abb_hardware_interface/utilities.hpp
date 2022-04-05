@@ -37,7 +37,8 @@
 // This file is a modified copy from
 // https://github.com/ros-industrial/abb_robot_driver/blob/master/abb_robot_cpp_utilities/include/abb_robot_cpp_utilities/initialization.h
 
-#pragma once
+#ifndef ABB_HARDWARE_INTERFACE__UTILITIES_HPP__
+#define ABB_HARDWARE_INTERFACE__UTILITIES_HPP__
 
 #include <abb_egm_rws_managers/rws_manager.h>
 
@@ -86,3 +87,5 @@ bool verify_state_machine_add_in_presence(const SystemIndicators &system_indicat
 }  // namespace utilities
 }  // namespace robot
 }  // namespace abb
+
+#endif  // ABB_HARDWARE_INTERFACE__UTILITIES_HPP__

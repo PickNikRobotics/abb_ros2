@@ -34,8 +34,8 @@
  ***********************************************************************************************************************
  */
 
-#ifndef ABB_RWS_CLIENT__MAPPING_HPP_
-#define ABB_RWS_CLIENT__MAPPING_HPP_
+#ifndef ABB_HARDWARE_INTERFACE__MAPPING_HPP_
+#define ABB_HARDWARE_INTERFACE__MAPPING_HPP_
 
 #include <abb_egm_rws_managers/utilities.h>
 #include <abb_librws/rws_rapid.h>
@@ -257,4 +257,4 @@ std::string map_vector_to_string(const std::vector<type>& vector);
 }  // namespace robot
 }  // namespace abb
 
-#endif  // ABB_RWS_CLIENT__MAPPING_HPP_
+#endif  // ABB_HARDWARE_INTERFACE__MAPPING_HPP_

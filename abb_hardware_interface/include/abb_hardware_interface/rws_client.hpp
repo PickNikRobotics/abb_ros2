@@ -1,5 +1,5 @@
-#ifndef ABB_RWS_CLIENT__RWS_CLIENT_HPP__
-#define ABB_RWS_CLIENT__RWS_CLIENT_HPP__
+#ifndef ABB_HARDWARE_INTERFACE__RWS_CLIENT_HPP__
+#define ABB_HARDWARE_INTERFACE__RWS_CLIENT_HPP__
 
 // ROS
 #include <rclcpp/rclcpp.hpp>
@@ -26,4 +26,4 @@ class RWSClient {
 
 }  // namespace abb_rws_client
 
-#endif  // ABB_RWS_CLIENT__RWS_CLIENT_HPP__
+#endif  // ABB_HARDWARE_INTERFACE__RWS_CLIENT_HPP__

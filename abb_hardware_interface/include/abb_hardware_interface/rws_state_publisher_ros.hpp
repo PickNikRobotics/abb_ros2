@@ -1,5 +1,5 @@
-#ifndef ABB_RWS_CLIENT__RWS_STATE_PUBLISHER_ROS_HPP_
-#define ABB_RWS_CLIENT__RWS_STATE_PUBLISHER_ROS_HPP_
+#ifndef ABB_HARDWARE_INTERFACE__RWS_STATE_PUBLISHER_ROS_HPP_
+#define ABB_HARDWARE_INTERFACE__RWS_STATE_PUBLISHER_ROS_HPP_
 
 #include "abb_hardware_interface/rws_client.hpp"
 
@@ -35,4 +35,4 @@ class RWSStatePublisherROS : RWSClient {
 
 }  // namespace abb_rws_client
 
-#endif  // ABB_RWS_CLIENT__RWS_STATE_PUBLISHER_ROS_HPP_
+#endif  // ABB_HARDWARE_INTERFACE__RWS_STATE_PUBLISHER_ROS_HPP_

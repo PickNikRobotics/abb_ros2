@@ -1,5 +1,5 @@
-#ifndef ABB_RWS_CLIENT__RWS_SERCIVE_PROVIDER_ROS_HPP__
-#define ABB_RWS_CLIENT__RWS_SERCIVE_PROVIDER_ROS_HPP__
+#ifndef ABB_HARDWARE_INTERFACE__RWS_SERCIVE_PROVIDER_ROS_HPP__
+#define ABB_HARDWARE_INTERFACE__RWS_SERCIVE_PROVIDER_ROS_HPP__
 
 
 #include "abb_hardware_interface/rws_client.hpp"
@@ -192,4 +192,4 @@ class RWSServiceProviderROS : RWSClient {
 
 }  // namespace abb_rws_client
 
-#endif  // ABB_RWS_CLIENT__RWS_SERCIVE_PROVIDER_ROS_HPP__
+#endif  // ABB_HARDWARE_INTERFACE__RWS_SERCIVE_PROVIDER_ROS_HPP__
