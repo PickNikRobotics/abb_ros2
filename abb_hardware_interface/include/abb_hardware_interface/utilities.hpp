@@ -60,10 +60,29 @@ namespace utilities
  *
  * \throw std::runtime_error if unable to establish a connection.
  */
-RobotControllerDescription establishRWSConnection(
+RobotControllerDescription establish_rws_connection(
   RWSManager & rws_manager, const std::string & robot_controller_id,
   const bool no_connection_timeout);
 
+/**
+ * \brief Verifies that the RobotWare version is supported.
+ *
+ * Note: For now, only RobotWare versions in the range [6.07.01, 7.0) are supported (i.e. excluding 7.0).
+ *
+ * \param rw_version to verify.
+ *
+ * \throw std::runtime_error if the RobotWare version is not supported.
+ */
+void verify_robotware_version(const RobotWareVersion &rw_version);
+
+/**
+ * \brief Verifies that the RobotWare StateMachine Add-In is present in a system.
+ *
+ * \param system_indicators to verify.
+ *
+ * \return bool true if the StateMachine Add-In is present.
+ */
+bool verify_state_machine_add_in_presence(const SystemIndicators &system_indicators);
 }  // namespace utilities
 }  // namespace robot
 }  // namespace abb

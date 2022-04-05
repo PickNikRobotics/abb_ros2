@@ -1,7 +1,7 @@
 #ifndef ABB_RWS_CLIENT__RWS_STATE_PUBLISHER_ROS_HPP_
 #define ABB_RWS_CLIENT__RWS_STATE_PUBLISHER_ROS_HPP_
 
-#include "abb_rws_client/rws_client.hpp"
+#include "abb_hardware_interface/rws_client.hpp"
 
 // ROS
 #include <rclcpp/rclcpp.hpp>

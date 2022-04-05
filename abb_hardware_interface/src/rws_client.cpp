@@ -1,6 +1,6 @@
-#include "abb_rws_client/rws_client.hpp"
+#include "abb_hardware_interface/rws_client.hpp"
 
-#include "abb_rws_client/utilities.hpp"
+#include "abb_hardware_interface/utilities.hpp"
 
 namespace abb_rws_client {
 RWSClient::RWSClient(const rclcpp::Node::SharedPtr &node, const std::string &robot_ip, unsigned short robot_port)

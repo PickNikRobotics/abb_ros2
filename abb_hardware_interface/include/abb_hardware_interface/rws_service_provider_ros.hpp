@@ -1,9 +1,8 @@
 #ifndef ABB_RWS_CLIENT__RWS_SERCIVE_PROVIDER_ROS_HPP__
 #define ABB_RWS_CLIENT__RWS_SERCIVE_PROVIDER_ROS_HPP__
 
-#include <abb_librws/rws_state_machine_interface.h>
 
-#include "abb_rws_client/rws_client.hpp"
+#include "abb_hardware_interface/rws_client.hpp"
 
 // SYSMTEM
 

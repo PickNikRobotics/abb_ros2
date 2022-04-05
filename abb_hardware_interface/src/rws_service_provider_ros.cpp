@@ -1,9 +1,9 @@
-#include "abb_rws_client/rws_service_provider_ros.hpp"
+#include "abb_hardware_interface/rws_service_provider_ros.hpp"
 
 #include <abb_robot_msgs/msg/service_responses.hpp>
 
-#include "abb_rws_client/mapping.hpp"
-#include "abb_rws_client/utilities.hpp"
+#include "abb_hardware_interface/mapping.hpp"
+#include "abb_hardware_interface/utilities.hpp"
 
 using RAPIDSymbols = abb::rws::RWSStateMachineInterface::ResourceIdentifiers::RAPID::Symbols;
 

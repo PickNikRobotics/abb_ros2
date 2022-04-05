@@ -39,15 +39,13 @@
 #include <stdexcept>
 #include <string>
 
-// ROS
-
 // ABB INTERFACES
 #include <abb_egm_msgs/msg/egm_state.hpp>
 #include <abb_rapid_sm_addin_msgs/msg/state_machine_state.hpp>
 #include <abb_rapid_sm_addin_msgs/srv/set_sg_command.hpp>
 #include <abb_robot_msgs/msg/rapid_task_state.hpp>
 
-#include "abb_rws_client/mapping.hpp"
+#include "abb_hardware_interface/mapping.hpp"
 
 namespace {
 /**

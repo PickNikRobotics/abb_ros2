@@ -15,9 +15,14 @@
   <buildtool_depend>ament_cmake</buildtool_depend>
   
   <depend>abb_egm_rws_managers</depend>
+  <depend>abb_egm_msgs</depend>
+  <depend>abb_rapid_msgs</depend>
+  <depend>abb_robot_msgs</depend>
+  <depend>abb_rapid_sm_addin_msgs</depend>
   <depend>hardware_interface</depend>
   <depend>pluginlib</depend>
   <depend>rclcpp</depend>
+  <depend>sensor_msgs</depend>
 
   <test_depend>ament_cmake_gtest</test_depend>
 
