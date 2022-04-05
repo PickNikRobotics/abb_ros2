@@ -175,9 +175,7 @@ CallbackReturn ABBSystemPositionOnlyHardware::on_activate(const rclcpp_lifecycle
 
 return_type ABBSystemPositionOnlyHardware::read()
 {
-  if (!egm_manager_->read(motion_data_)) {
-    RCLCPP_INFO(LOGGER, "Failed to read EGM feedback - is EGM session active?");
-  }
+  egm_manager_->read(motion_data_);
   return return_type::OK;
 }
 
