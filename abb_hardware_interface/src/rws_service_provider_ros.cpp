@@ -20,7 +20,6 @@ RWSServiceProviderROS::RWSServiceProviderROS(const rclcpp::Node::SharedPtr& node
   core_services_.push_back(node_->create_service<abb_robot_msgs::srv::GetRobotControllerDescription>(
       "~/get_robot_controller_description",
       std::bind(&RWSServiceProviderROS::get_rc_description, this, std::placeholders::_1, std::placeholders::_2)));
-
   core_services_.push_back(node_->create_service<abb_robot_msgs::srv::GetFileContents>(
       "~/get_file_contents",
       std::bind(&RWSServiceProviderROS::get_file_contents, this, std::placeholders::_1, std::placeholders::_2)));

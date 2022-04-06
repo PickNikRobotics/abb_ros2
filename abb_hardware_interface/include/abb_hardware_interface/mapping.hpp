@@ -37,6 +37,9 @@
 #ifndef ABB_HARDWARE_INTERFACE__MAPPING_HPP_
 #define ABB_HARDWARE_INTERFACE__MAPPING_HPP_
 
+#include <string>
+#include <vector>
+
 #include <abb_egm_rws_managers/utilities.h>
 #include <abb_librws/rws_rapid.h>
 

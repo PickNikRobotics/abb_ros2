@@ -5,21 +5,17 @@
 #include "abb_hardware_interface/rws_client.hpp"
 
 // SYSMTEM
-
 #include <string>
 #include <vector>
 
 // ROS
-
 #include <rclcpp/rclcpp.hpp>
 
 // ABB MSG
-
 #include <abb_rapid_sm_addin_msgs/msg/runtime_state.hpp>
 #include <abb_robot_msgs/msg/system_state.hpp>
 
 // ABB SRV
-
 #include <abb_rapid_sm_addin_msgs/srv/get_egm_settings.hpp>
 #include <abb_rapid_sm_addin_msgs/srv/set_egm_settings.hpp>
 #include <abb_rapid_sm_addin_msgs/srv/set_rapid_routine.hpp>

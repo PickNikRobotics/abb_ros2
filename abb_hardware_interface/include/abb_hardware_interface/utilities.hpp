@@ -40,6 +40,8 @@
 #ifndef ABB_HARDWARE_INTERFACE__UTILITIES_HPP__
 #define ABB_HARDWARE_INTERFACE__UTILITIES_HPP__
 
+#include <string>
+
 #include <abb_egm_rws_managers/rws_manager.h>
 
 namespace abb

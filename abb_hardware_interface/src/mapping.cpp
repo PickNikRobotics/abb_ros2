@@ -34,6 +34,8 @@
  ***********************************************************************************************************************
  */
 
+#include "abb_hardware_interface/mapping.hpp"
+
 // System
 #include <sstream>
 #include <stdexcept>
@@ -41,26 +43,14 @@
 
 // ABB INTERFACES
 #include <abb_egm_msgs/msg/egm_state.hpp>
+#include <abb_rapid_sm_addin_msgs/msg/egm_settings.hpp>
 #include <abb_rapid_sm_addin_msgs/msg/state_machine_state.hpp>
 #include <abb_rapid_sm_addin_msgs/srv/set_sg_command.hpp>
 #include <abb_robot_msgs/msg/rapid_task_state.hpp>
 
-#include "abb_hardware_interface/mapping.hpp"
-
-namespace {
-/**
- * \brief Name for ROS logging in the 'mapping' context.
- */
-constexpr char ROS_LOG_MAPPING[]{"mapping"};
-}  // namespace
-
 namespace abb {
 namespace robot {
 namespace utilities {
-
-/***********************************************************************************************************************
- * Utility function definitions (mapping from RWS to ROS representations)
- */
 
 uint8_t map(const rws::RWSInterface::RAPIDTaskExecutionState state) {
   switch (state) {
@@ -91,7 +81,6 @@ uint8_t map(const rws::RWSInterface::RAPIDTaskExecutionState state) {
 }
 
 uint8_t map_state_machine_state(const rws::RAPIDNum& state) {
-  // Note: Inspect the StateMachine Add-In's RAPID implementation to see defined states.
   switch (static_cast<int>(state.value)) {
     case 0:
       return abb_rapid_sm_addin_msgs::msg::StateMachineState::SM_STATE_IDLE;
@@ -116,7 +105,6 @@ uint8_t map_state_machine_state(const rws::RAPIDNum& state) {
 }
 
 uint8_t map_state_machine_egm_action(const rws::RAPIDNum& action) {
-  // Note: Inspect the StateMachine Add-In's RAPID implementation to see defined EGM actions.
   switch (static_cast<int>(action.value)) {
     case 0:
       return abb_rapid_sm_addin_msgs::msg::StateMachineState::EGM_ACTION_NONE;
@@ -228,10 +216,6 @@ abb_rapid_sm_addin_msgs::msg::EGMSettings map(const rws::RWSStateMachineInterfac
 
   return ros_egm_settings;
 }
-
-/***********************************************************************************************************************
- * Utility function definitions (mapping from ROS to RWS representations)
- */
 
 unsigned int map_state_machine_sg_command(const unsigned int command) {
   switch (command) {
@@ -379,10 +363,6 @@ rws::RWSStateMachineInterface::EGMSettings map(const abb_rapid_sm_addin_msgs::ms
   return rws_egm_settings;
 }
 
-/***********************************************************************************************************************
- * Utility function definitions (mapping from EGM to ROS representations)
- */
-
 uint8_t map(egm::wrapper::Status::EGMState state) {
   switch (state) {
     case egm::wrapper::Status::EGM_ERROR:
@@ -438,10 +418,6 @@ uint8_t map(egm::wrapper::Status::RAPIDExecutionState state) {
   }
 }
 
-/***********************************************************************************************************************
- * Utility template function definitions
- */
-
 template <typename type>
 std::string map_vector_to_string(const std::vector<type>& vector) {
   std::stringstream ss{};
@@ -461,10 +437,6 @@ std::string map_vector_to_string(const std::vector<type>& vector) {
 
   return ss.str();
 }
-
-/***********************************************************************************************************************
- * Utility template function instantiations
- */
 
 template std::string map_vector_to_string<std::string>(const std::vector<std::string>& vector);
 template std::string map_vector_to_string<bool>(const std::vector<bool>& vector);

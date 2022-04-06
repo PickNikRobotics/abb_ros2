@@ -3,6 +3,9 @@
 
 #include "abb_hardware_interface/rws_client.hpp"
 
+// SYSTEM
+#include <string>
+
 // ROS
 #include <rclcpp/rclcpp.hpp>
 
