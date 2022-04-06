@@ -36,9 +36,10 @@
 
 // This file is a modified copy from
 // https://github.com/ros-industrial/abb_robot_driver/blob/master/abb_robot_cpp_utilities/include/abb_robot_cpp_utilities/initialization.h
+// https://github.com/ros-industrial/abb_robot_driver/blob/master/abb_robot_cpp_utilities/include/abb_robot_cpp_utilities/verification.h
 
-#ifndef ABB_HARDWARE_INTERFACE__UTILITIES_HPP__
-#define ABB_HARDWARE_INTERFACE__UTILITIES_HPP__
+#ifndef ABB_HARDWARE_INTERFACE__UTILITIES_HPP_
+#define ABB_HARDWARE_INTERFACE__UTILITIES_HPP_
 
 #include <string>
 
@@ -90,4 +91,4 @@ bool verify_state_machine_add_in_presence(const SystemIndicators &system_indicat
 }  // namespace robot
 }  // namespace abb
 
-#endif  // ABB_HARDWARE_INTERFACE__UTILITIES_HPP__
+#endif  // ABB_HARDWARE_INTERFACE__UTILITIES_HPP_
