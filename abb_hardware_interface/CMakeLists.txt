@@ -39,7 +39,7 @@ endforeach()
 add_library(
   ${PROJECT_NAME}
   SHARED
-  src/abb_system_position_only.cpp
+  src/abb_hardware_interface.cpp
   src/utilities.cpp
 )
 ament_target_dependencies(${PROJECT_NAME} ${THIS_PACKAGE_INCLUDE_DEPENDS})
