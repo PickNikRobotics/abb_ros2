@@ -62,32 +62,30 @@ MODULE TRob1Main
     !***********************************************************
     PROC main()
         MoveAbsJ home, v200, fine, tool0;
-        WHILE TRUE DO
+
             
-            ! Register an EGM id.
-            EGMGetId egm_id;
-            
-            ! Setup the EGM communication.
-            EGMSetupUC ROB_1, egm_id, "default", "ROB_1", \Joint;
-            
-            ! Prepare for an EGM communication session.
-            EGMActJoint egm_id
-                        \J1:=egm_condition
-                        \J2:=egm_condition
-                        \J3:=egm_condition
-                        \J4:=egm_condition
-                        \J5:=egm_condition
-                        \J6:=egm_condition
-                        \MaxSpeedDeviation:=20.0;
-                        
+        ! Register an EGM id.
+        EGMGetId egm_id;
+        
+        ! Setup the EGM communication.
+        EGMSetupUC ROB_1, egm_id, "default", "ROB_1", \Joint;
+        
+        ! Prepare for an EGM communication session.
+        EGMActJoint egm_id
+                    \J1:=egm_condition
+                    \J2:=egm_condition
+                    \J3:=egm_condition
+                    \J4:=egm_condition
+                    \J5:=egm_condition
+                    \J6:=egm_condition
+                    \MaxSpeedDeviation:=20.0;
+        WHILE TRUE DO            
             ! Start the EGM communication session.
-            EGMRunJoint egm_id, EGM_STOP_RAMP_DOWN, \J1 \J2 \J3 \J4 \J5 \J6 \CondTime:=5 \RampOutTime:=5;
-            
-            ! Release the EGM id.
-            EGMReset egm_id;
-            
-            WaitTime 5;
-        ENDWHILE
+            EGMRunJoint egm_id, EGM_STOP_HOLD, \J1 \J2 \J3 \J4 \J5 \J6 \CondTime:=5 \RampOutTime:=5;
+        ENDWHILE    
+        ! Release the EGM id.
+        EGMReset egm_id;
+    
         
     ERROR
         IF ERRNO = ERR_UDPUC_COMM THEN
