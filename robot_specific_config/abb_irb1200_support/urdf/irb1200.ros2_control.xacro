@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
 
-  <xacro:macro name="abb_ros2_control" params="name prefix use_fake_hardware:=true robotstudio_ip">
+  <xacro:macro name="abb_ros2_control" params="name prefix use_fake_hardware:=true rws_ip rws_port">
     <ros2_control name="${name}" type="system">
       <hardware>
         <!-- ros2_control simulation -->
@@ -13,8 +13,8 @@
         <!-- physical hardware or RobotStudio simulation -->
         <xacro:unless value="${use_fake_hardware}">
           <plugin>abb_hardware_interface/ABBSystemPositionOnlyHardware</plugin>
-          <param name="rws_port">80</param>
-          <param name="rws_ip">${robotstudio_ip}</param>
+          <param name="rws_port">${rws_port}</param>
+          <param name="rws_ip">${rws_ip}</param>
           <!-- The following parameter is used for the non-MultiMove only -->
           <param name="egm_port">6511</param>
           <!-- The following parameters are used for the MultiMove example only -->

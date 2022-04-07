@@ -66,14 +66,15 @@ On the ROS2 computer, set up the SSH port forward by typing the following comman
 
 ```ssh -L <DESTINATION_PORT>:localhost:<RWS_PORT> <ROBOTSTUDIO_USER>@<ROBOTSTUDIO_IP>```
 
-- Change `<DESTINATION_PORT>` to a port of your choice. Note that `sudo` is required to use ports 0-1023, as they are reserved. You may also need to change the `rws_port` parameter in the [robot description file](../robot_specific_config/abb_irb1200_support/urdf/irb1200.ros2_control.xacro) to match the port you selected. 
+- Change `<DESTINATION_PORT>` to a port of your choice. Note that `sudo` is required to use ports 0-1023, as they are reserved. 
 - Change `<RWS_PORT>` to the port used for RWS on the RobotStudio machine, typically 80.
 - Change `<ROBOTSTUDIO_USER>` to the Windows username on the RobotStudio computer. This account must have a password.
 - Change `<ROBOTSTUDIO_IP>` to the IP of the RobotStudio computer.
 
 Enter the Windows login password for the `<ROBOTSTUDIO_USER>` account when prompted.
 
-This will allow you to access RWS on the ROS2 computer on `127.0.0.1:<DESTINATION_PORT>`. When launching ROS, use this value for robotstudio_ip: `127.0.0.1`. The full launch command would be:
+This will allow you to access RWS on the ROS2 computer on `127.0.0.1:<DESTINATION_PORT>`. When launching ROS, use this value for rws_ip: `127.0.0.1`. The full launch command would be:
 
-    ros2 launch abb_bringup abb_control.launch.py description_package:=abb_irb1200_support description_file:=irb1200_5_90.xacro launch_rviz:=false moveit_config_package:=abb_irb1200_5_90_moveit_config use_fake_hardware:=false robotstudio_ip:=127.0.0.1
+    ros2 launch abb_bringup abb_control.launch.py description_package:=abb_irb1200_support description_file:=irb1200_5_90.xacro launch_rviz:=false moveit_config_package:=abb_irb1200_5_90_moveit_config use_fake_hardware:=false rws_ip:=127.0.0.1 rws_port:=<DESTINATION_PORT>
 
+Replace `<DESTINATION_PORT>` with the port you selected earlier.

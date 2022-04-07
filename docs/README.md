@@ -1,13 +1,13 @@
 # Building the package in ROS2
 
-Create a ROS2 workspace per the online tutorial. Clone this package into /src.
+Create a ROS2 workspace per the online tutorial. Clone this package into your workspace's `src` directory.
 
 Import package dependencies:
 
     sudo apt update
     sudo apt dist-upgrade
     rosdep update
-    cd /src
+    cd src
     vcs import < abb_ros2/abb.repos
     rosdep install -r --from-paths . --ignore-src --rosdistro $ROS_DISTRO -y
 
@@ -62,7 +62,7 @@ The simulation will then try to connect with the ROS2 driver every few seconds. 
 ## Connecting with ROS2
 Connecting RWS with ROS2 may require some configuration. See [Networking Configuration](./NetworkingConfiguration.md) for more details.
 
-The driver reqiures some network information to connect to EGM and RWS. This information is stored in the ros2_control [robot description file](../robot_specific_config/abb_irb1200_support/urdf/irb1200.ros2_control.xacro). Change the following lines as required:
+The driver requires some network information to connect to EGM and RWS. This information is stored in the ros2_control [robot description file](../robot_specific_config/abb_irb1200_support/urdf/irb1200.ros2_control.xacro). Change the following lines as required:
 
 ```
 <param name="rws_port">80</param>
@@ -77,9 +77,9 @@ The driver reqiures some network information to connect to EGM and RWS. This inf
      - If using the MultiMove example, add a line for the `extax` mechanical unit group and port 6512
      - If not using MultiMove, change the parameter name to `egm_port`
 
-To launch with RobotStudio, set `use_fake_hardware:=false` and `robotstudio_ip:=<ROBOTSTUDIO_IP>`, substituting `<ROBOTSTUDIO_IP>` with the IP of the RobotStudio computer. As far as ROS is aware, RobotStudio is a real robot:
+To launch with RobotStudio, set `use_fake_hardware:=false` and `rws_ip:=<ROBOTSTUDIO_IP>`, substituting `<ROBOTSTUDIO_IP>` with the IP of the RobotStudio computer. As far as ROS is aware, RobotStudio is a real robot:
 
-    ros2 launch abb_bringup abb_control.launch.py description_package:=abb_irb1200_support description_file:=irb1200_5_90.xacro launch_rviz:=false moveit_config_package:=abb_irb1200_5_90_moveit_config use_fake_hardware:=false robotstudio_ip:=<ROBOTSTUDIO_IP>
+    ros2 launch abb_bringup abb_control.launch.py description_package:=abb_irb1200_support description_file:=irb1200_5_90.xacro launch_rviz:=false moveit_config_package:=abb_irb1200_5_90_moveit_config use_fake_hardware:=false rws_ip:=<ROBOTSTUDIO_IP>
 
 After launching the controllers, launch MoveIt:
 
