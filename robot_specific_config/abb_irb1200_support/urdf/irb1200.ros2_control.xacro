@@ -15,7 +15,11 @@
           <plugin>abb_hardware_interface/ABBSystemPositionOnlyHardware</plugin>
           <param name="rws_port">80</param>
           <param name="rws_ip">${robotstudio_ip}</param>
-          <param name="rob1egm_port">6511</param>
+          <!-- The following parameter is used for the non-MultiMove only -->
+          <param name="egm_port">6511</param>
+          <!-- The following parameters are used for the MultiMove example only -->
+          <!-- <param name="rob1egm_port">6511</param> -->
+          <!-- <param name="extaxegm_port">6512</param> -->
         </xacro:unless>
       </hardware>
       <joint name="${prefix}joint_1">

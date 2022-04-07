@@ -48,8 +48,9 @@ MODULE TExtAxisMain
     !
     ! Procedure main
     !
-    !   This RAPID code exemplify how to run EGM joint position
-    !   motions.
+    !   This RAPID code exemplifies how to run EGM motions with an 
+    !   external axis. It can be started in parallel with a task
+    !   that runs EGM motions with a robot.
     !
     !   Note: Update the UCDevice "EXTAX" with correct
     !         values for the remote address and port
@@ -69,7 +70,7 @@ MODULE TExtAxisMain
         EGMSetupUC MU_250__01, egm_id, "default", "EXTAX", \Joint;
         
         ! Prepare for an EGM communication session.
-        EGMActJoint egm_id, \MaxSpeedDeviation:=20.0;
+        EGMActJoint egm_id;
 
         WHILE TRUE DO            
             ! Start the EGM communication session.
