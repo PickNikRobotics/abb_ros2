@@ -15,7 +15,7 @@
           <plugin>abb_hardware_interface/ABBSystemPositionOnlyHardware</plugin>
           <param name="rws_port">${rws_port}</param>
           <param name="rws_ip">${rws_ip}</param>
-          <!-- The following parameter is used for the non-MultiMove only -->
+          <!-- The following parameter is used for non-MultiMove only -->
           <param name="egm_port">6511</param>
           <!-- The following parameters are used for the MultiMove example only -->
           <!-- <param name="rob1egm_port">6511</param> -->
