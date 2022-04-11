@@ -31,19 +31,19 @@ MODULE TRob1Main
 ! OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
 ! THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 !======================================================================================================
-    
+
     !***********************************************************
     ! Program data
     !***********************************************************
     ! Home position.
     LOCAL CONST jointtarget home := [[0, 0, 0, 0, 30, 0], [9E9, 9E9, 9E9, 9E9, 9E9, 9E9]];
-    
+
     ! Identifier for the EGM correction.
     LOCAL VAR egmident egm_id;
-    
+
     ! Limits for convergance.
     LOCAL VAR egm_minmax egm_condition := [-0.1, 0.1];
-            
+
     !***********************************************************
     !
     ! Procedure main
@@ -63,13 +63,13 @@ MODULE TRob1Main
     PROC main()
         MoveAbsJ home, v200, fine, tool0;
 
-            
+
         ! Register an EGM id.
         EGMGetId egm_id;
-        
+
         ! Setup the EGM communication.
         EGMSetupUC ROB_1, egm_id, "default", "ROB_1", \Joint;
-        
+
         ! Prepare for an EGM communication session.
         EGMActJoint egm_id
                     \J1:=egm_condition
@@ -79,14 +79,14 @@ MODULE TRob1Main
                     \J5:=egm_condition
                     \J6:=egm_condition
                     \MaxSpeedDeviation:=20.0;
-        WHILE TRUE DO            
+        WHILE TRUE DO
             ! Start the EGM communication session.
             EGMRunJoint egm_id, EGM_STOP_HOLD, \J1 \J2 \J3 \J4 \J5 \J6 \CondTime:=5 \RampOutTime:=5;
-        ENDWHILE    
+        ENDWHILE
         ! Release the EGM id.
         EGMReset egm_id;
-    
-        
+
+
     ERROR
         IF ERRNO = ERR_UDPUC_COMM THEN
             TPWrite "Communication timedout";

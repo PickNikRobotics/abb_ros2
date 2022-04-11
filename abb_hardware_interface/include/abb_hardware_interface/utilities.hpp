@@ -40,6 +40,7 @@
 #pragma once
 
 #include <abb_egm_rws_managers/rws_manager.h>
+#include <string>
 
 namespace abb
 {

@@ -5,19 +5,20 @@
   <version>0.0.0</version>
   <description>ABB EGM driver for ros2 control</description>
 
-  <author email="dmitri.ignakov@taigarobotics.com">Dmitri Ignakov</author>
-
   <maintainer email="stephanie.eng@picknik.ai">Stephanie Eng</maintainer>
   <maintainer email="zelenak@picknik.ai">Andy Zelenak</maintainer>
-
+  
   <license>Apache2</license>
 
+  <author email="dmitri.ignakov@taigarobotics.com">Dmitri Ignakov</author>
+
   <buildtool_depend>ament_cmake</buildtool_depend>
-  
+
   <depend>abb_egm_rws_managers</depend>
   <depend>hardware_interface</depend>
   <depend>pluginlib</depend>
   <depend>rclcpp</depend>
+  <depend>rclcpp_lifecycle</depend>
 
   <test_depend>ament_cmake_gtest</test_depend>
 

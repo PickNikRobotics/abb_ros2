@@ -24,7 +24,6 @@ static const rclcpp::Logger LOGGER = rclcpp::get_logger("ABBSystemPositionOnlyHa
 
 CallbackReturn ABBSystemPositionOnlyHardware::on_init(const hardware_interface::HardwareInfo & info)
 {
-
   if (hardware_interface::SystemInterface::on_init(info) != CallbackReturn::SUCCESS) {
     return CallbackReturn::ERROR;
   }
@@ -94,20 +93,22 @@ CallbackReturn ABBSystemPositionOnlyHardware::on_init(const hardware_interface::
       LOGGER, "Failed to initialize motion data from robot controller description");
     return CallbackReturn::ERROR;
   }
-  
+
   // Create channel configuration for each mechanical unit group
   std::vector<abb::robot::EGMManager::ChannelConfiguration> channel_configurations;
   for (const auto & group : robot_controller_description_.mechanical_units_groups()) {
-    try{
+    try {
       const auto egm_port = stoi(info_.hardware_parameters[group.name() + "egm_port"]);
       const auto channel_configuration =
         abb::robot::EGMManager::ChannelConfiguration{static_cast<uint16_t>(egm_port), group};
       channel_configurations.emplace_back(channel_configuration);
-      RCLCPP_INFO_STREAM(LOGGER, "Configuring EGM for mechanical unit group "
-                                  << group.name() << " on port " << egm_port);
-    }
-    catch (std::invalid_argument & e){
-      RCLCPP_FATAL_STREAM(LOGGER, "EGM port for mechanical unit group \"" << group.name() << "\" not specified in hardware parameters");
+      RCLCPP_INFO_STREAM(
+        LOGGER,
+        "Configuring EGM for mechanical unit group " << group.name() << " on port " << egm_port);
+    } catch (std::invalid_argument & e) {
+      RCLCPP_FATAL_STREAM(
+        LOGGER, "EGM port for mechanical unit group \""
+          << group.name() << "\" not specified in hardware parameters");
       return CallbackReturn::ERROR;
     }
   }
@@ -144,9 +145,9 @@ ABBSystemPositionOnlyHardware::export_state_interfaces()
   return state_interfaces;
 }
 
-std::vector<hardware_interface::CommandInterface> ABBSystemPositionOnlyHardware::export_command_interfaces()
+std::vector<hardware_interface::CommandInterface>
+ABBSystemPositionOnlyHardware::export_command_interfaces()
 {
-
   std::vector<hardware_interface::CommandInterface> command_interfaces;
   for (auto & group : motion_data_.groups) {
     for (auto & unit : group.units) {
@@ -168,9 +169,9 @@ std::vector<hardware_interface::CommandInterface> ABBSystemPositionOnlyHardware:
   return command_interfaces;
 }
 
-CallbackReturn ABBSystemPositionOnlyHardware::on_activate(const rclcpp_lifecycle::State & /* previous_state */)
+CallbackReturn ABBSystemPositionOnlyHardware::on_activate(
+  const rclcpp_lifecycle::State & /* previous_state */)
 {
-
   size_t counter = 0;
   RCLCPP_INFO(LOGGER, "Connecting to robot...");
   while (rclcpp::ok() && ++counter < NUM_CONNECTION_TRIES) {
@@ -179,7 +180,7 @@ CallbackReturn ABBSystemPositionOnlyHardware::on_activate(const rclcpp_lifecycle
       RCLCPP_INFO(LOGGER, "Connected to robot");
       break;
     }
-    
+
     RCLCPP_INFO(LOGGER, "Not connected to robot...");
     if (counter == NUM_CONNECTION_TRIES) {
       RCLCPP_ERROR(LOGGER, "Failed to connect to robot");
