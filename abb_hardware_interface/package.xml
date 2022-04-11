@@ -9,9 +9,11 @@
   <maintainer email="zelenak@picknik.ai">Andy Zelenak</maintainer>
 
   <license>Apache2</license>
+  <license>BSD-3-Clause</license>
 
   <author email="dmitri.ignakov@taigarobotics.com">Dmitri Ignakov</author>
-
+  <author email="jon.tjerngren@se.abb.com">Jon Tjerngren</author
+  >
   <buildtool_depend>ament_cmake</buildtool_depend>
 
   <depend>abb_egm_rws_managers</depend>
