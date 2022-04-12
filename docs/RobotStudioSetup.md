@@ -38,7 +38,7 @@ The following steps will cover how to set up the controller for EGM with a robot
 
 ## RAPID Configuration
 
-4. Add the code from `TRob1Main.mod` to the RAPID module. This can be done by selecting the module on the sidebar, and copy-pasting the code into the editor, or by right-clicking the `T_ROB1` task, selecting `Load Module...`, and navigate to and selecting `TRob1Main.mod` in the file browser.
+4. Add the code from `TRob1Main.mod` to the RAPID module. This can be done by selecting the module on the sidebar, and copy-pasting the code into the editor, or by right-clicking the `T_ROB1` task, selecting `Load Module...`, and navigate to and selecting `TRob1Main.mod` in the file browser. Optionally, if velocity control will be used, load `velocity_control_example/TRob1Main.mod`.
 
 ![add module](images/egm4.png)
 

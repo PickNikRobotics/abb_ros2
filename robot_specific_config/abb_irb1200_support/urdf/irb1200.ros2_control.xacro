@@ -15,7 +15,7 @@
           <plugin>abb_hardware_interface/ABBSystemPositionOnlyHardware</plugin>
           <param name="rws_port">${rws_port}</param>
           <param name="rws_ip">${rws_ip}</param>
-          <!-- The following parameter is used for the non-MultiMove only -->
+          <!-- The following parameter is used for non-MultiMove only -->
           <param name="egm_port">6511</param>
           <!-- The following parameters are used for the MultiMove example only -->
           <!-- <param name="rob1egm_port">6511</param> -->
@@ -27,54 +27,66 @@
           <param name="min">{-2*pi}</param>
           <param name="max">{2*pi}</param>
         </command_interface>
+        <command_interface name="velocity"/>
         <state_interface name="position">
           <param name="initial_value">0.0</param>
         </state_interface>
+        <state_interface name="velocity"/>
       </joint>
       <joint name="${prefix}joint_2">
         <command_interface name="position">
           <param name="min">-2.41</param>
           <param name="max">2.41</param>
         </command_interface>
+        <command_interface name="velocity"/>
         <state_interface name="position">
           <param name="initial_value">0.0</param>
         </state_interface>
+        <state_interface name="velocity"/>
       </joint>
       <joint name="${prefix}joint_3">
         <command_interface name="position">
           <param name="min">{-2*pi}</param>
           <param name="max">{2*pi}</param>
         </command_interface>
+        <command_interface name="velocity"/>
         <state_interface name="position">
           <param name="initial_value">0.0</param>
         </state_interface>
+        <state_interface name="velocity"/>
       </joint>
       <joint name="${prefix}joint_4">
         <command_interface name="position">
           <param name="min">-2.66</param>
           <param name="max">2.66</param>
         </command_interface>
+        <command_interface name="velocity"/>
         <state_interface name="position">
           <param name="initial_value">0.0</param>
         </state_interface>
+        <state_interface name="velocity"/>
       </joint>
       <joint name="${prefix}joint_5">
         <command_interface name="position">
           <param name="min">{-2*pi}</param>
           <param name="max">{2*pi}</param>
         </command_interface>
+        <command_interface name="velocity"/>
         <state_interface name="position">
           <param name="initial_value">0.0</param>
         </state_interface>
+        <state_interface name="velocity"/>
       </joint>
       <joint name="${prefix}joint_6">
         <command_interface name="position">
           <param name="min">-2.23</param>
           <param name="max">2.23</param>
         </command_interface>
+        <command_interface name="velocity"/>
         <state_interface name="position">
           <param name="initial_value">0.0</param>
         </state_interface>
+        <state_interface name="velocity"/>
       </joint>
     </ros2_control>
   </xacro:macro>
