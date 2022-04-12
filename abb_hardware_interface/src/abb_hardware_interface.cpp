@@ -41,75 +41,51 @@ CallbackReturn ABBSystemPositionOnlyHardware::on_init(const hardware_interface::
   // Get robot controller description from RWS
   abb::robot::RWSManager rws_manager(rws_ip, rws_port, "Default User", "robotics");
   const auto robot_controller_description_ =
-<<<<<<< HEAD:abb_hardware_interface/src/abb_hardware_interface.cpp
-    abb::robot::utilities::establishRWSConnection(rws_manager, "IRB1200", true);
-  RCLCPP_INFO_STREAM(
-    LOGGER, "Robot controller description:\n"
-      << abb::robot::summaryText(robot_controller_description_));
-
-  for (const hardware_interface::ComponentInfo & joint : info_.joints) {
-    if (joint.command_interfaces.size() != 2) {
-      RCLCPP_FATAL(LOGGER, "Joint '%s' has %zu command interfaces found. 2 expected.", joint.name.c_str(),
-                   joint.command_interfaces.size());
-      return CallbackReturn::ERROR;
-    }
-
-    if (joint.command_interfaces[0].name != hardware_interface::HW_IF_POSITION) {
-      RCLCPP_FATAL(LOGGER, "Joint '%s' have %s command interfaces found as first command interface. '%s' expected.",
-                   joint.name.c_str(), joint.command_interfaces[0].name.c_str(), hardware_interface::HW_IF_POSITION);
-      return CallbackReturn::ERROR;
-    }
-    
-    if (joint.command_interfaces[1].name != hardware_interface::HW_IF_VELOCITY) {
-      RCLCPP_FATAL(LOGGER, "Joint '%s' have %s command interfaces found as second command interface. '%s' expected.",
-                   joint.name.c_str(), joint.command_interfaces[1].name.c_str(), hardware_interface::HW_IF_VELOCITY);
-      return CallbackReturn::ERROR;
-    }
-
-    if (joint.state_interfaces.size() != 2) {
-      RCLCPP_FATAL(LOGGER, "Joint '%s' has %zu state interface. 2 expected.",
-                   joint.name.c_str(), joint.state_interfaces.size());
-      return CallbackReturn::ERROR;
-    }
-
-    if (joint.state_interfaces[0].name != hardware_interface::HW_IF_POSITION) {
-      RCLCPP_FATAL(LOGGER, "Joint '%s' have %s state interface as first state interface. '%s' expected.", joint.name.c_str(),
-                   joint.state_interfaces[0].name.c_str(), hardware_interface::HW_IF_POSITION);
-      return CallbackReturn::ERROR;
-    }
-  
-    if (joint.state_interfaces[1].name != hardware_interface::HW_IF_VELOCITY) {
-      RCLCPP_FATAL(LOGGER, "Joint '%s' have %s state interface as first state interface. '%s' expected.", joint.name.c_str(),
-                   joint.state_interfaces[1].name.c_str(), hardware_interface::HW_IF_VELOCITY);
-=======
       abb::robot::utilities::establishRWSConnection(rws_manager, "IRB1200", true);
   RCLCPP_INFO_STREAM(LOGGER, "Robot controller description:\n"
                                  << abb::robot::summaryText(robot_controller_description_));
 
   for (const hardware_interface::ComponentInfo& joint : info_.joints)
   {
-    if (joint.command_interfaces.size() != 1)
+    if (joint.command_interfaces.size() != 2)
     {
-      RCLCPP_FATAL(LOGGER, "Expecting exactly 1 command interface");
+      RCLCPP_FATAL(LOGGER, "Joint '%s' has %zu command interfaces found. 2 expected.", joint.name.c_str(),
+                   joint.command_interfaces.size());
       return CallbackReturn::ERROR;
     }
 
     if (joint.command_interfaces[0].name != hardware_interface::HW_IF_POSITION)
     {
-      RCLCPP_FATAL(LOGGER, "Expecting only POSITION command interface");
+      RCLCPP_FATAL(LOGGER, "Joint '%s' have %s command interfaces found as first command interface. '%s' expected.",
+                   joint.name.c_str(), joint.command_interfaces[0].name.c_str(), hardware_interface::HW_IF_POSITION);
       return CallbackReturn::ERROR;
     }
 
-    if (joint.state_interfaces.size() != 1)
+    if (joint.command_interfaces[1].name != hardware_interface::HW_IF_VELOCITY)
     {
-      RCLCPP_FATAL(LOGGER, "Expecting exactly 1 state interface");
+      RCLCPP_FATAL(LOGGER, "Joint '%s' have %s command interfaces found as second command interface. '%s' expected.",
+                   joint.name.c_str(), joint.command_interfaces[1].name.c_str(), hardware_interface::HW_IF_VELOCITY);
+      return CallbackReturn::ERROR;
+    }
+
+    if (joint.state_interfaces.size() != 2)
+    {
+      RCLCPP_FATAL(LOGGER, "Joint '%s' has %zu state interface. 2 expected.", joint.name.c_str(),
+                   joint.state_interfaces.size());
       return CallbackReturn::ERROR;
     }
 
     if (joint.state_interfaces[0].name != hardware_interface::HW_IF_POSITION)
     {
-      RCLCPP_FATAL(LOGGER, "Expecting only POSITION state interface");
->>>>>>> Add format test:abb_hardware_interface/src/abb_system_position_only.cpp
+      RCLCPP_FATAL(LOGGER, "Joint '%s' have %s state interface as first state interface. '%s' expected.",
+                   joint.name.c_str(), joint.state_interfaces[0].name.c_str(), hardware_interface::HW_IF_POSITION);
+      return CallbackReturn::ERROR;
+    }
+
+    if (joint.state_interfaces[1].name != hardware_interface::HW_IF_VELOCITY)
+    {
+      RCLCPP_FATAL(LOGGER, "Joint '%s' have %s state interface as first state interface. '%s' expected.",
+                   joint.name.c_str(), joint.state_interfaces[1].name.c_str(), hardware_interface::HW_IF_VELOCITY);
       return CallbackReturn::ERROR;
     }
   }
@@ -175,15 +151,9 @@ std::vector<hardware_interface::StateInterface> ABBSystemPositionOnlyHardware::e
         const auto pos = joint.name.find("joint");
         const auto joint_name = joint.name.substr(pos);
         state_interfaces.emplace_back(
-<<<<<<< HEAD:abb_hardware_interface/src/abb_hardware_interface.cpp
-          hardware_interface::StateInterface(
-            joint_name, hardware_interface::HW_IF_POSITION, &joint.state.position));
-        state_interfaces.emplace_back(
-          hardware_interface::StateInterface(
-            joint_name, hardware_interface::HW_IF_VELOCITY, &joint.state.velocity));
-=======
             hardware_interface::StateInterface(joint_name, hardware_interface::HW_IF_POSITION, &joint.state.position));
->>>>>>> Add format test:abb_hardware_interface/src/abb_system_position_only.cpp
+        state_interfaces.emplace_back(
+            hardware_interface::StateInterface(joint_name, hardware_interface::HW_IF_VELOCITY, &joint.state.velocity));
       }
     }
   }
@@ -205,8 +175,7 @@ std::vector<hardware_interface::CommandInterface> ABBSystemPositionOnlyHardware:
         const auto joint_name = joint.name.substr(pos);
         command_interfaces.emplace_back(hardware_interface::CommandInterface(
             joint_name, hardware_interface::HW_IF_POSITION, &joint.command.position));
-        command_interfaces.emplace_back(
-          hardware_interface::CommandInterface(
+        command_interfaces.emplace_back(hardware_interface::CommandInterface(
             joint_name, hardware_interface::HW_IF_VELOCITY, &joint.command.velocity));
       }
     }
