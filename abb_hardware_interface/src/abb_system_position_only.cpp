@@ -33,7 +33,7 @@ CallbackReturn ABBSystemPositionOnlyHardware::on_init(const hardware_interface::
   const auto rws_ip = info_.hardware_parameters["rws_ip"];
 
   if (rws_ip == "None"){
-    RCLCPP_FATAL(LOGGER, "Robot studio IP not specified");
+    RCLCPP_FATAL(LOGGER, "RWS IP not specified");
     return CallbackReturn::ERROR;
   }
 
