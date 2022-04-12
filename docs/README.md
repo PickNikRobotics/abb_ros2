@@ -68,11 +68,7 @@ The simulation will then try to connect with the ROS2 driver every few seconds. 
 ## Connecting with ROS2
 Connecting RWS with ROS2 may require some configuration. See [Networking Configuration](./NetworkingConfiguration.md) for more details.
 
-<<<<<<< HEAD
-The driver requires some network information to connect to EGM and RWS. This information is stored in the ros2_control [robot description file](../robot_specific_config/abb_irb1200_support/urdf/irb1200.ros2_control.xacro). Change the following lines as required:
-=======
 The driver reqiures some network information to connect to EGM and RWS. This information is stored in the ros2_control [robot description file](../robot_specific_config/abb_irb1200_support/urdf/irb1200.ros2_control.xacro). Change the following lines as required (below configured for an example not using MultiMove):
->>>>>>> cca3104... Add RAPID module for velocity control, README updates
 
 ```
 <param name="rws_port">80</param>
