@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include <abb_hardware_interface/abb_system_position_only.hpp>
+#include <abb_hardware_interface/abb_hardware_interface.hpp>
 #include <abb_hardware_interface/utilities.hpp>
 
 using namespace std::chrono_literals;
@@ -33,7 +33,7 @@ CallbackReturn ABBSystemPositionOnlyHardware::on_init(const hardware_interface::
   const auto rws_ip = info_.hardware_parameters["rws_ip"];
 
   if (rws_ip == "None"){
-    RCLCPP_FATAL(LOGGER, "Robot studio IP not specified");
+    RCLCPP_FATAL(LOGGER, "RWS IP not specified");
     return CallbackReturn::ERROR;
   }
 
@@ -46,23 +46,39 @@ CallbackReturn ABBSystemPositionOnlyHardware::on_init(const hardware_interface::
       << abb::robot::summaryText(robot_controller_description_));
 
   for (const hardware_interface::ComponentInfo & joint : info_.joints) {
-    if (joint.command_interfaces.size() != 1) {
-      RCLCPP_FATAL(LOGGER, "Expecting exactly 1 command interface");
+    if (joint.command_interfaces.size() != 2) {
+      RCLCPP_FATAL(LOGGER, "Joint '%s' has %zu command interfaces found. 2 expected.", joint.name.c_str(),
+                   joint.command_interfaces.size());
       return CallbackReturn::ERROR;
     }
 
     if (joint.command_interfaces[0].name != hardware_interface::HW_IF_POSITION) {
-      RCLCPP_FATAL(LOGGER, "Expecting only POSITION command interface");
+      RCLCPP_FATAL(LOGGER, "Joint '%s' have %s command interfaces found as first command interface. '%s' expected.",
+                   joint.name.c_str(), joint.command_interfaces[0].name.c_str(), hardware_interface::HW_IF_POSITION);
+      return CallbackReturn::ERROR;
+    }
+    
+    if (joint.command_interfaces[1].name != hardware_interface::HW_IF_VELOCITY) {
+      RCLCPP_FATAL(LOGGER, "Joint '%s' have %s command interfaces found as second command interface. '%s' expected.",
+                   joint.name.c_str(), joint.command_interfaces[1].name.c_str(), hardware_interface::HW_IF_VELOCITY);
       return CallbackReturn::ERROR;
     }
 
-    if (joint.state_interfaces.size() != 1) {
-      RCLCPP_FATAL(LOGGER, "Expecting exactly 1 state interface");
+    if (joint.state_interfaces.size() != 2) {
+      RCLCPP_FATAL(LOGGER, "Joint '%s' has %zu state interface. 2 expected.",
+                   joint.name.c_str(), joint.state_interfaces.size());
       return CallbackReturn::ERROR;
     }
 
     if (joint.state_interfaces[0].name != hardware_interface::HW_IF_POSITION) {
-      RCLCPP_FATAL(LOGGER, "Expecting only POSITION state interface");
+      RCLCPP_FATAL(LOGGER, "Joint '%s' have %s state interface as first state interface. '%s' expected.", joint.name.c_str(),
+                   joint.state_interfaces[0].name.c_str(), hardware_interface::HW_IF_POSITION);
+      return CallbackReturn::ERROR;
+    }
+  
+    if (joint.state_interfaces[1].name != hardware_interface::HW_IF_VELOCITY) {
+      RCLCPP_FATAL(LOGGER, "Joint '%s' have %s state interface as first state interface. '%s' expected.", joint.name.c_str(),
+                   joint.state_interfaces[1].name.c_str(), hardware_interface::HW_IF_VELOCITY);
       return CallbackReturn::ERROR;
     }
   }
@@ -119,6 +135,9 @@ ABBSystemPositionOnlyHardware::export_state_interfaces()
         state_interfaces.emplace_back(
           hardware_interface::StateInterface(
             joint_name, hardware_interface::HW_IF_POSITION, &joint.state.position));
+        state_interfaces.emplace_back(
+          hardware_interface::StateInterface(
+            joint_name, hardware_interface::HW_IF_VELOCITY, &joint.state.velocity));
       }
     }
   }
@@ -139,6 +158,9 @@ std::vector<hardware_interface::CommandInterface> ABBSystemPositionOnlyHardware:
         command_interfaces.emplace_back(
           hardware_interface::CommandInterface(
             joint_name, hardware_interface::HW_IF_POSITION, &joint.command.position));
+        command_interfaces.emplace_back(
+          hardware_interface::CommandInterface(
+            joint_name, hardware_interface::HW_IF_VELOCITY, &joint.command.velocity));
       }
     }
   }
