@@ -70,10 +70,17 @@ install(
 #############
 
 if(BUILD_TESTING)
+  find_package(ament_cmake_gtest REQUIRED)
+  find_package(ros_testing REQUIRED)
   find_package(ament_lint_auto REQUIRED)
   # Disable ament_copyright
   set(ament_cmake_copyright_FOUND TRUE)
   ament_lint_auto_find_test_dependencies()
+
+  # GTests
+  ament_add_gtest_executable(test_command_topics test/test_command_topics.cpp)
+  ament_target_dependencies(test_command_topics ${THIS_PACKAGE_INCLUDE_DEPENDS})
+  add_ros_test(test/launch/test_command_topics.test.py TIMEOUT 120 ARGS "test_binary_dir:=${CMAKE_CURRENT_BINARY_DIR}")
 endif()
 
 ament_export_include_directories(include)
