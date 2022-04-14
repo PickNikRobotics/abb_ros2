@@ -23,6 +23,7 @@ set(THIS_PACKAGE_INCLUDE_DEPENDS
     hardware_interface
     pluginlib
     rclcpp
+    rclcpp_lifecycle
 )
 
 # find dependencies
@@ -70,6 +71,8 @@ install(
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
+  # Disable ament_copyright
+  set(ament_cmake_copyright_FOUND TRUE)
   ament_lint_auto_find_test_dependencies()
 endif()
 

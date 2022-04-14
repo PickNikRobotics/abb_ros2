@@ -40,6 +40,7 @@
 #pragma once
 
 #include <abb_egm_rws_managers/rws_manager.h>
+#include <string>
 
 namespace abb
 {
@@ -60,9 +61,8 @@ namespace utilities
  *
  * \throw std::runtime_error if unable to establish a connection.
  */
-RobotControllerDescription establishRWSConnection(
-  RWSManager & rws_manager, const std::string & robot_controller_id,
-  const bool no_connection_timeout);
+RobotControllerDescription establishRWSConnection(RWSManager& rws_manager, const std::string& robot_controller_id,
+                                                  const bool no_connection_timeout);
 
 }  // namespace utilities
 }  // namespace robot

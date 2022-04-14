@@ -95,7 +95,7 @@ Your Mechanical Unit configuration should look like the screenshot below:
 11. Click Mechanical Unit Group under the Type list. Right-click to add a new Mechanical Unit Group. If you can't see the Mechanical Unit Group option, check if the [MultiMove option was enabled](#setting-up-a-new-multimove-robot).
     - Set the Mechanical Unit Group name. The Pack and Go example has uses the name `extax`
     - Select a unique motion planner (this cannot be the same as the motion planner for `ROB_1`). The Pack and Go example uses `motion_planner_2`
-    - Set Mechanical Unit 1 to be the name of the external axis Mechanical Unit Group from above (`MU_250__01` in the example) 
+    - Set Mechanical Unit 1 to be the name of the external axis Mechanical Unit Group from above (`MU_250__01` in the example)
 
 ![new mug](images/multimove7.PNG)
 
@@ -147,6 +147,5 @@ Finally, we need to add a RAPID module for the new tasks we created.
     - In the module, change line 70 to reflect the Mechanical Unit name and the transmission protocol name if not using the same names as used in the example.
 
     ```EGMSetupUC <MECH UNIT NAME>, egm_id, "default", "<TRANSMISSION PROTOCOL NAME>", \Joint;```
-    
-    - Substitute `<MECH UNIT NAME>` with the Mechanical Unit name (`MU_250__1` in the example) and `<TRANSMISSION PROTOCOL NAME>` (keep the quotes around it) to the transmission protocol name (`EXTAX` in the example).
 
+    - Substitute `<MECH UNIT NAME>` with the Mechanical Unit name (`MU_250__1` in the example) and `<TRANSMISSION PROTOCOL NAME>` (keep the quotes around it) to the transmission protocol name (`EXTAX` in the example).
