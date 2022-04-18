@@ -15,16 +15,26 @@ import unittest
 
 def generate_test_description():
 
-    launch_abb_control = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource([os.path.join(get_package_share_directory('abb_bringup'), 'launch', 'abb_control.launch.py')]),
-        launch_arguments={
-            'description_package': 'abb_irb1200_support',
-            'description_file' : 'irb1200_5_90.xacro',
-            'launch_rviz':'false',
-            'moveit_config_package' :' abb_irb1200_5_90_moveit_config',
-            'use_fake_hardware' : 'true',
+    launch_abb_control = (
+        IncludeLaunchDescription(
+            PythonLaunchDescriptionSource(
+                [
+                    os.path.join(
+                        get_package_share_directory("abb_bringup"),
+                        "launch",
+                        "abb_control.launch.py",
+                    )
+                ]
+            ),
+            launch_arguments={
+                "description_package": "abb_irb1200_support",
+                "description_file": "irb1200_5_90.xacro",
+                "launch_rviz": "false",
+                "moveit_config_package": " abb_irb1200_5_90_moveit_config",
+                "use_fake_hardware": "true",
             }.items(),
-    ),
+        ),
+    )
     robot_description_content = Command(
         [
             PathJoinSubstitution([FindExecutable(name="xacro")]),
@@ -113,6 +123,4 @@ class TestGTestWaitForCompletion(unittest.TestCase):
 class TestGTestProcessPostShutdown(unittest.TestCase):
     # Checks if the test has been completed with acceptable exit codes
     def test_gtest_pass(self, proc_info, test_command_topics):
-        launch_testing.asserts.assertExitCodes(
-            proc_info, process=test_command_topics
-        )
+        launch_testing.asserts.assertExitCodes(proc_info, process=test_command_topics)
