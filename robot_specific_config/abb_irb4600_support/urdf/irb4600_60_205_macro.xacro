@@ -1,5 +1,7 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://ros.org/wiki/xacro">
+  <xacro:include filename="$(find abb_resources)/urdf/common_materials.xacro"/>
+
   <xacro:macro name="abb_irb4600_60_205" params="prefix">
     <!-- link list -->
     <link name="${prefix}base_link">
@@ -142,7 +144,7 @@
     </joint>
     <!-- end of joint list -->
 
-    <!-- ROS-Industrial 'base' frame: base_link to ABB World Coordinates transform -->
+    <!-- ROS-Industrial 'base' frame- base_link to ABB World Coordinates transform -->
     <link name="${prefix}base" />
     <joint name="${prefix}base_link-base" type="fixed">
       <origin xyz="0 0 0" rpy="0 0 0"/>
@@ -150,7 +152,7 @@
       <child link="${prefix}base"/>
     </joint>
 
-    <!-- ROS-Industrial 'flange' frame: attachment point for EEF models -->
+    <!-- ROS-Industrial 'flange' frame- attachment point for EEF models -->
     <link name="${prefix}flange"/>
     <joint type="fixed" name="${prefix}joint_6-flange">
       <origin xyz="0 0 0" rpy="0 0 0"/>
@@ -158,7 +160,7 @@
       <child link="${prefix}flange"/>
     </joint>
 
-    <!-- ROS-Industrial 'tool0' frame: all-zeros tool frame -->
+    <!-- ROS-Industrial 'tool0' frame- all-zeros tool frame -->
     <link name="${prefix}tool0" />
     <joint name="${prefix}link_6-tool0" type="fixed">
       <origin xyz="0 0 0" rpy="0 ${radians(90)} 0" />
