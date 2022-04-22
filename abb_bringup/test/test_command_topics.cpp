@@ -4,7 +4,7 @@
 #include <rclcpp/rclcpp.hpp>
 #include <trajectory_msgs/msg/joint_trajectory.hpp>
 
-namespace minimal_integration_test
+namespace abb_bringup
 {
 class TaskPlanningFixture : public testing::Test
 {
@@ -13,13 +13,6 @@ public:
   {
   }
 
-  void SetUp() override
-  {
-  }
-
-  void TearDown() override
-  {
-  }
 
 protected:
   rclcpp::Node::SharedPtr node_;
@@ -48,7 +41,7 @@ TEST_F(TaskPlanningFixture, ControllerTopicsTest)
     EXPECT_EQ(it->second.front(), topic_type);
   }
 }
-}  // namespace minimal_integration_test
+}  // namespace abb_bringup
 
 int main(int argc, char** argv)
 {

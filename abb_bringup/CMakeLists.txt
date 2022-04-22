@@ -10,8 +10,9 @@ install(DIRECTORY config launch
 
 if(BUILD_TESTING)
   find_package(ament_cmake_gtest REQUIRED)
-  find_package(ros_testing REQUIRED)
   find_package(ament_lint_auto REQUIRED)
+  find_package(rclcpp REQUIRED)
+  find_package(ros_testing REQUIRED)
   find_package(trajectory_msgs REQUIRED)
   # GTests
   ament_add_gtest_executable(test_command_topics test/test_command_topics.cpp)
