@@ -13,6 +13,16 @@
 
   <buildtool_depend>ament_cmake</buildtool_depend>
 
+  <test_depend>rclcpp</test_depend>
+  <test_depend>abb_irb1200_5_90_moveit_config</test_depend>
+  <test_depend>abb_irb1200_support</test_depend>
+  <test_depend>abb_resources</test_depend>
+  <test_depend>ament_cmake_gtest</test_depend>
+  <test_depend>ament_lint_auto</test_depend>
+  <test_depend>ament_lint_cmake</test_depend>
+  <test_depend>ros_testing</test_depend>
+  <test_depend>trajectory_msgs</test_depend>
+
   <exec_depend>controller_manager</exec_depend>
   <exec_depend>joint_state_publisher</exec_depend>
   <exec_depend>joint_trajectory_controller</exec_depend>
