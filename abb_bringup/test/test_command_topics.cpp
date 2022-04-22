@@ -13,7 +13,6 @@ public:
   {
   }
 
-
 protected:
   rclcpp::Node::SharedPtr node_;
 };
