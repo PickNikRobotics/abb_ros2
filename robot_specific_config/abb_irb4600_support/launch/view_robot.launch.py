@@ -4,9 +4,15 @@ import os
 import yaml
 from launch import LaunchDescription
 from launch_ros.actions import Node
-from launch.actions import ExecuteProcess
-from ament_index_python.packages import get_package_share_directory
-import xacro
+from launch_ros.substitutions import FindPackageShare
+from launch.actions import ExecuteProcess, DeclareLaunchArgument
+from launch.substitutions import (
+    Command,
+    FindExecutable,
+    LaunchConfiguration,
+    PathJoinSubstitution,
+    TextSubstitution
+)
 
 
 def load_file(package_name, file_path):
@@ -32,17 +38,33 @@ def load_yaml(package_name, file_path):
 
 
 def generate_launch_description():
-
-    robot_description_path = get_package_share_directory("abb_irb4600_support")
-
-    robot_description_config = xacro.process_file(
-        os.path.join(
-            robot_description_path,
-            "urdf",
-            "irb4600_60_205.xacro",
-        )
+    description_file_arg = DeclareLaunchArgument(
+        "description_file",
+        default_value=TextSubstitution(text="irb4600_60_205.xacro"),
+        description="Name of a supported robot description file in package."
     )
-    robot_description = {"robot_description": robot_description_config.toxml()}
+    description_file = LaunchConfiguration("description_file")
+
+    # robot_description_path = get_package_share_directory("abb_irb4600_support")
+
+    robot_description_content = Command(
+        [
+            PathJoinSubstitution([FindExecutable(name="xacro")]),
+            " ",
+            PathJoinSubstitution(
+                [FindPackageShare("abb_irb4600_support"), "urdf", description_file]
+            ),
+        ]
+    )
+
+    # robot_description_config = xacro.process_file(
+    #     PathJoinSubstitution([
+    #         robot_description_path,
+    #         "urdf",
+    #         description_file,
+    #     ])
+    # )
+    robot_description = {"robot_description": robot_description_content}
 
     robot_state_publisher_node = Node(
         package="robot_state_publisher",
@@ -63,9 +85,16 @@ def generate_launch_description():
         name="rviz2",
         arguments=[
             "-d",
-            os.path.join(robot_description_path, "rviz", "urdf_description.rviz"),
+            PathJoinSubstitution(
+                [FindPackageShare("abb_irb4600_support"), "rviz", "urdf_description.rviz"]
+            ),
         ],
         output="screen",
     )
 
-    return LaunchDescription([robot_state_publisher_node, joint_state_sliders, rviz])
+    return LaunchDescription([
+        description_file_arg,
+        robot_state_publisher_node,
+        joint_state_sliders,
+        rviz
+    ])
