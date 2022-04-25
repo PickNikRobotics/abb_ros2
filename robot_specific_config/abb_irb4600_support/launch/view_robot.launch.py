@@ -45,8 +45,6 @@ def generate_launch_description():
     )
     description_file = LaunchConfiguration("description_file")
 
-    # robot_description_path = get_package_share_directory("abb_irb4600_support")
-
     robot_description_content = Command(
         [
             PathJoinSubstitution([FindExecutable(name="xacro")]),
@@ -57,13 +55,6 @@ def generate_launch_description():
         ]
     )
 
-    # robot_description_config = xacro.process_file(
-    #     PathJoinSubstitution([
-    #         robot_description_path,
-    #         "urdf",
-    #         description_file,
-    #     ])
-    # )
     robot_description = {"robot_description": robot_description_content}
 
     robot_state_publisher_node = Node(
