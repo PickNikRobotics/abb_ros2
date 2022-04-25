@@ -11,7 +11,7 @@ from launch.substitutions import (
     FindExecutable,
     LaunchConfiguration,
     PathJoinSubstitution,
-    TextSubstitution
+    TextSubstitution,
 )
 
 
@@ -41,7 +41,7 @@ def generate_launch_description():
     description_file_arg = DeclareLaunchArgument(
         "description_file",
         default_value=TextSubstitution(text="irb4600_60_205.xacro"),
-        description="Name of a supported robot description file in package."
+        description="Name of a supported robot description file in package.",
     )
     description_file = LaunchConfiguration("description_file")
 
@@ -86,15 +86,16 @@ def generate_launch_description():
         arguments=[
             "-d",
             PathJoinSubstitution(
-                [FindPackageShare("abb_irb4600_support"), "rviz", "urdf_description.rviz"]
+                [
+                    FindPackageShare("abb_irb4600_support"),
+                    "rviz",
+                    "urdf_description.rviz",
+                ]
             ),
         ],
         output="screen",
     )
 
-    return LaunchDescription([
-        description_file_arg,
-        robot_state_publisher_node,
-        joint_state_sliders,
-        rviz
-    ])
+    return LaunchDescription(
+        [description_file_arg, robot_state_publisher_node, joint_state_sliders, rviz]
+    )
