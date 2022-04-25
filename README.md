@@ -23,3 +23,19 @@ Detailed setup instructions can be found [here](docs/README.md).
 ## Limitations:
 
 The IRB1200-5-0.9 is the only robot that has robot description and config files as of March 2022. Pull requests to add additional robot types are welcome.
+
+## Contributing
+
+### pre-commit Formatting Checks
+
+This package has a pre-commit check that runs in CI. You can use this locally and set it up to run automatically before you commit something. To install, use pip:
+
+    pip3 install pre-commit
+
+To run over all the files in the repo manually:
+
+    pre-commit run -a
+
+To run pre-commit automatically before committing in a local repo, install git hooks:
+
+    pre-commit install

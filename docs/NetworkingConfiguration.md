@@ -66,7 +66,7 @@ On the ROS2 computer, set up the SSH port forward by typing the following comman
 
 ```ssh -L <DESTINATION_PORT>:localhost:<RWS_PORT> <ROBOTSTUDIO_USER>@<ROBOTSTUDIO_IP>```
 
-- Change `<DESTINATION_PORT>` to a port of your choice. Note that `sudo` is required to use ports 0-1023, as they are reserved. 
+- Change `<DESTINATION_PORT>` to a port of your choice. Note that `sudo` is required to use ports 0-1023, as they are reserved.
 - Change `<RWS_PORT>` to the port used for RWS on the RobotStudio machine, typically 80.
 - Change `<ROBOTSTUDIO_USER>` to the Windows username on the RobotStudio computer. This account must have a password.
 - Change `<ROBOTSTUDIO_IP>` to the IP of the RobotStudio computer.
