@@ -62,11 +62,11 @@ RWSStatePublisherROS::RWSStatePublisherROS(const rclcpp::Node::SharedPtr& node, 
                   rmw_qos_profile_sensor_data);
   joint_state_pub_ = node_->create_publisher<sensor_msgs::msg::JointState>("~/joint_states", sensor_qos);
 
-  system_state_pub_ = node_->create_publisher<abb_robot_msgs::msg::SystemState>("~/system_state", 1);
+  system_state_pub_ = node_->create_publisher<abb_robot_msgs::msg::SystemState>("~/system_states", 1);
 
   if (abb::robot::utilities::verify_state_machine_add_in_presence(robot_controller_description_.system_indicators())) {
     runtime_state_pub_ =
-        node_->create_publisher<abb_rapid_sm_addin_msgs::msg::RuntimeState>("~/sm_addin/runtime_state", 1);
+        node_->create_publisher<abb_rapid_sm_addin_msgs::msg::RuntimeState>("~/sm_addin/runtime_states", 1);
   }
 }
 
@@ -132,7 +132,11 @@ void RWSStatePublisherROS::timer_callback() {
   system_state_msg.header.stamp = time;
   system_state_pub_->publish(system_state_msg);
 
-  sm_runtime_state_msg.header.stamp = time;
-  runtime_state_pub_->publish(sm_runtime_state_msg);
+    if (abb::robot::utilities::verify_state_machine_add_in_presence(robot_controller_description_.system_indicators()))
+    {
+      sm_runtime_state_msg.header.stamp = time;
+      runtime_state_pub_->publish(sm_runtime_state_msg);
+    }
+
 }
 }  // namespace abb_rws_client
