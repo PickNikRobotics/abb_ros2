@@ -7,6 +7,9 @@ controller_manager:
 
     joint_trajectory_controller:
       type: joint_trajectory_controller/JointTrajectoryController
+    
+    joint_traj_compliance_controller:
+      type: joint_traj_compliance_controller/JointTrajComplianceController
 
     forward_command_controller_position:
       type: forward_command_controller/ForwardCommandController
@@ -33,6 +36,43 @@ joint_trajectory_controller:
       stopped_velocity_tolerance: 0.0
       goal_time: 0.0
 
+      
+joint_traj_compliance_controller:
+  ros__parameters:
+    joints:
+      - joint_1
+      - joint_2
+      - joint_3
+      - joint_4
+      - joint_5
+      - joint_6
+    command_interfaces:
+      - position
+      - velocity
+    state_interfaces:
+      - position
+      - velocity
+    state_publish_rate: 250.0
+    action_monitor_rate: 20.0
+    allow_partial_joints_goal: false
+    constraints:
+      stopped_velocity_tolerance: 0.0
+      goal_time: 0.0
+    gains:
+      #!!These values have not been optimized!!
+      joint_1: {p: 0.0,  d: 0.0, i: 0.0, i_clamp: 1.0}
+      joint_2: {p: 0.0,  d: 0.0, i: 0.0, i_clamp: 1.0}
+      joint_3: {p: 0.0,  d: 0.0, i: 0.0, i_clamp: 1.0}
+      joint_4: {p: 0.0,  d: 0.0, i: 0.0, i_clamp: 1.0}
+      joint_5: {p: 0.0,  d: 0.0, i: 0.0, i_clamp: 1.0}
+      joint_6: {p: 0.0,  d: 0.0, i: 0.0, i_clamp: 1.0}
+    ff_velocity_scale/joint_1: 1.0
+    ff_velocity_scale/joint_2: 1.0
+    ff_velocity_scale/joint_3: 1.0
+    ff_velocity_scale/joint_4: 1.0
+    ff_velocity_scale/joint_5: 1.0
+    ff_velocity_scale/joint_6: 1.0    
+      
 forward_command_controller_position:
   ros__parameters:
     joints:
