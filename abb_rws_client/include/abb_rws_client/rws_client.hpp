@@ -35,37 +35,32 @@
  */
 
 // This file is a modified copy from
-// https://github.com/ros-industrial/abb_robot_driver/blob/master/abb_robot_cpp_utilities/include/abb_robot_cpp_utilities/initialization.h
-// https://github.com/ros-industrial/abb_robot_driver/blob/master/abb_robot_cpp_utilities/include/abb_robot_cpp_utilities/verification.h
+// https://github.com/ros-industrial/abb_robot_driver/tree/master/abb_rws_service_provider/include/abb_rws_service_provider/
+// https://github.com/ros-industrial/abb_robot_driver/tree/master/abb_rws_state_publisher/include/abb_rws_state_publisher/
 
 #pragma once
 
-#include <string>
+// ROS
+#include <rclcpp/rclcpp.hpp>
 
+// ABB
 #include <abb_egm_rws_managers/rws_manager.h>
+#include <abb_egm_rws_managers/system_data_parser.h>
 
-namespace abb
-{
-namespace robot
-{
-namespace utilities
-{
-/**
- * \brief Attempts to establish a connection to a robot controller's RWS server.
- *
- * If a connection is established, then a structured description of the robot controller is returned.
- *
- * \param rws_manager for handling the RWS communication with the robot controller.
- * \param robot_controller_id for an identifier/nickname for the targeted robot controller.
- * \param no_connection_timeout indicator whether to wait indefinitely on the robot controller.
- *
- * \return RobotControllerDescription of the robot controller.
- *
- * \throw std::runtime_error if unable to establish a connection.
- */
-RobotControllerDescription establishRWSConnection(
-  RWSManager & rws_manager, const std::string & robot_controller_id,
-  const bool no_connection_timeout);
-}  // namespace utilities
-}  // namespace robot
-}  // namespace abb
+namespace abb_rws_client {
+
+class RWSClient {
+ public:
+  RWSClient(const rclcpp::Node::SharedPtr &node, const std::string &robot_ip, unsigned short robot_port);
+
+ protected:
+  rclcpp::Node::SharedPtr node_;
+  abb::robot::RWSManager rws_manager_;
+
+  abb::robot::RobotControllerDescription robot_controller_description_;
+
+ private:
+  void connect();
+};
+
+}  // namespace abb_rws_client

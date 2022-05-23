@@ -38,10 +38,10 @@
 // https://github.com/ros-industrial/abb_robot_driver/tree/master/abb_rws_service_provider/src
 // https://github.com/ros-industrial/abb_robot_driver/tree/master/abb_rws_state_publisher/src
 
-#include "abb_hardware_interface/rws_state_publisher_ros.hpp"
+#include "abb_rws_client/rws_state_publisher_ros.hpp"
 
-#include "abb_hardware_interface/mapping.hpp"
-#include "abb_hardware_interface/utilities.hpp"
+#include "abb_rws_client/mapping.hpp"
+#include "abb_rws_client/utilities.hpp"
 
 namespace {
 /**

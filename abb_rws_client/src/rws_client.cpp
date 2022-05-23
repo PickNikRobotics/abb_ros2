@@ -35,35 +35,32 @@
  */
 
 // This file is a modified copy from
-// https://github.com/ros-industrial/abb_robot_driver/tree/master/abb_rws_service_provider/include/abb_rws_service_provider/
-// https://github.com/ros-industrial/abb_robot_driver/tree/master/abb_rws_state_publisher/include/abb_rws_state_publisher/
+// https://github.com/ros-industrial/abb_robot_driver/tree/master/abb_rws_service_provider/src
+// https://github.com/ros-industrial/abb_robot_driver/tree/master/abb_rws_state_publisher/src
 
-#ifndef ABB_HARDWARE_INTERFACE__RWS_CLIENT_HPP_
-#define ABB_HARDWARE_INTERFACE__RWS_CLIENT_HPP_
+#include "abb_rws_client/rws_client.hpp"
 
-// ROS
-#include <rclcpp/rclcpp.hpp>
+#include "abb_rws_client/utilities.hpp"
 
-// ABB
-#include <abb_egm_rws_managers/rws_manager.h>
-#include <abb_egm_rws_managers/system_data_parser.h>
 
 namespace abb_rws_client {
+RWSClient::RWSClient(const rclcpp::Node::SharedPtr &node, const std::string &robot_ip, unsigned short robot_port)
+    : node_(node),
+      rws_manager_{robot_ip, robot_port, abb::rws::SystemConstants::General::DEFAULT_USERNAME,
+                   abb::rws::SystemConstants::General::DEFAULT_PASSWORD} {
+  node_->declare_parameter("robot_nickname", std::string{});
+  node_->declare_parameter("no_connection_timeout", false);
 
-class RWSClient {
- public:
-  RWSClient(const rclcpp::Node::SharedPtr &node, const std::string &robot_ip, unsigned short robot_port);
+  connect();
+}
+void RWSClient::connect() {
+  std::string robot_id;
+  bool no_connection_timeout;
 
- protected:
-  rclcpp::Node::SharedPtr node_;
-  abb::robot::RWSManager rws_manager_;
-
-  abb::robot::RobotControllerDescription robot_controller_description_;
-
- private:
-  void connect();
-};
-
+  node_->get_parameter("robot_nickname", robot_id);
+  node_->get_parameter("no_connection_timeout", no_connection_timeout);
+  robot_controller_description_ =
+      abb::robot::utilities::establish_rws_connection(rws_manager_, robot_id, no_connection_timeout);
+  abb::robot::utilities::verify_robotware_version(robot_controller_description_.header().robot_ware_version());
+}
 }  // namespace abb_rws_client
-
-#endif  // ABB_HARDWARE_INTERFACE__RWS_CLIENT_HPP_

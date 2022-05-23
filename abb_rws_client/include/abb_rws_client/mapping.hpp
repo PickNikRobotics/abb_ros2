@@ -37,8 +37,7 @@
 // This file is a modified copy from
 // https://github.com/ros-industrial/abb_robot_driver/blob/master/abb_robot_cpp_utilities/include/abb_robot_cpp_utilities/mapping.h
 
-#ifndef ABB_HARDWARE_INTERFACE__MAPPING_HPP_
-#define ABB_HARDWARE_INTERFACE__MAPPING_HPP_
+#pragma once
 
 #include <string>
 #include <vector>
@@ -262,5 +261,3 @@ std::string map_vector_to_string(const std::vector<type>& vector);
 }  // namespace utilities
 }  // namespace robot
 }  // namespace abb
-
-#endif  // ABB_HARDWARE_INTERFACE__MAPPING_HPP_

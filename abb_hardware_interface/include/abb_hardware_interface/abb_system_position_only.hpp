@@ -12,8 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef ABB_HARDWARE_INTERFACE__ABB_SYSTEM_POSITION_ONLY_HPP__
-#define ABB_HARDWARE_INTERFACE__ABB_SYSTEM_POSITION_ONLY_HPP__
+#pragma once
 
 #include <abb_egm_rws_managers/egm_manager.h>
 #include <abb_egm_rws_managers/rws_manager.h>
@@ -75,5 +74,3 @@ private:
 };
 
 }  // namespace abb_hardware_interface
-
-#endif  // ABB_HARDWARE_INTERFACE__ABB_SYSTEM_POSITION_ONLY_HPP__

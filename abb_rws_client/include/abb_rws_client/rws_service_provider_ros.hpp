@@ -38,10 +38,9 @@
 // https://github.com/ros-industrial/abb_robot_driver/tree/master/abb_rws_service_provider/include/abb_rws_service_provider/
 // https://github.com/ros-industrial/abb_robot_driver/tree/master/abb_rws_state_publisher/include/abb_rws_state_publisher/
 
-#ifndef ABB_HARDWARE_INTERFACE__RWS_SERCIVE_PROVIDER_ROS_HPP_
-#define ABB_HARDWARE_INTERFACE__RWS_SERCIVE_PROVIDER_ROS_HPP_
+#pragma once
 
-#include "abb_hardware_interface/rws_client.hpp"
+#include "abb_rws_client/rws_client.hpp"
 
 // SYSMTEM
 #include <string>
@@ -226,5 +225,3 @@ class RWSServiceProviderROS : RWSClient {
 };
 
 }  // namespace abb_rws_client
-
-#endif  // ABB_HARDWARE_INTERFACE__RWS_SERCIVE_PROVIDER_ROS_HPP_

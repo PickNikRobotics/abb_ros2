@@ -40,7 +40,7 @@ CallbackReturn ABBSystemPositionOnlyHardware::on_init(const hardware_interface::
   // Get robot controller description from RWS
   abb::robot::RWSManager rws_manager(rws_ip, rws_port, "Default User", "robotics");
   const auto robot_controller_description_ =
-    abb::robot::utilities::establish_rws_connection(rws_manager, "IRB1200", true);
+    abb::robot::utilities::establishRWSConnection(rws_manager, "IRB1200", true);
   RCLCPP_INFO_STREAM(
     LOGGER, "Robot controller description:\n"
       << abb::robot::summaryText(robot_controller_description_));

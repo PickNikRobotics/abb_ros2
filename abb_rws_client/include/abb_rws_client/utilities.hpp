@@ -35,47 +35,57 @@
  */
 
 // This file is a modified copy from
-// https://github.com/ros-industrial/abb_robot_driver/tree/master/abb_rws_service_provider/include/abb_rws_service_provider/
-// https://github.com/ros-industrial/abb_robot_driver/tree/master/abb_rws_state_publisher/include/abb_rws_state_publisher/
+// https://github.com/ros-industrial/abb_robot_driver/blob/master/abb_robot_cpp_utilities/include/abb_robot_cpp_utilities/initialization.h
+// https://github.com/ros-industrial/abb_robot_driver/blob/master/abb_robot_cpp_utilities/include/abb_robot_cpp_utilities/verification.h
 
-#ifndef ABB_HARDWARE_INTERFACE__RWS_STATE_PUBLISHER_ROS_HPP_
-#define ABB_HARDWARE_INTERFACE__RWS_STATE_PUBLISHER_ROS_HPP_
+#pragma once
 
-#include "abb_hardware_interface/rws_client.hpp"
-
-// SYSTEM
 #include <string>
 
-// ROS
-#include <rclcpp/rclcpp.hpp>
+#include <abb_egm_rws_managers/rws_manager.h>
 
-// ROS INTERFACES
-#include <sensor_msgs/msg/joint_state.hpp>
+namespace abb
+{
+namespace robot
+{
+namespace utilities
+{
+/**
+ * \brief Attempts to establish a connection to a robot controller's RWS server.
+ *
+ * If a connection is established, then a structured description of the robot controller is returned.
+ *
+ * \param rws_manager for handling the RWS communication with the robot controller.
+ * \param robot_controller_id for an identifier/nickname for the targeted robot controller.
+ * \param no_connection_timeout indicator whether to wait indefinitely on the robot controller.
+ *
+ * \return RobotControllerDescription of the robot controller.
+ *
+ * \throw std::runtime_error if unable to establish a connection.
+ */
+RobotControllerDescription establish_rws_connection(
+  RWSManager & rws_manager, const std::string & robot_controller_id,
+  const bool no_connection_timeout);
 
-// ABB INTERFACES
-#include <abb_rapid_sm_addin_msgs/msg/runtime_state.hpp>
-#include <abb_robot_msgs/msg/rapid_task_state.hpp>
-#include <abb_robot_msgs/msg/system_state.hpp>
+/**
+ * \brief Verifies that the RobotWare version is supported.
+ *
+ * Note: For now, only RobotWare versions in the range [6.07.01, 7.0) are supported (i.e. excluding 7.0).
+ *
+ * \param rw_version to verify.
+ *
+ * \throw std::runtime_error if the RobotWare version is not supported.
+ */
+void verify_robotware_version(const RobotWareVersion &rw_version);
 
-namespace abb_rws_client {
-
-class RWSStatePublisherROS : RWSClient {
- public:
-  RWSStatePublisherROS(const rclcpp::Node::SharedPtr &node, const std::string &robot_ip, unsigned short robot_port);
-
- private:
-  void timer_callback();
-
-  rclcpp::TimerBase::SharedPtr timer_;
-
-  rclcpp::Publisher<sensor_msgs::msg::JointState>::SharedPtr joint_state_pub_;
-  rclcpp::Publisher<abb_robot_msgs::msg::SystemState>::SharedPtr system_state_pub_;
-  rclcpp::Publisher<abb_rapid_sm_addin_msgs::msg::RuntimeState>::SharedPtr runtime_state_pub_;
-
-  abb::robot::MotionData motion_data_;
-  abb::robot::SystemStateData system_state_data_;
-};
-
-}  // namespace abb_rws_client
-
-#endif  // ABB_HARDWARE_INTERFACE__RWS_STATE_PUBLISHER_ROS_HPP_
+/**
+ * \brief Verifies that the RobotWare StateMachine Add-In is present in a system.
+ *
+ * \param system_indicators to verify.
+ *
+ * \return bool true if the StateMachine Add-In is present.
+ */
+bool verify_state_machine_add_in_presence(const SystemIndicators &system_indicators);
+}  // namespace utilities
+}  // namespace robot
+}  // namespace abb

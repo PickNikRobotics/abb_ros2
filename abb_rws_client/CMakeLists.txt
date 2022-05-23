@@ -1,5 +1,5 @@
-cmake_minimum_required(VERSION 3.5)
-project(abb_hardware_interface)
+cmake_minimum_required(VERSION 3.8)
+project(abb_rws_client)
 
 # Default to C99
 if(NOT CMAKE_C_STANDARD)
@@ -20,8 +20,10 @@ endif()
 
 set(THIS_PACKAGE_INCLUDE_DEPENDS
     abb_egm_rws_managers
-    hardware_interface
-    pluginlib
+    abb_egm_msgs
+    abb_robot_msgs
+    abb_rapid_msgs
+    abb_rapid_sm_addin_msgs
     rclcpp
     sensor_msgs
 )
@@ -37,32 +39,29 @@ endforeach()
 ## Build ##
 ###########
 
-add_library(
-  ${PROJECT_NAME}
-  SHARED
-  src/abb_system_position_only.cpp
+add_executable(rws_client
+  src/rws_client_node.cpp
+  src/rws_client.cpp
+  src/rws_service_provider_ros.cpp
+  src/rws_state_publisher_ros.cpp
   src/utilities.cpp
+  src/mapping.cpp
 )
-ament_target_dependencies(${PROJECT_NAME} ${THIS_PACKAGE_INCLUDE_DEPENDS})
+ament_target_dependencies(rws_client ${THIS_PACKAGE_INCLUDE_DEPENDS})
+# target_link_libraries(rws_client  abb_egm_rws_managers::abb_egm_rws_managers)
 target_include_directories(
-  ${PROJECT_NAME}
+  rws_client
   PRIVATE
   include
 )
-
-pluginlib_export_plugin_description_file(hardware_interface abb_hardware_interface.xml)
 
 #############
 ## Install ##
 #############
 
 install(
-  TARGETS ${PROJECT_NAME}
-  DESTINATION lib
-)
-install(
-  DIRECTORY include/
-  DESTINATION include
+  TARGETS rws_client
+  DESTINATION lib/${PROJECT_NAME}
 )
 
 #############
@@ -75,7 +74,6 @@ if(BUILD_TESTING)
 endif()
 
 ament_export_include_directories(include)
-ament_export_libraries(${PROJECT_NAME})
 ament_export_dependencies(${THIS_PACKAGE_INCLUDE_DEPENDS})
 
 ament_package()
