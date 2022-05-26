@@ -214,13 +214,13 @@ CallbackReturn ABBSystemPositionOnlyHardware::on_activate(const rclcpp_lifecycle
   return CallbackReturn::SUCCESS;
 }
 
-return_type ABBSystemPositionOnlyHardware::read(const rclcpp::Time & time, const rclcpp::Duration & period)
+return_type ABBSystemPositionOnlyHardware::read(const rclcpp::Time& time, const rclcpp::Duration& period)
 {
   egm_manager_->read(motion_data_);
   return return_type::OK;
 }
 
-return_type ABBSystemPositionOnlyHardware::write(const rclcpp::Time & time, const rclcpp::Duration & period)
+return_type ABBSystemPositionOnlyHardware::write(const rclcpp::Time& time, const rclcpp::Duration& period)
 {
   egm_manager_->write(motion_data_);
   return return_type::OK;
