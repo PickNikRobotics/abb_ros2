@@ -69,9 +69,17 @@ def generate_launch_description():
     )
     declared_arguments.append(
         DeclareLaunchArgument(
-            "robotstudio_ip",
+            "rws_ip",
             default_value="None",
-            description="IP of RobotStudio computer. \
+            description="IP of RWS computer. \
+            Used only if 'use_fake_hardware' parameter is false.",
+        )
+    )
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            "rws_port",
+            default_value="80",
+            description="Port at which RWS can be found. \
             Used only if 'use_fake_hardware' parameter is false.",
         )
     )
@@ -105,7 +113,8 @@ def generate_launch_description():
     prefix = LaunchConfiguration("prefix")
     use_fake_hardware = LaunchConfiguration("use_fake_hardware")
     fake_sensor_commands = LaunchConfiguration("fake_sensor_commands")
-    robotstudio_ip = LaunchConfiguration("robotstudio_ip")
+    rws_ip = LaunchConfiguration("rws_ip")
+    rws_port = LaunchConfiguration("rws_port")
     initial_joint_controller = LaunchConfiguration("initial_joint_controller")
     launch_rviz = LaunchConfiguration("launch_rviz")
 
@@ -126,8 +135,11 @@ def generate_launch_description():
             "fake_sensor_commands:=",
             fake_sensor_commands,
             " ",
-            "robotstudio_ip:=",
-            robotstudio_ip,
+            "rws_ip:=",
+            rws_ip,
+            " ",
+            "rws_port:=",
+            rws_port,
             " ",
         ]
     )
@@ -145,10 +157,7 @@ def generate_launch_description():
         package="controller_manager",
         executable="ros2_control_node",
         parameters=[robot_description, robot_controllers],
-        output={
-            "stdout": "screen",
-            "stderr": "screen",
-        },
+        output="both",
     )
 
     robot_state_publisher_node = Node(

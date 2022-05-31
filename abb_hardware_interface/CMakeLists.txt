@@ -23,7 +23,7 @@ set(THIS_PACKAGE_INCLUDE_DEPENDS
     hardware_interface
     pluginlib
     rclcpp
-    sensor_msgs
+    rclcpp_lifecycle
 )
 
 # find dependencies
@@ -40,7 +40,7 @@ endforeach()
 add_library(
   ${PROJECT_NAME}
   SHARED
-  src/abb_system_position_only.cpp
+  src/abb_hardware_interface.cpp
   src/utilities.cpp
 )
 ament_target_dependencies(${PROJECT_NAME} ${THIS_PACKAGE_INCLUDE_DEPENDS})
@@ -71,6 +71,8 @@ install(
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
+  # Disable ament_copyright
+  set(ament_cmake_copyright_FOUND TRUE)
   ament_lint_auto_find_test_dependencies()
 endif()
 

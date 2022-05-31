@@ -31,25 +31,26 @@ MODULE TExtAxisMain
 ! OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
 ! THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 !======================================================================================================
-    
+
     !***********************************************************
     ! Program data
     !***********************************************************
     ! Home position.
     LOCAL CONST jointtarget home := [[0, 0, 0, 0, 30, 0], [9E9, 9E9, 9E9, 9E9, 9E9, 9E9]];
-    
+
     ! Identifier for the EGM correction.
     LOCAL VAR egmident egm_id;
-    
+
     ! Limits for convergance.
     LOCAL VAR egm_minmax egm_condition := [-0.1, 0.1];
-            
+
     !***********************************************************
     !
     ! Procedure main
     !
-    !   This RAPID code exemplify how to run EGM joint position
-    !   motions.
+    !   This RAPID code exemplifies how to run EGM motions with an
+    !   external axis. It can be started in parallel with a task
+    !   that runs EGM motions with a robot.
     !
     !   Note: Update the UCDevice "EXTAX" with correct
     !         values for the remote address and port
@@ -61,26 +62,24 @@ MODULE TExtAxisMain
     !
     !***********************************************************
     PROC main()
+
+        ! Register an EGM id.
+        EGMGetId egm_id;
+
+        ! Setup the EGM communication.
+        EGMSetupUC MU_250__01, egm_id, "default", "EXTAX", \Joint;
+
+        ! Prepare for an EGM communication session.
+        EGMActJoint egm_id;
+
         WHILE TRUE DO
-            
-            ! Register an EGM id.
-            EGMGetId egm_id;
-            
-            ! Setup the EGM communication.
-            EGMSetupUC MU_250__01, egm_id, "default", "EXTAX", \Joint;
-            
-            ! Prepare for an EGM communication session.
-            EGMActJoint egm_id;
-            
             ! Start the EGM communication session.
             EGMRunJoint egm_id, EGM_STOP_HOLD;
-            
-            ! Release the EGM id.
-            EGMReset egm_id;
-            
-            WaitTime 5;
         ENDWHILE
-        
+        ! Release the EGM id.
+        EGMReset egm_id;
+
+
     ERROR
         IF ERRNO = ERR_UDPUC_COMM THEN
             TPWrite "Communication timedout";
