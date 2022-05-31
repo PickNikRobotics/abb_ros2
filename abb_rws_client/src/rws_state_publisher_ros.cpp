@@ -134,8 +134,8 @@ void RWSStatePublisherROS::timer_callback()
     {
       abb_rapid_sm_addin_msgs::msg::StateMachineState state;
       state.rapid_task = sm.rapid_task;
-      state.sm_state = abb::robot::utilities::map_state_machine_state(sm.sm_state);
-      state.egm_action = abb::robot::utilities::map_state_machine_egm_action(sm.egm_action);
+      state.sm_state = abb::robot::utilities::mapStateMachineState(sm.sm_state);
+      state.egm_action = abb::robot::utilities::mapStateMachineEGMAction(sm.egm_action);
       sm_runtime_state_msg.state_machines.push_back(state);
     }
   }

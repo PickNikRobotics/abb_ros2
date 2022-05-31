@@ -87,7 +87,7 @@ uint8_t map(const rws::RWSInterface::RAPIDTaskExecutionState state)
   }
 }
 
-uint8_t map_state_machine_state(const rws::RAPIDNum& state)
+uint8_t mapStateMachineState(const rws::RAPIDNum& state)
 {
   switch (static_cast<int>(state.value))
   {
@@ -113,7 +113,7 @@ uint8_t map_state_machine_state(const rws::RAPIDNum& state)
   }
 }
 
-uint8_t map_state_machine_egm_action(const rws::RAPIDNum& action)
+uint8_t mapStateMachineEGMAction(const rws::RAPIDNum& action)
 {
   switch (static_cast<int>(action.value))
   {
@@ -235,7 +235,7 @@ abb_rapid_sm_addin_msgs::msg::EGMSettings map(const rws::RWSStateMachineInterfac
   return ros_egm_settings;
 }
 
-unsigned int map_state_machine_sg_command(const unsigned int command)
+unsigned int mapStateMachineSGCommand(const unsigned int command)
 {
   switch (command)
   {
@@ -452,7 +452,7 @@ uint8_t map(egm::wrapper::Status::RAPIDExecutionState state)
 }
 
 template <typename type>
-std::string map_vector_to_string(const std::vector<type>& vector)
+std::string mapVectorToString(const std::vector<type>& vector)
 {
   std::stringstream ss{};
 

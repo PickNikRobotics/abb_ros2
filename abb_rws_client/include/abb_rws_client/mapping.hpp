@@ -71,7 +71,7 @@ uint8_t map(const rws::RWSInterface::RAPIDTaskExecutionState state);
  *
  * \return uint8_t containing the mapped state.
  */
-uint8_t map_state_machine_state(const rws::RAPIDNum& state);
+uint8_t mapStateMachineState(const rws::RAPIDNum& state);
 
 /**
  * \brief Maps RobotWare StateMachine Add-In EGM action to ROS representation.
@@ -80,7 +80,7 @@ uint8_t map_state_machine_state(const rws::RAPIDNum& state);
  *
  * \return uint8_t containing the mapped state.
  */
-uint8_t map_state_machine_egm_action(const rws::RAPIDNum& action);
+uint8_t mapStateMachineEGMAction(const rws::RAPIDNum& action);
 
 /**
  * \brief Maps RobotWare StateMachine Add-In SmartGripper command to RWS representation.
@@ -91,7 +91,7 @@ uint8_t map_state_machine_egm_action(const rws::RAPIDNum& action);
  *
  * \throw std::runtime_error if the command is unknown.
  */
-unsigned int map_state_machine_sg_command(const unsigned int command);
+unsigned int mapStateMachineSGCommand(const unsigned int command);
 
 /**
  * \brief Maps a RAPID 'pos' data type from RWS to ROS representation.
@@ -258,7 +258,7 @@ uint8_t map(const egm::wrapper::Status::RAPIDExecutionState rapid_execution_stat
  * \throw std::runtime if the mapping failed.
  */
 template <typename type>
-std::string map_vector_to_string(const std::vector<type>& vector);
+std::string mapVectorToString(const std::vector<type>& vector);
 
 }  // namespace utilities
 }  // namespace robot
