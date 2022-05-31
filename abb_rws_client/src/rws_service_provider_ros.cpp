@@ -214,11 +214,11 @@ bool RWSServiceProviderROS::getRCDescription(
 bool RWSServiceProviderROS::getFileContents(const abb_robot_msgs::srv::GetFileContents::Request::SharedPtr req,
                                             abb_robot_msgs::srv::GetFileContents::Response::SharedPtr res)
 {
-  if (!verify_argument_filename(req->filename, res->result_code, res->message))
+  if (!verifyArgumentFilename(req->filename, res->result_code, res->message))
   {
     return true;
   }
-  if (!verify_rws_manager_ready(res->result_code, res->message))
+  if (!verifyRWSManagerReady(res->result_code, res->message))
   {
     return true;
   }
@@ -242,11 +242,11 @@ bool RWSServiceProviderROS::getFileContents(const abb_robot_msgs::srv::GetFileCo
 bool RWSServiceProviderROS::getIOSignal(const abb_robot_msgs::srv::GetIOSignal::Request::SharedPtr req,
                                         abb_robot_msgs::srv::GetIOSignal::Response::SharedPtr res)
 {
-  if (!verify_argument_signal(req->signal, res->result_code, res->message))
+  if (!verifyArgumentSignal(req->signal, res->result_code, res->message))
   {
     return true;
   }
-  if (!verify_rws_manager_ready(res->result_code, res->message))
+  if (!verifyRWSManagerReady(res->result_code, res->message))
   {
     return true;
   }
@@ -272,11 +272,11 @@ bool RWSServiceProviderROS::getIOSignal(const abb_robot_msgs::srv::GetIOSignal::
 bool RWSServiceProviderROS::getRapidBool(const abb_robot_msgs::srv::GetRAPIDBool::Request::SharedPtr req,
                                          abb_robot_msgs::srv::GetRAPIDBool::Response::SharedPtr res)
 {
-  if (!verify_argument_rapid_symbol_path(req->path, res->result_code, res->message))
+  if (!verifyArgumentRapidSymbolPath(req->path, res->result_code, res->message))
   {
     return true;
   }
-  if (!verify_rws_manager_ready(res->result_code, res->message))
+  if (!verifyRWSManagerReady(res->result_code, res->message))
   {
     return true;
   }
@@ -302,11 +302,11 @@ bool RWSServiceProviderROS::getRapidBool(const abb_robot_msgs::srv::GetRAPIDBool
 bool RWSServiceProviderROS::getRapidDNum(const abb_robot_msgs::srv::GetRAPIDDnum::Request::SharedPtr req,
                                          abb_robot_msgs::srv::GetRAPIDDnum::Response::SharedPtr res)
 {
-  if (!verify_argument_rapid_symbol_path(req->path, res->result_code, res->message))
+  if (!verifyArgumentRapidSymbolPath(req->path, res->result_code, res->message))
   {
     return true;
   }
-  if (!verify_rws_manager_ready(res->result_code, res->message))
+  if (!verifyRWSManagerReady(res->result_code, res->message))
   {
     return true;
   }
@@ -332,11 +332,11 @@ bool RWSServiceProviderROS::getRapidDNum(const abb_robot_msgs::srv::GetRAPIDDnum
 bool RWSServiceProviderROS::getRapidNum(const abb_robot_msgs::srv::GetRAPIDNum::Request::SharedPtr req,
                                         abb_robot_msgs::srv::GetRAPIDNum::Response::SharedPtr res)
 {
-  if (!verify_argument_rapid_symbol_path(req->path, res->result_code, res->message))
+  if (!verifyArgumentRapidSymbolPath(req->path, res->result_code, res->message))
   {
     return true;
   }
-  if (!verify_rws_manager_ready(res->result_code, res->message))
+  if (!verifyRWSManagerReady(res->result_code, res->message))
   {
     return true;
   }
@@ -362,11 +362,11 @@ bool RWSServiceProviderROS::getRapidNum(const abb_robot_msgs::srv::GetRAPIDNum::
 bool RWSServiceProviderROS::getRapidString(const abb_robot_msgs::srv::GetRAPIDString::Request::SharedPtr req,
                                            abb_robot_msgs::srv::GetRAPIDString::Response::SharedPtr res)
 {
-  if (!verify_argument_rapid_symbol_path(req->path, res->result_code, res->message))
+  if (!verifyArgumentRapidSymbolPath(req->path, res->result_code, res->message))
   {
     return true;
   }
-  if (!verify_rws_manager_ready(res->result_code, res->message))
+  if (!verifyRWSManagerReady(res->result_code, res->message))
   {
     return true;
   }
@@ -392,11 +392,11 @@ bool RWSServiceProviderROS::getRapidString(const abb_robot_msgs::srv::GetRAPIDSt
 bool RWSServiceProviderROS::getRapidSymbol(const abb_robot_msgs::srv::GetRAPIDSymbol::Request::SharedPtr req,
                                            abb_robot_msgs::srv::GetRAPIDSymbol::Response::SharedPtr res)
 {
-  if (!verify_argument_rapid_symbol_path(req->path, res->result_code, res->message))
+  if (!verifyArgumentRapidSymbolPath(req->path, res->result_code, res->message))
   {
     return true;
   }
-  if (!verify_rws_manager_ready(res->result_code, res->message))
+  if (!verifyRWSManagerReady(res->result_code, res->message))
   {
     return true;
   }
@@ -422,7 +422,7 @@ bool RWSServiceProviderROS::getRapidSymbol(const abb_robot_msgs::srv::GetRAPIDSy
 bool RWSServiceProviderROS::getSpeedRatio(const abb_robot_msgs::srv::GetSpeedRatio::Request::SharedPtr,
                                           abb_robot_msgs::srv::GetSpeedRatio::Response::SharedPtr res)
 {
-  if (!verify_rws_manager_ready(res->result_code, res->message))
+  if (!verifyRWSManagerReady(res->result_code, res->message))
   {
     return true;
   }
@@ -447,15 +447,15 @@ bool RWSServiceProviderROS::getSpeedRatio(const abb_robot_msgs::srv::GetSpeedRat
 bool RWSServiceProviderROS::ppToMain(const abb_robot_msgs::srv::TriggerWithResultCode::Request::SharedPtr,
                                      abb_robot_msgs::srv::TriggerWithResultCode::Response::SharedPtr res)
 {
-  if (!verify_auto_mode(res->result_code, res->message))
+  if (!verifyAutoMode(res->result_code, res->message))
   {
     return true;
   }
-  if (!verify_rapid_stopped(res->result_code, res->message))
+  if (!verifyRapidStopped(res->result_code, res->message))
   {
     return true;
   }
-  if (!verify_rws_manager_ready(res->result_code, res->message))
+  if (!verifyRWSManagerReady(res->result_code, res->message))
   {
     return true;
   }
@@ -477,19 +477,19 @@ bool RWSServiceProviderROS::ppToMain(const abb_robot_msgs::srv::TriggerWithResul
 bool RWSServiceProviderROS::runRapidRoutine(const abb_robot_msgs::srv::TriggerWithResultCode::Request::SharedPtr,
                                             abb_robot_msgs::srv::TriggerWithResultCode::Response::SharedPtr res)
 {
-  if (!verify_auto_mode(res->result_code, res->message))
+  if (!verifyAutoMode(res->result_code, res->message))
   {
     return true;
   }
-  if (!verify_rapid_running(res->result_code, res->message))
+  if (!verifyRapidRunning(res->result_code, res->message))
   {
     return true;
   }
-  if (!verify_sm_addin_runtime_states(res->result_code, res->message))
+  if (!verifySMAddinRuntimeStates(res->result_code, res->message))
   {
     return true;
   }
-  if (!verify_rws_manager_ready(res->result_code, res->message))
+  if (!verifyRWSManagerReady(res->result_code, res->message))
   {
     return true;
   }
@@ -513,19 +513,19 @@ bool RWSServiceProviderROS::runRapidRoutine(const abb_robot_msgs::srv::TriggerWi
 bool RWSServiceProviderROS::runSGRoutine(const abb_robot_msgs::srv::TriggerWithResultCode::Request::SharedPtr,
                                          abb_robot_msgs::srv::TriggerWithResultCode::Response::SharedPtr res)
 {
-  if (!verify_auto_mode(res->result_code, res->message))
+  if (!verifyAutoMode(res->result_code, res->message))
   {
     return true;
   }
-  if (!verify_rapid_running(res->result_code, res->message))
+  if (!verifyRapidRunning(res->result_code, res->message))
   {
     return true;
   }
-  if (!verify_sm_addin_runtime_states(res->result_code, res->message))
+  if (!verifySMAddinRuntimeStates(res->result_code, res->message))
   {
     return true;
   }
-  if (!verify_rws_manager_ready(res->result_code, res->message))
+  if (!verifyRWSManagerReady(res->result_code, res->message))
   {
     return true;
   }
@@ -549,11 +549,11 @@ bool RWSServiceProviderROS::runSGRoutine(const abb_robot_msgs::srv::TriggerWithR
 bool RWSServiceProviderROS::setFileContents(const abb_robot_msgs::srv::SetFileContents::Request::SharedPtr req,
                                             abb_robot_msgs::srv::SetFileContents::Response::SharedPtr res)
 {
-  if (!verify_argument_filename(req->filename, res->result_code, res->message))
+  if (!verifyArgumentFilename(req->filename, res->result_code, res->message))
   {
     return true;
   }
-  if (!verify_rws_manager_ready(res->result_code, res->message))
+  if (!verifyRWSManagerReady(res->result_code, res->message))
   {
     return true;
   }
@@ -577,11 +577,11 @@ bool RWSServiceProviderROS::setFileContents(const abb_robot_msgs::srv::SetFileCo
 bool RWSServiceProviderROS::setIOSignal(const abb_robot_msgs::srv::SetIOSignal::Request::SharedPtr req,
                                         abb_robot_msgs::srv::SetIOSignal::Response::SharedPtr res)
 {
-  if (!verify_argument_signal(req->signal, res->result_code, res->message))
+  if (!verifyArgumentSignal(req->signal, res->result_code, res->message))
   {
     return true;
   }
-  if (!verify_rws_manager_ready(res->result_code, res->message))
+  if (!verifyRWSManagerReady(res->result_code, res->message))
   {
     return true;
   }
@@ -605,7 +605,7 @@ bool RWSServiceProviderROS::setIOSignal(const abb_robot_msgs::srv::SetIOSignal::
 bool RWSServiceProviderROS::setMotorsOff(const abb_robot_msgs::srv::TriggerWithResultCode::Request::SharedPtr,
                                          abb_robot_msgs::srv::TriggerWithResultCode::Response::SharedPtr res)
 {
-  if (!verify_motors_on(res->result_code, res->message))
+  if (!verifyMotorsOn(res->result_code, res->message))
   {
     return true;
   }
@@ -628,15 +628,15 @@ bool RWSServiceProviderROS::setMotorsOff(const abb_robot_msgs::srv::TriggerWithR
 bool RWSServiceProviderROS::setMotorsOn(const abb_robot_msgs::srv::TriggerWithResultCode::Request::SharedPtr,
                                         abb_robot_msgs::srv::TriggerWithResultCode::Response::SharedPtr res)
 {
-  if (!verify_auto_mode(res->result_code, res->message))
+  if (!verifyAutoMode(res->result_code, res->message))
   {
     return true;
   }
-  if (!verify_motors_off(res->result_code, res->message))
+  if (!verifyMotorsOff(res->result_code, res->message))
   {
     return true;
   }
-  if (!verify_rws_manager_ready(res->result_code, res->message))
+  if (!verifyRWSManagerReady(res->result_code, res->message))
   {
     return true;
   }
@@ -659,15 +659,15 @@ bool RWSServiceProviderROS::setMotorsOn(const abb_robot_msgs::srv::TriggerWithRe
 bool RWSServiceProviderROS::setRapidBool(const abb_robot_msgs::srv::SetRAPIDBool::Request::SharedPtr req,
                                          abb_robot_msgs::srv::SetRAPIDBool::Response::SharedPtr res)
 {
-  if (!verify_argument_rapid_symbol_path(req->path, res->result_code, res->message))
+  if (!verifyArgumentRapidSymbolPath(req->path, res->result_code, res->message))
   {
     return true;
   }
-  if (!verify_auto_mode(res->result_code, res->message))
+  if (!verifyAutoMode(res->result_code, res->message))
   {
     return true;
   }
-  if (!verify_rws_manager_ready(res->result_code, res->message))
+  if (!verifyRWSManagerReady(res->result_code, res->message))
   {
     return true;
   }
@@ -692,15 +692,15 @@ bool RWSServiceProviderROS::setRapidBool(const abb_robot_msgs::srv::SetRAPIDBool
 bool RWSServiceProviderROS::setRapidDNum(const abb_robot_msgs::srv::SetRAPIDDnum::Request::SharedPtr req,
                                          abb_robot_msgs::srv::SetRAPIDDnum::Response::SharedPtr res)
 {
-  if (!verify_argument_rapid_symbol_path(req->path, res->result_code, res->message))
+  if (!verifyArgumentRapidSymbolPath(req->path, res->result_code, res->message))
   {
     return true;
   }
-  if (!verify_auto_mode(res->result_code, res->message))
+  if (!verifyAutoMode(res->result_code, res->message))
   {
     return true;
   }
-  if (!verify_rws_manager_ready(res->result_code, res->message))
+  if (!verifyRWSManagerReady(res->result_code, res->message))
   {
     return true;
   }
@@ -725,15 +725,15 @@ bool RWSServiceProviderROS::setRapidDNum(const abb_robot_msgs::srv::SetRAPIDDnum
 bool RWSServiceProviderROS::setRapidNum(const abb_robot_msgs::srv::SetRAPIDNum::Request::SharedPtr req,
                                         abb_robot_msgs::srv::SetRAPIDNum::Response::SharedPtr res)
 {
-  if (!verify_argument_rapid_symbol_path(req->path, res->result_code, res->message))
+  if (!verifyArgumentRapidSymbolPath(req->path, res->result_code, res->message))
   {
     return true;
   }
-  if (!verify_auto_mode(res->result_code, res->message))
+  if (!verifyAutoMode(res->result_code, res->message))
   {
     return true;
   }
-  if (!verify_rws_manager_ready(res->result_code, res->message))
+  if (!verifyRWSManagerReady(res->result_code, res->message))
   {
     return true;
   }
@@ -758,15 +758,15 @@ bool RWSServiceProviderROS::setRapidNum(const abb_robot_msgs::srv::SetRAPIDNum::
 bool RWSServiceProviderROS::setRapidString(const abb_robot_msgs::srv::SetRAPIDString::Request::SharedPtr req,
                                            abb_robot_msgs::srv::SetRAPIDString::Response::SharedPtr res)
 {
-  if (!verify_argument_rapid_symbol_path(req->path, res->result_code, res->message))
+  if (!verifyArgumentRapidSymbolPath(req->path, res->result_code, res->message))
   {
     return true;
   }
-  if (!verify_auto_mode(res->result_code, res->message))
+  if (!verifyAutoMode(res->result_code, res->message))
   {
     return true;
   }
-  if (!verify_rws_manager_ready(res->result_code, res->message))
+  if (!verifyRWSManagerReady(res->result_code, res->message))
   {
     return true;
   }
@@ -791,15 +791,15 @@ bool RWSServiceProviderROS::setRapidString(const abb_robot_msgs::srv::SetRAPIDSt
 bool RWSServiceProviderROS::setRapidSymbol(const abb_robot_msgs::srv::SetRAPIDSymbol::Request::SharedPtr req,
                                            abb_robot_msgs::srv::SetRAPIDSymbol::Response::SharedPtr res)
 {
-  if (!verify_argument_rapid_symbol_path(req->path, res->result_code, res->message))
+  if (!verifyArgumentRapidSymbolPath(req->path, res->result_code, res->message))
   {
     return true;
   }
-  if (!verify_auto_mode(res->result_code, res->message))
+  if (!verifyAutoMode(res->result_code, res->message))
   {
     return true;
   }
-  if (!verify_rws_manager_ready(res->result_code, res->message))
+  if (!verifyRWSManagerReady(res->result_code, res->message))
   {
     return true;
   }
@@ -823,11 +823,11 @@ bool RWSServiceProviderROS::setRapidSymbol(const abb_robot_msgs::srv::SetRAPIDSy
 bool RWSServiceProviderROS::setSpeedRatio(const abb_robot_msgs::srv::SetSpeedRatio::Request::SharedPtr req,
                                           abb_robot_msgs::srv::SetSpeedRatio::Response::SharedPtr res)
 {
-  if (!verify_auto_mode(res->result_code, res->message))
+  if (!verifyAutoMode(res->result_code, res->message))
   {
     return true;
   }
-  if (!verify_rws_manager_ready(res->result_code, res->message))
+  if (!verifyRWSManagerReady(res->result_code, res->message))
   {
     return true;
   }
@@ -858,15 +858,15 @@ bool RWSServiceProviderROS::setSpeedRatio(const abb_robot_msgs::srv::SetSpeedRat
 bool RWSServiceProviderROS::startRapid(const abb_robot_msgs::srv::TriggerWithResultCode::Request::SharedPtr,
                                        abb_robot_msgs::srv::TriggerWithResultCode::Response::SharedPtr res)
 {
-  if (!verify_auto_mode(res->result_code, res->message))
+  if (!verifyAutoMode(res->result_code, res->message))
   {
     return true;
   }
-  if (!verify_motors_on(res->result_code, res->message))
+  if (!verifyMotorsOn(res->result_code, res->message))
   {
     return true;
   }
-  if (!verify_rws_manager_ready(res->result_code, res->message))
+  if (!verifyRWSManagerReady(res->result_code, res->message))
   {
     return true;
   }
@@ -889,7 +889,7 @@ bool RWSServiceProviderROS::startRapid(const abb_robot_msgs::srv::TriggerWithRes
 bool RWSServiceProviderROS::stopRapid(const abb_robot_msgs::srv::TriggerWithResultCode::Request::SharedPtr,
                                       abb_robot_msgs::srv::TriggerWithResultCode::Response::SharedPtr res)
 {
-  if (!verify_rapid_running(res->result_code, res->message))
+  if (!verifyRapidRunning(res->result_code, res->message))
   {
     return true;
   }
@@ -912,19 +912,19 @@ bool RWSServiceProviderROS::stopRapid(const abb_robot_msgs::srv::TriggerWithResu
 bool RWSServiceProviderROS::getEGMSettings(const abb_rapid_sm_addin_msgs::srv::GetEGMSettings::Request::SharedPtr req,
                                            abb_rapid_sm_addin_msgs::srv::GetEGMSettings::Response::SharedPtr res)
 {
-  if (!verify_argument_rapid_task(req->task, res->result_code, res->message))
+  if (!verifyArgumentRapidTask(req->task, res->result_code, res->message))
   {
     return true;
   }
-  if (!verify_sm_addin_runtime_states(res->result_code, res->message))
+  if (!verifySMAddinRuntimeStates(res->result_code, res->message))
   {
     return true;
   }
-  if (!verify_sm_addin_task_exist(req->task, res->result_code, res->message))
+  if (!verifySMAddinTaskExist(req->task, res->result_code, res->message))
   {
     return true;
   }
-  if (!verify_rws_manager_ready(res->result_code, res->message))
+  if (!verifyRWSManagerReady(res->result_code, res->message))
   {
     return true;
   }
@@ -951,27 +951,27 @@ bool RWSServiceProviderROS::getEGMSettings(const abb_rapid_sm_addin_msgs::srv::G
 bool RWSServiceProviderROS::setEGMSettings(const abb_rapid_sm_addin_msgs::srv::SetEGMSettings::Request::SharedPtr req,
                                            abb_rapid_sm_addin_msgs::srv::SetEGMSettings::Response::SharedPtr res)
 {
-  if (!verify_argument_rapid_task(req->task, res->result_code, res->message))
+  if (!verifyArgumentRapidTask(req->task, res->result_code, res->message))
   {
     return true;
   }
-  if (!verify_auto_mode(res->result_code, res->message))
+  if (!verifyAutoMode(res->result_code, res->message))
   {
     return true;
   }
-  if (!verify_sm_addin_runtime_states(res->result_code, res->message))
+  if (!verifySMAddinRuntimeStates(res->result_code, res->message))
   {
     return true;
   }
-  if (!verify_sm_addin_task_exist(req->task, res->result_code, res->message))
+  if (!verifySMAddinTaskExist(req->task, res->result_code, res->message))
   {
     return true;
   }
-  if (!verify_sm_addin_task_initialized(req->task, res->result_code, res->message))
+  if (!verifySMAddinTaskInitialized(req->task, res->result_code, res->message))
   {
     return true;
   }
-  if (!verify_rws_manager_ready(res->result_code, res->message))
+  if (!verifyRWSManagerReady(res->result_code, res->message))
   {
     return true;
   }
@@ -997,27 +997,27 @@ bool RWSServiceProviderROS::setEGMSettings(const abb_rapid_sm_addin_msgs::srv::S
 bool RWSServiceProviderROS::setRapidRoutine(const abb_rapid_sm_addin_msgs::srv::SetRAPIDRoutine::Request::SharedPtr req,
                                             abb_rapid_sm_addin_msgs::srv::SetRAPIDRoutine::Response::SharedPtr res)
 {
-  if (!verify_argument_rapid_task(req->task, res->result_code, res->message))
+  if (!verifyArgumentRapidTask(req->task, res->result_code, res->message))
   {
     return true;
   }
-  if (!verify_auto_mode(res->result_code, res->message))
+  if (!verifyAutoMode(res->result_code, res->message))
   {
     return true;
   }
-  if (!verify_sm_addin_runtime_states(res->result_code, res->message))
+  if (!verifySMAddinRuntimeStates(res->result_code, res->message))
   {
     return true;
   }
-  if (!verify_sm_addin_task_exist(req->task, res->result_code, res->message))
+  if (!verifySMAddinTaskExist(req->task, res->result_code, res->message))
   {
     return true;
   }
-  if (!verify_sm_addin_task_initialized(req->task, res->result_code, res->message))
+  if (!verifySMAddinTaskInitialized(req->task, res->result_code, res->message))
   {
     return true;
   }
-  if (!verify_rws_manager_ready(res->result_code, res->message))
+  if (!verifyRWSManagerReady(res->result_code, res->message))
   {
     return true;
   }
@@ -1041,27 +1041,27 @@ bool RWSServiceProviderROS::setRapidRoutine(const abb_rapid_sm_addin_msgs::srv::
 bool RWSServiceProviderROS::setSGCOmmand(const abb_rapid_sm_addin_msgs::srv::SetSGCommand::Request::SharedPtr req,
                                          abb_rapid_sm_addin_msgs::srv::SetSGCommand::Response::SharedPtr res)
 {
-  if (!verify_argument_rapid_task(req->task, res->result_code, res->message))
+  if (!verifyArgumentRapidTask(req->task, res->result_code, res->message))
   {
     return true;
   }
-  if (!verify_auto_mode(res->result_code, res->message))
+  if (!verifyAutoMode(res->result_code, res->message))
   {
     return true;
   }
-  if (!verify_sm_addin_runtime_states(res->result_code, res->message))
+  if (!verifySMAddinRuntimeStates(res->result_code, res->message))
   {
     return true;
   }
-  if (!verify_sm_addin_task_exist(req->task, res->result_code, res->message))
+  if (!verifySMAddinTaskExist(req->task, res->result_code, res->message))
   {
     return true;
   }
-  if (!verify_sm_addin_task_initialized(req->task, res->result_code, res->message))
+  if (!verifySMAddinTaskInitialized(req->task, res->result_code, res->message))
   {
     return true;
   }
-  if (!verify_rws_manager_ready(res->result_code, res->message))
+  if (!verifyRWSManagerReady(res->result_code, res->message))
   {
     return true;
   }
@@ -1101,19 +1101,19 @@ bool RWSServiceProviderROS::setSGCOmmand(const abb_rapid_sm_addin_msgs::srv::Set
 bool RWSServiceProviderROS::startEGMJoint(const abb_robot_msgs::srv::TriggerWithResultCode::Request::SharedPtr,
                                           abb_robot_msgs::srv::TriggerWithResultCode::Response::SharedPtr res)
 {
-  if (!verify_auto_mode(res->result_code, res->message))
+  if (!verifyAutoMode(res->result_code, res->message))
   {
     return true;
   }
-  if (!verify_rapid_running(res->result_code, res->message))
+  if (!verifyRapidRunning(res->result_code, res->message))
   {
     return true;
   }
-  if (!verify_sm_addin_runtime_states(res->result_code, res->message))
+  if (!verifySMAddinRuntimeStates(res->result_code, res->message))
   {
     return true;
   }
-  if (!verify_rws_manager_ready(res->result_code, res->message))
+  if (!verifyRWSManagerReady(res->result_code, res->message))
   {
     return true;
   }
@@ -1137,19 +1137,19 @@ bool RWSServiceProviderROS::startEGMJoint(const abb_robot_msgs::srv::TriggerWith
 bool RWSServiceProviderROS::startEGMPose(const abb_robot_msgs::srv::TriggerWithResultCode::Request::SharedPtr,
                                          abb_robot_msgs::srv::TriggerWithResultCode::Response::SharedPtr res)
 {
-  if (!verify_auto_mode(res->result_code, res->message))
+  if (!verifyAutoMode(res->result_code, res->message))
   {
     return true;
   }
-  if (!verify_rapid_running(res->result_code, res->message))
+  if (!verifyRapidRunning(res->result_code, res->message))
   {
     return true;
   }
-  if (!verify_sm_addin_runtime_states(res->result_code, res->message))
+  if (!verifySMAddinRuntimeStates(res->result_code, res->message))
   {
     return true;
   }
-  if (!verify_rws_manager_ready(res->result_code, res->message))
+  if (!verifyRWSManagerReady(res->result_code, res->message))
   {
     return true;
   }
@@ -1173,19 +1173,19 @@ bool RWSServiceProviderROS::startEGMPose(const abb_robot_msgs::srv::TriggerWithR
 bool RWSServiceProviderROS::startEGMStream(const abb_robot_msgs::srv::TriggerWithResultCode::Request::SharedPtr,
                                            abb_robot_msgs::srv::TriggerWithResultCode::Response::SharedPtr res)
 {
-  if (!verify_auto_mode(res->result_code, res->message))
+  if (!verifyAutoMode(res->result_code, res->message))
   {
     return true;
   }
-  if (!verify_rapid_running(res->result_code, res->message))
+  if (!verifyRapidRunning(res->result_code, res->message))
   {
     return true;
   }
-  if (!verify_sm_addin_runtime_states(res->result_code, res->message))
+  if (!verifySMAddinRuntimeStates(res->result_code, res->message))
   {
     return true;
   }
-  if (!verify_rws_manager_ready(res->result_code, res->message))
+  if (!verifyRWSManagerReady(res->result_code, res->message))
   {
     return true;
   }
@@ -1209,15 +1209,15 @@ bool RWSServiceProviderROS::startEGMStream(const abb_robot_msgs::srv::TriggerWit
 bool RWSServiceProviderROS::stopEGM(const abb_robot_msgs::srv::TriggerWithResultCode::Request::SharedPtr,
                                     abb_robot_msgs::srv::TriggerWithResultCode::Response::SharedPtr res)
 {
-  if (!verify_auto_mode(res->result_code, res->message))
+  if (!verifyAutoMode(res->result_code, res->message))
   {
     return true;
   }
-  if (!verify_rapid_running(res->result_code, res->message))
+  if (!verifyRapidRunning(res->result_code, res->message))
   {
     return true;
   }
-  if (!verify_rws_manager_ready(res->result_code, res->message))
+  if (!verifyRWSManagerReady(res->result_code, res->message))
   {
     return true;
   }
@@ -1241,15 +1241,15 @@ bool RWSServiceProviderROS::stopEGM(const abb_robot_msgs::srv::TriggerWithResult
 bool RWSServiceProviderROS::stopEGMStream(const abb_robot_msgs::srv::TriggerWithResultCode::Request::SharedPtr,
                                           abb_robot_msgs::srv::TriggerWithResultCode::Response::SharedPtr res)
 {
-  if (!verify_auto_mode(res->result_code, res->message))
+  if (!verifyAutoMode(res->result_code, res->message))
   {
     return true;
   }
-  if (!verify_rapid_running(res->result_code, res->message))
+  if (!verifyRapidRunning(res->result_code, res->message))
   {
     return true;
   }
-  if (!verify_rws_manager_ready(res->result_code, res->message))
+  if (!verifyRWSManagerReady(res->result_code, res->message))
   {
     return true;
   }
@@ -1371,7 +1371,7 @@ bool RWSServiceProviderROS::verifyMotorsOn(uint16_t& result_code, std::string& m
   return true;
 }
 
-bool RWSServiceProviderROS::verifySMAddingRuntimeStates(uint16_t& result_code, std::string& message)
+bool RWSServiceProviderROS::verifySMAddinRuntimeStates(uint16_t& result_code, std::string& message)
 {
   if (runtime_state_.state_machines.empty())
   {
@@ -1383,8 +1383,7 @@ bool RWSServiceProviderROS::verifySMAddingRuntimeStates(uint16_t& result_code, s
   return true;
 }
 
-bool RWSServiceProviderROS::verifySMAddingTaskExist(const std::string& task, uint16_t& result_code,
-                                                    std::string& message)
+bool RWSServiceProviderROS::verifySMAddinTaskExist(const std::string& task, uint16_t& result_code, std::string& message)
 {
   auto it = std::find_if(runtime_state_.state_machines.begin(), runtime_state_.state_machines.end(),
                          [&](const auto& sm) { return sm.rapid_task == task; });
@@ -1399,10 +1398,10 @@ bool RWSServiceProviderROS::verifySMAddingTaskExist(const std::string& task, uin
   return true;
 }
 
-bool RWSServiceProviderROS::verifySMAddingTaskInitialized(const std::string& task, uint16_t& result_code,
-                                                          std::string& message)
+bool RWSServiceProviderROS::verifySMAddinTaskInitialized(const std::string& task, uint16_t& result_code,
+                                                         std::string& message)
 {
-  if (!verifySMAddingTaskExist(task, result_code, message))
+  if (!verifySMAddinTaskExist(task, result_code, message))
     return false;
 
   auto it = std::find_if(runtime_state_.state_machines.begin(), runtime_state_.state_machines.end(),

@@ -203,11 +203,11 @@ private:
 
   bool verifyMotorsOn(uint16_t& result_code, std::string& message);
 
-  bool verifySMAddingRuntimeStates(uint16_t& result_code, std::string& message);
+  bool verifySMAddinRuntimeStates(uint16_t& result_code, std::string& message);
 
-  bool verifySMAddingTaskExist(const std::string& task, uint16_t& result_code, std::string& message);
+  bool verifySMAddinTaskExist(const std::string& task, uint16_t& result_code, std::string& message);
 
-  bool verifySMAddingTaskInitialized(const std::string& task, uint16_t& result_code, std::string& message);
+  bool verifySMAddinTaskInitialized(const std::string& task, uint16_t& result_code, std::string& message);
 
   bool verifyRapidRunning(uint16_t& result_code, std::string& message);
 

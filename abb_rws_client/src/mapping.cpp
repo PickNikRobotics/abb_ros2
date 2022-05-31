@@ -474,10 +474,10 @@ std::string mapVectorToString(const std::vector<type>& vector)
   return ss.str();
 }
 
-template std::string map_vector_to_string<std::string>(const std::vector<std::string>& vector);
-template std::string map_vector_to_string<bool>(const std::vector<bool>& vector);
-template std::string map_vector_to_string<int>(const std::vector<int>& vector);
-template std::string map_vector_to_string<double>(const std::vector<double>& vector);
+template std::string mapVectorToString<std::string>(const std::vector<std::string>& vector);
+template std::string mapVectorToString<bool>(const std::vector<bool>& vector);
+template std::string mapVectorToString<int>(const std::vector<int>& vector);
+template std::string mapVectorToString<double>(const std::vector<double>& vector);
 
 }  // namespace utilities
 }  // namespace robot
