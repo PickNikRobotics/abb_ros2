@@ -77,13 +77,14 @@
 #include <abb_robot_msgs/srv/set_speed_ratio.hpp>
 #include <abb_robot_msgs/srv/trigger_with_result_code.hpp>
 
-namespace abb_rws_client {
-
-class RWSServiceProviderROS : RWSClient {
- public:
+namespace abb_rws_client
+{
+class RWSServiceProviderROS : RWSClient
+{
+public:
   RWSServiceProviderROS(const rclcpp::Node::SharedPtr& node, const std::string& robot_ip, unsigned short robot_port);
 
- private:
+private:
   void system_state_callback(const abb_robot_msgs::msg::SystemState& msg);
 
   void runtime_state_callback(const abb_rapid_sm_addin_msgs::msg::RuntimeState& msg);

@@ -100,20 +100,20 @@ RobotControllerDescription establishRWSConnection(RWSManager& rws_manager, const
   throw std::runtime_error{ RWS_CONNECTION_ERROR_MESSAGE };
 }
 
-void verify_robotware_version(const RobotWareVersion& rw_version) {
-  if (rw_version.major_number() == 6 && rw_version.minor_number() < 7 &&
-      rw_version.patch_number() < 1) {
-    auto error_message{"Unsupported RobotWare version (" + rw_version.name() +
-                       ", need at least 6.07.01)"};
+void verify_robotware_version(const RobotWareVersion& rw_version)
+{
+  if (rw_version.major_number() == 6 && rw_version.minor_number() < 7 && rw_version.patch_number() < 1)
+  {
+    auto error_message{ "Unsupported RobotWare version (" + rw_version.name() + ", need at least 6.07.01)" };
 
     RCLCPP_FATAL_STREAM(LOGGER, error_message);
-    throw std::runtime_error{error_message};
+    throw std::runtime_error{ error_message };
   }
 }
 
-bool verify_state_machine_add_in_presence(const SystemIndicators& system_indicators) {
-  return system_indicators.addins().state_machine_1_0() ||
-         system_indicators.addins().state_machine_1_1();
+bool verify_state_machine_add_in_presence(const SystemIndicators& system_indicators)
+{
+  return system_indicators.addins().state_machine_1_0() || system_indicators.addins().state_machine_1_1();
 }
 }  // namespace utilities
 }  // namespace robot

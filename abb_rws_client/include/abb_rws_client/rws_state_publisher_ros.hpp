@@ -56,13 +56,14 @@
 #include <abb_robot_msgs/msg/rapid_task_state.hpp>
 #include <abb_robot_msgs/msg/system_state.hpp>
 
-namespace abb_rws_client {
+namespace abb_rws_client
+{
+class RWSStatePublisherROS : RWSClient
+{
+public:
+  RWSStatePublisherROS(const rclcpp::Node::SharedPtr& node, const std::string& robot_ip, unsigned short robot_port);
 
-class RWSStatePublisherROS : RWSClient {
- public:
-  RWSStatePublisherROS(const rclcpp::Node::SharedPtr &node, const std::string &robot_ip, unsigned short robot_port);
-
- private:
+private:
   void timer_callback();
 
   rclcpp::TimerBase::SharedPtr timer_;

@@ -49,10 +49,12 @@
 #include <abb_rapid_msgs/msg/w_obj_data.hpp>
 #include <abb_rapid_sm_addin_msgs/msg/egm_settings.hpp>
 
-namespace abb {
-namespace robot {
-namespace utilities {
-
+namespace abb
+{
+namespace robot
+{
+namespace utilities
+{
 /**
  * \brief Maps RAPID task execution state to ROS representation.
  *

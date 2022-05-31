@@ -42,18 +42,20 @@
 
 #include "abb_rws_client/utilities.hpp"
 
-
-namespace abb_rws_client {
-RWSClient::RWSClient(const rclcpp::Node::SharedPtr &node, const std::string &robot_ip, unsigned short robot_port)
-    : node_(node),
-      rws_manager_{robot_ip, robot_port, abb::rws::SystemConstants::General::DEFAULT_USERNAME,
-                   abb::rws::SystemConstants::General::DEFAULT_PASSWORD} {
+namespace abb_rws_client
+{
+RWSClient::RWSClient(const rclcpp::Node::SharedPtr& node, const std::string& robot_ip, unsigned short robot_port)
+  : node_(node)
+  , rws_manager_{ robot_ip, robot_port, abb::rws::SystemConstants::General::DEFAULT_USERNAME,
+                  abb::rws::SystemConstants::General::DEFAULT_PASSWORD }
+{
   node_->declare_parameter("robot_nickname", std::string{});
   node_->declare_parameter("no_connection_timeout", false);
 
   connect();
 }
-void RWSClient::connect() {
+void RWSClient::connect()
+{
   std::string robot_id;
   bool no_connection_timeout;
 

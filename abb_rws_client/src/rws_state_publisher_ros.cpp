@@ -43,17 +43,20 @@
 #include "abb_rws_client/mapping.hpp"
 #include "abb_rws_client/utilities.hpp"
 
-namespace {
+namespace
+{
 /**
  * \brief Time [s] for throttled ROS logging.
  */
-constexpr double THROTTLE_TIME{10.0};
+constexpr double THROTTLE_TIME{ 10.0 };
 }  // namespace
 
-namespace abb_rws_client {
+namespace abb_rws_client
+{
 RWSStatePublisherROS::RWSStatePublisherROS(const rclcpp::Node::SharedPtr& node, const std::string& robot_ip,
                                            unsigned short robot_port)
-    : RWSClient(node, robot_ip, robot_port) {
+  : RWSClient(node, robot_ip, robot_port)
+{
   node_->declare_parameter("polling_rate", 5.0);
   abb::robot::initializeMotionData(motion_data_, robot_controller_description_);
 
@@ -64,26 +67,34 @@ RWSStatePublisherROS::RWSStatePublisherROS(const rclcpp::Node::SharedPtr& node, 
 
   system_state_pub_ = node_->create_publisher<abb_robot_msgs::msg::SystemState>("~/system_states", 1);
 
-  if (abb::robot::utilities::verify_state_machine_add_in_presence(robot_controller_description_.system_indicators())) {
+  if (abb::robot::utilities::verify_state_machine_add_in_presence(robot_controller_description_.system_indicators()))
+  {
     runtime_state_pub_ =
         node_->create_publisher<abb_rapid_sm_addin_msgs::msg::RuntimeState>("~/sm_addin/runtime_states", 1);
   }
 }
 
-void RWSStatePublisherROS::timer_callback() {
-  try {
+void RWSStatePublisherROS::timer_callback()
+{
+  try
+  {
     rws_manager_.collectAndUpdateRuntimeData(system_state_data_, motion_data_);
-  } catch (const std::runtime_error& exception) {
+  }
+  catch (const std::runtime_error& exception)
+  {
     auto& clk = *node_->get_clock();
-    RCLCPP_WARN_STREAM_THROTTLE(
-        node_->get_logger(), clk, THROTTLE_TIME,
-        "Periodic polling of runtime data via RWS failed with '" << exception.what() << "' (will try again later)");
+    RCLCPP_WARN_STREAM_THROTTLE(node_->get_logger(), clk, THROTTLE_TIME,
+                                "Periodic polling of runtime data via RWS failed with '" << exception.what()
+                                                                                         << "' (will try again later)");
   }
 
   sensor_msgs::msg::JointState joint_state_msg;
-  for (auto& group : motion_data_.groups) {
-    for (auto& unit : group.units) {
-      for (auto& joint : unit.joints) {
+  for (auto& group : motion_data_.groups)
+  {
+    for (auto& unit : group.units)
+    {
+      for (auto& joint : unit.joints)
+      {
         joint_state_msg.name.push_back(joint.name);
         joint_state_msg.position.push_back(joint.state.position);
       }
@@ -95,7 +106,8 @@ void RWSStatePublisherROS::timer_callback() {
   system_state_msg.auto_mode = system_state_data_.auto_mode.isTrue();
   system_state_msg.rapid_running = system_state_data_.rapid_running.isTrue();
 
-  for (const auto& task : system_state_data_.rapid_tasks) {
+  for (const auto& task : system_state_data_.rapid_tasks)
+  {
     abb_robot_msgs::msg::RAPIDTaskState state{};
 
     state.name = task.name;
@@ -106,7 +118,8 @@ void RWSStatePublisherROS::timer_callback() {
     system_state_msg.rapid_tasks.push_back(state);
   }
 
-  for (const auto& unit : system_state_data_.mechanical_units) {
+  for (const auto& unit : system_state_data_.mechanical_units)
+  {
     abb_robot_msgs::msg::MechanicalUnitState state{};
     state.name = unit.first;
     state.activated = unit.second.active;
@@ -114,9 +127,11 @@ void RWSStatePublisherROS::timer_callback() {
   }
 
   abb_rapid_sm_addin_msgs::msg::RuntimeState sm_runtime_state_msg;
-  const auto& system_indicators{robot_controller_description_.system_indicators()};
-  if (abb::robot::utilities::verify_state_machine_add_in_presence(system_indicators)) {
-    for (const auto& sm : system_state_data_.state_machines) {
+  const auto& system_indicators{ robot_controller_description_.system_indicators() };
+  if (abb::robot::utilities::verify_state_machine_add_in_presence(system_indicators))
+  {
+    for (const auto& sm : system_state_data_.state_machines)
+    {
       abb_rapid_sm_addin_msgs::msg::StateMachineState state;
       state.rapid_task = sm.rapid_task;
       state.sm_state = abb::robot::utilities::map_state_machine_state(sm.sm_state);
@@ -132,11 +147,10 @@ void RWSStatePublisherROS::timer_callback() {
   system_state_msg.header.stamp = time;
   system_state_pub_->publish(system_state_msg);
 
-    if (abb::robot::utilities::verify_state_machine_add_in_presence(robot_controller_description_.system_indicators()))
-    {
-      sm_runtime_state_msg.header.stamp = time;
-      runtime_state_pub_->publish(sm_runtime_state_msg);
-    }
-
+  if (abb::robot::utilities::verify_state_machine_add_in_presence(robot_controller_description_.system_indicators()))
+  {
+    sm_runtime_state_msg.header.stamp = time;
+    runtime_state_pub_->publish(sm_runtime_state_msg);
+  }
 }
 }  // namespace abb_rws_client

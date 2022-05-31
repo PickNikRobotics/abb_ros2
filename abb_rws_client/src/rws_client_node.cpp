@@ -3,7 +3,8 @@
 #include "abb_rws_client/rws_service_provider_ros.hpp"
 #include "abb_rws_client/rws_state_publisher_ros.hpp"
 
-int main(int argc, char** argv) {
+int main(int argc, char** argv)
+{
   rclcpp::init(argc, argv);
 
   rclcpp::Node::SharedPtr client_node = rclcpp::Node::make_shared("rws");

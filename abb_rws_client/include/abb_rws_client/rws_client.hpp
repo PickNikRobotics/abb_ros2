@@ -47,19 +47,20 @@
 #include <abb_egm_rws_managers/rws_manager.h>
 #include <abb_egm_rws_managers/system_data_parser.h>
 
-namespace abb_rws_client {
+namespace abb_rws_client
+{
+class RWSClient
+{
+public:
+  RWSClient(const rclcpp::Node::SharedPtr& node, const std::string& robot_ip, unsigned short robot_port);
 
-class RWSClient {
- public:
-  RWSClient(const rclcpp::Node::SharedPtr &node, const std::string &robot_ip, unsigned short robot_port);
-
- protected:
+protected:
   rclcpp::Node::SharedPtr node_;
   abb::robot::RWSManager rws_manager_;
 
   abb::robot::RobotControllerDescription robot_controller_description_;
 
- private:
+private:
   void connect();
 };
 
