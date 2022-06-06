@@ -84,6 +84,9 @@ def launch_setup(context, *args, **kwargs):
         "moveit_simple_controller_manager": moveit_simple_controllers_yaml,
         "moveit_controller_manager": "moveit_simple_controller_manager/MoveItSimpleControllerManager",
     }
+    publish_robot_description_semantic = {
+    	'publish_robot_description_semantic': True
+    }
 
     trajectory_execution = {
         # MoveIt does not handle controller switching automatically
@@ -113,6 +116,7 @@ def launch_setup(context, *args, **kwargs):
             trajectory_execution,
             moveit_controllers,
             planning_scene_monitor_parameters,
+            publish_robot_description_semantic
         ],
     )
 
