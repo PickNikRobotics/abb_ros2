@@ -38,9 +38,9 @@
 // https://github.com/ros-industrial/abb_robot_driver/tree/master/abb_rws_service_provider/src
 // https://github.com/ros-industrial/abb_robot_driver/tree/master/abb_rws_state_publisher/src
 
-#include "abb_rws_client/rws_client.hpp"
+#include <abb_rws_client/rws_client.hpp>
 
-#include "abb_rws_client/utilities.hpp"
+#include <abb_hardware_interface/utilities.hpp>
 
 namespace abb_rws_client
 {
@@ -62,7 +62,7 @@ void RWSClient::connect()
   node_->get_parameter("robot_nickname", robot_id);
   node_->get_parameter("no_connection_timeout", no_connection_timeout);
   robot_controller_description_ =
-      abb::robot::utilities::establish_rws_connection(rws_manager_, robot_id, no_connection_timeout);
-  abb::robot::utilities::verify_robotware_version(robot_controller_description_.header().robot_ware_version());
+      abb::robot::utilities::establishRWSConnection(rws_manager_, robot_id, no_connection_timeout);
+  abb::robot::utilities::verifyRobotWareVersion(robot_controller_description_.header().robot_ware_version());
 }
 }  // namespace abb_rws_client

@@ -24,6 +24,7 @@ set(THIS_PACKAGE_INCLUDE_DEPENDS
     abb_robot_msgs
     abb_rapid_msgs
     abb_rapid_sm_addin_msgs
+    abb_hardware_interface
     rclcpp
     sensor_msgs
 )
@@ -44,11 +45,9 @@ add_executable(rws_client
   src/rws_client.cpp
   src/rws_service_provider_ros.cpp
   src/rws_state_publisher_ros.cpp
-  src/utilities.cpp
   src/mapping.cpp
 )
 ament_target_dependencies(rws_client ${THIS_PACKAGE_INCLUDE_DEPENDS})
-# target_link_libraries(rws_client  abb_egm_rws_managers::abb_egm_rws_managers)
 target_include_directories(
   rws_client
   PRIVATE

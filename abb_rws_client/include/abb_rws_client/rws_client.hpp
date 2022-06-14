@@ -40,10 +40,8 @@
 
 #pragma once
 
-// ROS
 #include <rclcpp/rclcpp.hpp>
 
-// ABB
 #include <abb_egm_rws_managers/rws_manager.h>
 #include <abb_egm_rws_managers/system_data_parser.h>
 

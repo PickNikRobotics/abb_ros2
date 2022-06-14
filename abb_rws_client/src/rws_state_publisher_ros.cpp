@@ -38,10 +38,10 @@
 // https://github.com/ros-industrial/abb_robot_driver/tree/master/abb_rws_service_provider/src
 // https://github.com/ros-industrial/abb_robot_driver/tree/master/abb_rws_state_publisher/src
 
-#include "abb_rws_client/rws_state_publisher_ros.hpp"
+#include <abb_rws_client/rws_state_publisher_ros.hpp>
 
-#include "abb_rws_client/mapping.hpp"
-#include "abb_rws_client/utilities.hpp"
+#include <abb_rws_client/mapping.hpp>
+#include <abb_hardware_interface/utilities.hpp>
 
 namespace
 {
@@ -67,7 +67,7 @@ RWSStatePublisherROS::RWSStatePublisherROS(const rclcpp::Node::SharedPtr& node, 
 
   system_state_pub_ = node_->create_publisher<abb_robot_msgs::msg::SystemState>("~/system_states", 1);
 
-  if (abb::robot::utilities::verify_state_machine_add_in_presence(robot_controller_description_.system_indicators()))
+  if (abb::robot::utilities::verifyStateMachineAddInPresence(robot_controller_description_.system_indicators()))
   {
     runtime_state_pub_ =
         node_->create_publisher<abb_rapid_sm_addin_msgs::msg::RuntimeState>("~/sm_addin/runtime_states", 1);
@@ -128,7 +128,7 @@ void RWSStatePublisherROS::timer_callback()
 
   abb_rapid_sm_addin_msgs::msg::RuntimeState sm_runtime_state_msg;
   const auto& system_indicators{ robot_controller_description_.system_indicators() };
-  if (abb::robot::utilities::verify_state_machine_add_in_presence(system_indicators))
+  if (abb::robot::utilities::verifyStateMachineAddInPresence(system_indicators))
   {
     for (const auto& sm : system_state_data_.state_machines)
     {
@@ -147,7 +147,7 @@ void RWSStatePublisherROS::timer_callback()
   system_state_msg.header.stamp = time;
   system_state_pub_->publish(system_state_msg);
 
-  if (abb::robot::utilities::verify_state_machine_add_in_presence(robot_controller_description_.system_indicators()))
+  if (abb::robot::utilities::verifyStateMachineAddInPresence(robot_controller_description_.system_indicators()))
   {
     sm_runtime_state_msg.header.stamp = time;
     runtime_state_pub_->publish(sm_runtime_state_msg);

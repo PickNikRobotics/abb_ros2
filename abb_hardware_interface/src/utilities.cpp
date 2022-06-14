@@ -42,7 +42,7 @@
 #include <abb_hardware_interface/utilities.hpp>
 #include <stdexcept>
 
-#include "rclcpp/rclcpp.hpp"
+#include <rclcpp/rclcpp.hpp>
 
 namespace abb
 {
@@ -100,7 +100,7 @@ RobotControllerDescription establishRWSConnection(RWSManager& rws_manager, const
   throw std::runtime_error{ RWS_CONNECTION_ERROR_MESSAGE };
 }
 
-void verify_robotware_version(const RobotWareVersion& rw_version)
+void verifyRobotWareVersion(const RobotWareVersion& rw_version)
 {
   if (rw_version.major_number() == 6 && rw_version.minor_number() < 7 && rw_version.patch_number() < 1)
   {
@@ -111,7 +111,7 @@ void verify_robotware_version(const RobotWareVersion& rw_version)
   }
 }
 
-bool verify_state_machine_add_in_presence(const SystemIndicators& system_indicators)
+bool verifyStateMachineAddInPresence(const SystemIndicators& system_indicators)
 {
   return system_indicators.addins().state_machine_1_0() || system_indicators.addins().state_machine_1_1();
 }

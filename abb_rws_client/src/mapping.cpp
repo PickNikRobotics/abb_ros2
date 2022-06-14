@@ -37,14 +37,12 @@
 // This file is a modified copy from
 // https://github.com/ros-industrial/abb_robot_driver/blob/master/abb_robot_cpp_utilities/src/mapping.cpp
 
-#include "abb_rws_client/mapping.hpp"
+#include <abb_rws_client/mapping.hpp>
 
-// System
 #include <sstream>
 #include <stdexcept>
 #include <string>
 
-// ABB INTERFACES
 #include <abb_egm_msgs/msg/egm_state.hpp>
 #include <abb_rapid_sm_addin_msgs/msg/egm_settings.hpp>
 #include <abb_rapid_sm_addin_msgs/msg/state_machine_state.hpp>
@@ -63,27 +61,21 @@ uint8_t map(const rws::RWSInterface::RAPIDTaskExecutionState state)
   {
     case rws::RWSInterface::UNKNOWN:
       return abb_robot_msgs::msg::RAPIDTaskState::EXECUTION_STATE_UNKNOWN;
-      break;
 
     case rws::RWSInterface::READY:
       return abb_robot_msgs::msg::RAPIDTaskState::EXECUTION_STATE_READY;
-      break;
 
     case rws::RWSInterface::STOPPED:
       return abb_robot_msgs::msg::RAPIDTaskState::EXECUTION_STATE_STOPPED;
-      break;
 
     case rws::RWSInterface::STARTED:
       return abb_robot_msgs::msg::RAPIDTaskState::EXECUTION_STATE_STARTED;
-      break;
 
     case rws::RWSInterface::UNINITIALIZED:
       return abb_robot_msgs::msg::RAPIDTaskState::EXECUTION_STATE_UNINITIALIZED;
-      break;
 
     default:
       return abb_robot_msgs::msg::RAPIDTaskState::EXECUTION_STATE_UNKNOWN;
-      break;
   }
 }
 
@@ -93,23 +85,18 @@ uint8_t mapStateMachineState(const rws::RAPIDNum& state)
   {
     case 0:
       return abb_rapid_sm_addin_msgs::msg::StateMachineState::SM_STATE_IDLE;
-      break;
 
     case 1:
       return abb_rapid_sm_addin_msgs::msg::StateMachineState::SM_STATE_INITIALIZE;
-      break;
 
     case 2:
       return abb_rapid_sm_addin_msgs::msg::StateMachineState::SM_STATE_RUN_RAPID_ROUTINE;
-      break;
 
     case 3:
       return abb_rapid_sm_addin_msgs::msg::StateMachineState::SM_STATE_RUN_EGM_ROUTINE;
-      break;
 
     default:
       return abb_rapid_sm_addin_msgs::msg::StateMachineState::SM_STATE_UNKNOWN;
-      break;
   }
 }
 
@@ -119,37 +106,30 @@ uint8_t mapStateMachineEGMAction(const rws::RAPIDNum& action)
   {
     case 0:
       return abb_rapid_sm_addin_msgs::msg::StateMachineState::EGM_ACTION_NONE;
-      break;
 
     case 1:
       return abb_rapid_sm_addin_msgs::msg::StateMachineState::EGM_ACTION_RUN_JOINT;
-      break;
 
     case 2:
       return abb_rapid_sm_addin_msgs::msg::StateMachineState::EGM_ACTION_RUN_POSE;
-      break;
 
     case 3:
       return abb_rapid_sm_addin_msgs::msg::StateMachineState::EGM_ACTION_STOP;
-      break;
 
     case 4:
       return abb_rapid_sm_addin_msgs::msg::StateMachineState::EGM_ACTION_START_STREAM;
-      break;
 
     case 5:
       return abb_rapid_sm_addin_msgs::msg::StateMachineState::EGM_ACTION_STOP_STREAM;
-      break;
 
     default:
       return abb_rapid_sm_addin_msgs::msg::StateMachineState::SM_STATE_UNKNOWN;
-      break;
   }
 }
 
 abb_rapid_msgs::msg::Pos map(const rws::Pos& rws_pos)
 {
-  abb_rapid_msgs::msg::Pos ros_pos{};
+  abb_rapid_msgs::msg::Pos ros_pos;
   ros_pos.x = rws_pos.x.value;
   ros_pos.y = rws_pos.y.value;
   ros_pos.z = rws_pos.z.value;
@@ -158,7 +138,7 @@ abb_rapid_msgs::msg::Pos map(const rws::Pos& rws_pos)
 
 abb_rapid_msgs::msg::Orient map(const rws::Orient& rws_orient)
 {
-  abb_rapid_msgs::msg::Orient ros_orient{};
+  abb_rapid_msgs::msg::Orient ros_orient;
   ros_orient.q1 = rws_orient.q1.value;
   ros_orient.q2 = rws_orient.q2.value;
   ros_orient.q3 = rws_orient.q3.value;
@@ -168,7 +148,7 @@ abb_rapid_msgs::msg::Orient map(const rws::Orient& rws_orient)
 
 abb_rapid_msgs::msg::Pose map(const rws::Pose& rws_pose)
 {
-  abb_rapid_msgs::msg::Pose ros_pose{};
+  abb_rapid_msgs::msg::Pose ros_pose;
   ros_pose.trans = map(rws_pose.pos);
   ros_pose.rot = map(rws_pose.rot);
   return ros_pose;
@@ -176,7 +156,7 @@ abb_rapid_msgs::msg::Pose map(const rws::Pose& rws_pose)
 
 abb_rapid_msgs::msg::LoadData map(const rws::LoadData& rws_loaddata)
 {
-  abb_rapid_msgs::msg::LoadData ros_loaddata{};
+  abb_rapid_msgs::msg::LoadData ros_loaddata;
   ros_loaddata.mass = rws_loaddata.mass.value;
   ros_loaddata.cog = map(rws_loaddata.cog);
   ros_loaddata.aom = map(rws_loaddata.aom);
@@ -188,7 +168,7 @@ abb_rapid_msgs::msg::LoadData map(const rws::LoadData& rws_loaddata)
 
 abb_rapid_msgs::msg::ToolData map(const rws::ToolData& rws_tooldata)
 {
-  abb_rapid_msgs::msg::ToolData ros_tooldata{};
+  abb_rapid_msgs::msg::ToolData ros_tooldata;
   ros_tooldata.robhold = rws_tooldata.robhold.value;
   ros_tooldata.tframe = map(rws_tooldata.tframe);
   ros_tooldata.tload = map(rws_tooldata.tload);
@@ -197,7 +177,7 @@ abb_rapid_msgs::msg::ToolData map(const rws::ToolData& rws_tooldata)
 
 abb_rapid_msgs::msg::WObjData map(const rws::WObjData& rws_wobjdata)
 {
-  abb_rapid_msgs::msg::WObjData ros_wobjdata{};
+  abb_rapid_msgs::msg::WObjData ros_wobjdata;
   ros_wobjdata.robhold = rws_wobjdata.robhold.value;
   ros_wobjdata.ufprog = rws_wobjdata.ufprog.value;
   ros_wobjdata.ufmec = rws_wobjdata.ufmec.value;
@@ -208,7 +188,7 @@ abb_rapid_msgs::msg::WObjData map(const rws::WObjData& rws_wobjdata)
 
 abb_rapid_sm_addin_msgs::msg::EGMSettings map(const rws::RWSStateMachineInterface::EGMSettings& rws_egm_settings)
 {
-  abb_rapid_sm_addin_msgs::msg::EGMSettings ros_egm_settings{};
+  abb_rapid_sm_addin_msgs::msg::EGMSettings ros_egm_settings;
 
   ros_egm_settings.allow_egm_motions = rws_egm_settings.allow_egm_motions.value;
   ros_egm_settings.use_presync = rws_egm_settings.use_presync.value;
@@ -241,70 +221,55 @@ unsigned int mapStateMachineSGCommand(const unsigned int command)
   {
     case abb_rapid_sm_addin_msgs::srv::SetSGCommand::Request::SG_COMMAND_NONE:
       return rws::RWSStateMachineInterface::SG_COMMAND_NONE;
-      break;
 
     case abb_rapid_sm_addin_msgs::srv::SetSGCommand::Request::SG_COMMAND_INITIALIZE:
       return rws::RWSStateMachineInterface::SG_COMMAND_INITIALIZE;
-      break;
 
     case abb_rapid_sm_addin_msgs::srv::SetSGCommand::Request::SG_COMMAND_CALIBRATE:
       return rws::RWSStateMachineInterface::SG_COMMAND_CALIBRATE;
-      break;
 
     case abb_rapid_sm_addin_msgs::srv::SetSGCommand::Request::SG_COMMAND_MOVE_TO:
       return rws::RWSStateMachineInterface::SG_COMMAND_MOVE_TO;
-      break;
 
     case abb_rapid_sm_addin_msgs::srv::SetSGCommand::Request::SG_COMMAND_GRIP_IN:
       return rws::RWSStateMachineInterface::SG_COMMAND_GRIP_IN;
-      break;
 
     case abb_rapid_sm_addin_msgs::srv::SetSGCommand::Request::SG_COMMAND_GRIP_OUT:
       return rws::RWSStateMachineInterface::SG_COMMAND_GRIP_OUT;
-      break;
 
     case abb_rapid_sm_addin_msgs::srv::SetSGCommand::Request::SG_COMMAND_BLOW_ON_1:
       return rws::RWSStateMachineInterface::SG_COMMAND_BLOW_ON_1;
-      break;
 
     case abb_rapid_sm_addin_msgs::srv::SetSGCommand::Request::SG_COMMAND_BLOW_ON_2:
       return rws::RWSStateMachineInterface::SG_COMMAND_BLOW_ON_2;
-      break;
 
     case abb_rapid_sm_addin_msgs::srv::SetSGCommand::Request::SG_COMMAND_BLOW_OFF_1:
       return rws::RWSStateMachineInterface::SG_COMMAND_BLOW_OFF_1;
-      break;
 
     case abb_rapid_sm_addin_msgs::srv::SetSGCommand::Request::SG_COMMAND_BLOW_OFF_2:
       return rws::RWSStateMachineInterface::SG_COMMAND_BLOW_OFF_2;
-      break;
 
     case abb_rapid_sm_addin_msgs::srv::SetSGCommand::Request::SG_COMMAND_VACUUM_ON_1:
       return rws::RWSStateMachineInterface::SG_COMMAND_VACUUM_ON_1;
-      break;
 
     case abb_rapid_sm_addin_msgs::srv::SetSGCommand::Request::SG_COMMAND_VACUUM_ON_2:
       return rws::RWSStateMachineInterface::SG_COMMAND_VACUUM_ON_2;
-      break;
 
     case abb_rapid_sm_addin_msgs::srv::SetSGCommand::Request::SG_COMMAND_VACUUM_OFF_1:
       return rws::RWSStateMachineInterface::SG_COMMAND_VACUUM_OFF_1;
-      break;
 
     case abb_rapid_sm_addin_msgs::srv::SetSGCommand::Request::SG_COMMAND_VACUUM_OFF_2:
       return rws::RWSStateMachineInterface::SG_COMMAND_VACUUM_OFF_2;
-      break;
 
     case abb_rapid_sm_addin_msgs::srv::SetSGCommand::Request::SG_COMMAND_UNKNOWN:
     default:
       throw std::runtime_error{ "Unknown SmartGripper command" };
-      break;
   }
 }
 
 rws::Pos map(const abb_rapid_msgs::msg::Pos& ros_pos)
 {
-  rws::Pos rws_pos{};
+  rws::Pos rws_pos;
   rws_pos.x.value = ros_pos.x;
   rws_pos.y.value = ros_pos.y;
   rws_pos.z.value = ros_pos.z;
@@ -313,7 +278,7 @@ rws::Pos map(const abb_rapid_msgs::msg::Pos& ros_pos)
 
 rws::Orient map(const abb_rapid_msgs::msg::Orient& ros_orient)
 {
-  rws::Orient rws_orient{};
+  rws::Orient rws_orient;
   rws_orient.q1 = ros_orient.q1;
   rws_orient.q2 = ros_orient.q2;
   rws_orient.q3 = ros_orient.q3;
@@ -323,7 +288,7 @@ rws::Orient map(const abb_rapid_msgs::msg::Orient& ros_orient)
 
 rws::Pose map(const abb_rapid_msgs::msg::Pose& ros_pose)
 {
-  rws::Pose rws_pose{};
+  rws::Pose rws_pose;
   rws_pose.pos = map(ros_pose.trans);
   rws_pose.rot = map(ros_pose.rot);
   return rws_pose;
@@ -331,7 +296,7 @@ rws::Pose map(const abb_rapid_msgs::msg::Pose& ros_pose)
 
 rws::LoadData map(const abb_rapid_msgs::msg::LoadData& ros_loaddata)
 {
-  rws::LoadData rws_loaddata{};
+  rws::LoadData rws_loaddata;
   rws_loaddata.mass.value = ros_loaddata.mass;
   rws_loaddata.cog = map(ros_loaddata.cog);
   rws_loaddata.aom = map(ros_loaddata.aom);
@@ -343,7 +308,7 @@ rws::LoadData map(const abb_rapid_msgs::msg::LoadData& ros_loaddata)
 
 rws::ToolData map(const abb_rapid_msgs::msg::ToolData& ros_tooldata)
 {
-  rws::ToolData rws_tooldata{};
+  rws::ToolData rws_tooldata;
   rws_tooldata.robhold = ros_tooldata.robhold;
   rws_tooldata.tframe = map(ros_tooldata.tframe);
   rws_tooldata.tload = map(ros_tooldata.tload);
@@ -352,7 +317,7 @@ rws::ToolData map(const abb_rapid_msgs::msg::ToolData& ros_tooldata)
 
 rws::WObjData map(const abb_rapid_msgs::msg::WObjData& ros_wobjdata)
 {
-  rws::WObjData rws_wobjdata{};
+  rws::WObjData rws_wobjdata;
   rws_wobjdata.robhold.value = ros_wobjdata.robhold;
   rws_wobjdata.ufprog.value = ros_wobjdata.ufprog;
   rws_wobjdata.ufmec.value = ros_wobjdata.ufmec;
@@ -363,7 +328,7 @@ rws::WObjData map(const abb_rapid_msgs::msg::WObjData& ros_wobjdata)
 
 rws::RWSStateMachineInterface::EGMSettings map(const abb_rapid_sm_addin_msgs::msg::EGMSettings& ros_egm_settings)
 {
-  rws::RWSStateMachineInterface::EGMSettings rws_egm_settings{};
+  rws::RWSStateMachineInterface::EGMSettings rws_egm_settings;
 
   rws_egm_settings.allow_egm_motions.value = ros_egm_settings.allow_egm_motions;
   rws_egm_settings.use_presync.value = ros_egm_settings.use_presync;
@@ -396,20 +361,16 @@ uint8_t map(egm::wrapper::Status::EGMState state)
   {
     case egm::wrapper::Status::EGM_ERROR:
       return abb_egm_msgs::msg::EGMChannelState::EGM_ERROR;
-      break;
 
     case egm::wrapper::Status::EGM_STOPPED:
       return abb_egm_msgs::msg::EGMChannelState::EGM_STOPPED;
-      break;
 
     case egm::wrapper::Status::EGM_RUNNING:
       return abb_egm_msgs::msg::EGMChannelState::EGM_RUNNING;
-      break;
 
     case egm::wrapper::Status::EGM_UNDEFINED:
     default:
       return abb_egm_msgs::msg::EGMChannelState::EGM_UNDEFINED;
-      break;
   }
 }
 
@@ -419,16 +380,13 @@ uint8_t map(egm::wrapper::Status::MotorState state)
   {
     case egm::wrapper::Status::MOTORS_ON:
       return abb_egm_msgs::msg::EGMChannelState::MOTORS_ON;
-      break;
 
     case egm::wrapper::Status::MOTORS_OFF:
       return abb_egm_msgs::msg::EGMChannelState::MOTORS_OFF;
-      break;
 
     case egm::wrapper::Status::MOTORS_UNDEFINED:
     default:
       return abb_egm_msgs::msg::EGMChannelState::MOTORS_UNDEFINED;
-      break;
   }
 }
 
@@ -438,26 +396,23 @@ uint8_t map(egm::wrapper::Status::RAPIDExecutionState state)
   {
     case egm::wrapper::Status::RAPID_STOPPED:
       return abb_egm_msgs::msg::EGMChannelState::RAPID_STOPPED;
-      break;
 
     case egm::wrapper::Status::RAPID_RUNNING:
       return abb_egm_msgs::msg::EGMChannelState::RAPID_RUNNING;
-      break;
 
     case egm::wrapper::Status::RAPID_UNDEFINED:
     default:
       return abb_egm_msgs::msg::EGMChannelState::RAPID_UNDEFINED;
-      break;
   }
 }
 
 template <typename type>
 std::string mapVectorToString(const std::vector<type>& vector)
 {
-  std::stringstream ss{};
+  std::stringstream ss;
 
   ss << "[";
-  for (size_t i{ 0 }; i < vector.size(); ++i)
+  for (size_t i = 0; i < vector.size(); ++i)
   {
     ss << vector[i];
 
