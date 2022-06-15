@@ -1,45 +1,70 @@
 from launch import LaunchDescription
-from launch.actions import DeclareLaunchArgument, OpaqueFunction
+from launch.actions import DeclareLaunchArgument
 from launch.substitutions import LaunchConfiguration
 from launch_ros.actions import Node
 
 
-def launch_setup(context, *args, **kwargs):
+def generate_launch_description():
     robot_ip = LaunchConfiguration("robot_ip")
     robot_port = LaunchConfiguration("robot_port")
     robot_nickname = LaunchConfiguration("robot_nickname")
     polling_rate = LaunchConfiguration("polling_rate")
     no_connection_timeout = LaunchConfiguration("no_connection_timeout")
 
-    return [
-        Node(
-            package="abb_hardware_interface",
-            executable="rws_client",
-            name="rws_client",
-            output="screen",
-            parameters=[
-                {
-                    "robot_ip": robot_ip,
-                    "robot_port": int(robot_port.perform(context)),
-                    "robot_nickname": robot_nickname,
-                    "polling_rate": float(polling_rate.perform(context)),
-                    "no_connection_timeout": bool(
-                        no_connection_timeout.perform(context)
-                    ),
-                }
-            ],
+    declared_arguments = []
+
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            "robot_ip",
+            default_value="None",
+            description="IP address to the robot controller's RWS server",
         )
-    ]
-
-
-def generate_launch_description():
-    return LaunchDescription(
-        [
-            DeclareLaunchArgument("robot_ip"),
-            DeclareLaunchArgument("robot_port"),
-            DeclareLaunchArgument("robot_nickname"),
-            DeclareLaunchArgument("polling_rate"),
-            DeclareLaunchArgument("no_connection_timeout"),
-            OpaqueFunction(function=launch_setup),
-        ]
     )
+
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            "robot_port",
+            default_value="80",
+            description="Port number of the robot controller's RWS server",
+        )
+    )
+
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            "robot_nickname",
+            default_value="",
+            description="Arbitrary user nickname/identifier for the robot controller",
+        )
+    )
+
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            "no_connection_timeout",
+            default_value="false",
+            description="Specifies whether the node is allowed to wait indefinitely \
+            for the robot controller during initialization.",
+        )
+    )
+
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            "polling_rate",
+            default_value="5.0",
+            description="The frequency [Hz] at which the controller state is collected.",
+        )
+    )
+
+    node = Node(
+        package="abb_rws_client",
+        executable="rws_client",
+        name="rws_client",
+        output="screen",
+        parameters=[
+            {"robot_ip": robot_ip},
+            {"robot_port": robot_port},
+            {"robot_nickname": robot_nickname},
+            {"polling_rate": polling_rate},
+            {"no_connection_timeout": no_connection_timeout},
+        ],
+    )
+    return LaunchDescription(declared_arguments + [node])

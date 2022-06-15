@@ -40,14 +40,23 @@ endforeach()
 ## Build ##
 ###########
 
-add_executable(rws_client
+add_library(rws_client_lib
   src/rws_client_node.cpp
   src/rws_client.cpp
   src/rws_service_provider_ros.cpp
   src/rws_state_publisher_ros.cpp
   src/mapping.cpp
 )
-ament_target_dependencies(rws_client ${THIS_PACKAGE_INCLUDE_DEPENDS})
+ament_target_dependencies(rws_client_lib ${THIS_PACKAGE_INCLUDE_DEPENDS})
+target_include_directories(
+  rws_client_lib
+  PRIVATE
+  include
+)
+
+add_executable(rws_client src/rws_client.cpp)
+target_link_libraries(rws_client rws_client_lib)
+ament_target_dependencies(rws_client "rclcpp")
 target_include_directories(
   rws_client
   PRIVATE
@@ -61,6 +70,14 @@ target_include_directories(
 install(
   TARGETS rws_client
   DESTINATION lib/${PROJECT_NAME}
+)
+
+install(
+  TARGETS
+  rws_client_lib
+  ARCHIVE DESTINATION lib
+  LIBRARY DESTINATION lib
+  RUNTIME DESTINATION bin
 )
 
 #############

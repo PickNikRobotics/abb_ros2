@@ -215,8 +215,8 @@ private:
   rclcpp::Subscription<abb_robot_msgs::msg::SystemState>::SharedPtr system_state_sub_;
   rclcpp::Subscription<abb_rapid_sm_addin_msgs::msg::RuntimeState>::SharedPtr runtime_state_sub_;
 
-  std::vector<rclcpp::ServiceBase::WeakPtr> core_services_;
-  std::vector<rclcpp::ServiceBase::WeakPtr> sm_services_;
+  std::vector<rclcpp::ServiceBase::SharedPtr> core_services_;
+  std::vector<rclcpp::ServiceBase::SharedPtr> sm_services_;
 
   abb_robot_msgs::msg::SystemState system_state_;
   abb_rapid_sm_addin_msgs::msg::RuntimeState runtime_state_;
