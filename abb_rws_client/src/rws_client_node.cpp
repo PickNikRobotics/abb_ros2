@@ -9,6 +9,8 @@ int main(int argc, char** argv)
 
   rclcpp::Node::SharedPtr client_node = rclcpp::Node::make_shared("rws");
 
+  client_node->declare_parameter("robot_nickname", std::string{});
+  client_node->declare_parameter("no_connection_timeout", false);
   std::string robot_ip = client_node->declare_parameter<std::string>("robot_ip", "127.0.0.1");
   int robot_port = client_node->declare_parameter<int>("robot_port", 65535);
 

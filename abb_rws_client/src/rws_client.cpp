@@ -49,9 +49,6 @@ RWSClient::RWSClient(const rclcpp::Node::SharedPtr& node, const std::string& rob
   , rws_manager_{ robot_ip, robot_port, abb::rws::SystemConstants::General::DEFAULT_USERNAME,
                   abb::rws::SystemConstants::General::DEFAULT_PASSWORD }
 {
-  node_->declare_parameter("robot_nickname", std::string{});
-  node_->declare_parameter("no_connection_timeout", false);
-
   connect();
 }
 void RWSClient::connect()

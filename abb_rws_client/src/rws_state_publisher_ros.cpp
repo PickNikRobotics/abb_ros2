@@ -73,8 +73,8 @@ RWSStatePublisherROS::RWSStatePublisherROS(const rclcpp::Node::SharedPtr& node, 
         node_->create_publisher<abb_rapid_sm_addin_msgs::msg::RuntimeState>("~/sm_addin/runtime_states", 1);
   }
   auto polling_rate = node_->get_parameter("polling_rate").as_double();
-  node_->create_wall_timer(std::chrono::milliseconds(static_cast<long>(1000.0 / polling_rate)),
-                           std::bind(&RWSStatePublisherROS::timer_callback, this));
+  timer_ = node_->create_wall_timer(std::chrono::milliseconds(static_cast<long>(1000.0 / polling_rate)),
+                                    std::bind(&RWSStatePublisherROS::timer_callback, this));
 }
 
 void RWSStatePublisherROS::timer_callback()
