@@ -191,7 +191,7 @@ RWSServiceProviderROS::RWSServiceProviderROS(const rclcpp::Node::SharedPtr& node
           std::bind(&RWSServiceProviderROS::runSGRoutine, this, std::placeholders::_1, std::placeholders::_2)));
       sm_services_.push_back(node_->create_service<abb_rapid_sm_addin_msgs::srv::SetSGCommand>(
           "~/set_sg_command",
-          std::bind(&RWSServiceProviderROS::setSGCOmmand, this, std::placeholders::_1, std::placeholders::_2)));
+          std::bind(&RWSServiceProviderROS::setSGCommand, this, std::placeholders::_1, std::placeholders::_2)));
     }
   }
   RCLCPP_INFO(node_->get_logger(), "RWS client services initialized!");
@@ -206,6 +206,10 @@ void RWSServiceProviderROS::runtimeStateCallback(const abb_rapid_sm_addin_msgs::
 {
   runtime_state_ = msg;
 }
+
+/*************************************************************************************************************
+ **************************************** RWS core services methods ******************************************
+ ************************************************************************************************************/
 
 bool RWSServiceProviderROS::getRCDescription(
     const abb_robot_msgs::srv::GetRobotControllerDescription::Request::SharedPtr req,
@@ -476,77 +480,6 @@ bool RWSServiceProviderROS::ppToMain(const abb_robot_msgs::srv::TriggerWithResul
     else
     {
       res->message = abb_robot_msgs::msg::ServiceResponses::FAILED;
-      RCLCPP_DEBUG_STREAM(node_->get_logger(), interface.getLogTextLatestEvent());
-    }
-  });
-
-  return true;
-}
-bool RWSServiceProviderROS::runRapidRoutine(const abb_robot_msgs::srv::TriggerWithResultCode::Request::SharedPtr,
-                                            abb_robot_msgs::srv::TriggerWithResultCode::Response::SharedPtr res)
-{
-  if (!verifyAutoMode(res->result_code, res->message))
-  {
-    return true;
-  }
-  if (!verifyRapidRunning(res->result_code, res->message))
-  {
-    return true;
-  }
-  if (!verifySMAddinRuntimeStates(res->result_code, res->message))
-  {
-    return true;
-  }
-  if (!verifyRWSManagerReady(res->result_code, res->message))
-  {
-    return true;
-  }
-
-  rws_manager_.runService([&](abb::rws::RWSStateMachineInterface& interface) {
-    if (interface.services().rapid().signalRunRAPIDRoutine())
-    {
-      res->result_code = abb_robot_msgs::msg::ServiceResponses::RC_SUCCESS;
-    }
-    else
-    {
-      res->message = abb_robot_msgs::msg::ServiceResponses::FAILED;
-      res->result_code = abb_robot_msgs::msg::ServiceResponses::RC_FAILED;
-      RCLCPP_DEBUG_STREAM(node_->get_logger(), interface.getLogTextLatestEvent());
-    }
-  });
-
-  return true;
-}
-
-bool RWSServiceProviderROS::runSGRoutine(const abb_robot_msgs::srv::TriggerWithResultCode::Request::SharedPtr,
-                                         abb_robot_msgs::srv::TriggerWithResultCode::Response::SharedPtr res)
-{
-  if (!verifyAutoMode(res->result_code, res->message))
-  {
-    return true;
-  }
-  if (!verifyRapidRunning(res->result_code, res->message))
-  {
-    return true;
-  }
-  if (!verifySMAddinRuntimeStates(res->result_code, res->message))
-  {
-    return true;
-  }
-  if (!verifyRWSManagerReady(res->result_code, res->message))
-  {
-    return true;
-  }
-
-  rws_manager_.runService([&](abb::rws::RWSStateMachineInterface& interface) {
-    if (interface.services().sg().signalRunSGRoutine())
-    {
-      res->result_code = abb_robot_msgs::msg::ServiceResponses::RC_SUCCESS;
-    }
-    else
-    {
-      res->message = abb_robot_msgs::msg::ServiceResponses::FAILED;
-      res->result_code = abb_robot_msgs::msg::ServiceResponses::RC_FAILED;
       RCLCPP_DEBUG_STREAM(node_->get_logger(), interface.getLogTextLatestEvent());
     }
   });
@@ -917,6 +850,10 @@ bool RWSServiceProviderROS::stopRapid(const abb_robot_msgs::srv::TriggerWithResu
   return true;
 }
 
+/*************************************************************************************************************
+ ******************************** RWS State Machine Add-in services methods **********************************
+ ************************************************************************************************************/
+
 bool RWSServiceProviderROS::getEGMSettings(const abb_rapid_sm_addin_msgs::srv::GetEGMSettings::Request::SharedPtr req,
                                            abb_rapid_sm_addin_msgs::srv::GetEGMSettings::Response::SharedPtr res)
 {
@@ -1002,6 +939,78 @@ bool RWSServiceProviderROS::setEGMSettings(const abb_rapid_sm_addin_msgs::srv::S
   return true;
 }
 
+bool RWSServiceProviderROS::runRapidRoutine(const abb_robot_msgs::srv::TriggerWithResultCode::Request::SharedPtr,
+                                            abb_robot_msgs::srv::TriggerWithResultCode::Response::SharedPtr res)
+{
+  if (!verifyAutoMode(res->result_code, res->message))
+  {
+    return true;
+  }
+  if (!verifyRapidRunning(res->result_code, res->message))
+  {
+    return true;
+  }
+  if (!verifySMAddinRuntimeStates(res->result_code, res->message))
+  {
+    return true;
+  }
+  if (!verifyRWSManagerReady(res->result_code, res->message))
+  {
+    return true;
+  }
+
+  rws_manager_.runService([&](abb::rws::RWSStateMachineInterface& interface) {
+    if (interface.services().rapid().signalRunRAPIDRoutine())
+    {
+      res->result_code = abb_robot_msgs::msg::ServiceResponses::RC_SUCCESS;
+    }
+    else
+    {
+      res->message = abb_robot_msgs::msg::ServiceResponses::FAILED;
+      res->result_code = abb_robot_msgs::msg::ServiceResponses::RC_FAILED;
+      RCLCPP_DEBUG_STREAM(node_->get_logger(), interface.getLogTextLatestEvent());
+    }
+  });
+
+  return true;
+}
+
+bool RWSServiceProviderROS::runSGRoutine(const abb_robot_msgs::srv::TriggerWithResultCode::Request::SharedPtr,
+                                         abb_robot_msgs::srv::TriggerWithResultCode::Response::SharedPtr res)
+{
+  if (!verifyAutoMode(res->result_code, res->message))
+  {
+    return true;
+  }
+  if (!verifyRapidRunning(res->result_code, res->message))
+  {
+    return true;
+  }
+  if (!verifySMAddinRuntimeStates(res->result_code, res->message))
+  {
+    return true;
+  }
+  if (!verifyRWSManagerReady(res->result_code, res->message))
+  {
+    return true;
+  }
+
+  rws_manager_.runService([&](abb::rws::RWSStateMachineInterface& interface) {
+    if (interface.services().sg().signalRunSGRoutine())
+    {
+      res->result_code = abb_robot_msgs::msg::ServiceResponses::RC_SUCCESS;
+    }
+    else
+    {
+      res->message = abb_robot_msgs::msg::ServiceResponses::FAILED;
+      res->result_code = abb_robot_msgs::msg::ServiceResponses::RC_FAILED;
+      RCLCPP_DEBUG_STREAM(node_->get_logger(), interface.getLogTextLatestEvent());
+    }
+  });
+
+  return true;
+}
+
 bool RWSServiceProviderROS::setRapidRoutine(const abb_rapid_sm_addin_msgs::srv::SetRAPIDRoutine::Request::SharedPtr req,
                                             abb_rapid_sm_addin_msgs::srv::SetRAPIDRoutine::Response::SharedPtr res)
 {
@@ -1046,7 +1055,7 @@ bool RWSServiceProviderROS::setRapidRoutine(const abb_rapid_sm_addin_msgs::srv::
   return true;
 }
 
-bool RWSServiceProviderROS::setSGCOmmand(const abb_rapid_sm_addin_msgs::srv::SetSGCommand::Request::SharedPtr req,
+bool RWSServiceProviderROS::setSGCommand(const abb_rapid_sm_addin_msgs::srv::SetSGCommand::Request::SharedPtr req,
                                          abb_rapid_sm_addin_msgs::srv::SetSGCommand::Response::SharedPtr res)
 {
   if (!verifyArgumentRapidTask(req->task, res->result_code, res->message))
@@ -1278,6 +1287,10 @@ bool RWSServiceProviderROS::stopEGMStream(const abb_robot_msgs::srv::TriggerWith
   return true;
 }
 
+/*************************************************************************************************************
+ **************************************** Verification helper methods ****************************************
+ ************************************************************************************************************/
+
 bool RWSServiceProviderROS::verifyAutoMode(uint16_t& result_code, std::string& message)
 {
   if (!system_state_.auto_mode)
@@ -1461,5 +1474,4 @@ bool RWSServiceProviderROS::verifyRWSManagerReady(uint16_t& result_code, std::st
 
   return true;
 }
-
 }  // namespace abb_rws_client

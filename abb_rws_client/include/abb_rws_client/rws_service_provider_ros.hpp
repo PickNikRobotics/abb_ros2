@@ -434,7 +434,7 @@ private:
    *
    * \return bool true if the request was processed.
    */
-  bool setSGCOmmand(const abb_rapid_sm_addin_msgs::srv::SetSGCommand::Request::SharedPtr req,
+  bool setSGCommand(const abb_rapid_sm_addin_msgs::srv::SetSGCommand::Request::SharedPtr req,
                     abb_rapid_sm_addin_msgs::srv::SetSGCommand::Response::SharedPtr res);
 
   /**
