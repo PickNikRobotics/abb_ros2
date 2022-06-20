@@ -1,6 +1,17 @@
 # Robot Web Services client
 
-This documentation specified ROS services provided by `abb_rws_client` package for commanding ABB robots via the RWS interface.
+## Overview
+
+`rws_client` node starts services for commanding ABB robots via RWS interfaces and publishers for polling system data from robot controllers. This node contains the following parameters:
+* `robot_ip` - IP address to the robot controller's RWS server.
+* `robot_port` - Port number of the robot controller's RWS server.
+* `robot_nickname` - Arbitrary user nickname/identifier for the robot controller.
+* `polling_rate` - The frequency [Hz] at which the controller state is collected.
+* `no_connection_timeout` - Specifies whether the node is allowed to wait indefinitely for the robot controller during initialization.
+
+To launch only RWS communication:
+
+    ros2 launch abb_bringup abb_rws_client.launch.py robot_ip:=<ROBOT_IP>
 
 ## List of core services
 

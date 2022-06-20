@@ -105,10 +105,6 @@ After launching the controllers, launch MoveIt:
 
 RWS is a platform that allows interaction with the robot controller over HTTP, which is used by the driver to get information about the robot. Note that only RWS 1.0 is supported - RobotWare 7.0 and higher use RWS 2.0 and are not currently supported.
 
-To launch only RWS communication:
-
-    ros2 launch abb_bringup abb_rws_client.launch.py robot_ip:=<ROBOT_IP>
-
 # More Info
 - [Robot Studio Setup Guide](./RobotStudioSetup.md)
 - [Network Configuration](./NetworkingConfiguration.md)
