@@ -62,9 +62,9 @@ RWSServiceProviderROS::RWSServiceProviderROS(const rclcpp::Node::SharedPtr& node
   abb::robot::utilities::verifyRobotWareVersion(robot_controller_description_.header().robot_ware_version());
 
   system_state_sub_ = node_->create_subscription<abb_robot_msgs::msg::SystemState>(
-      "system_states", 10, std::bind(&RWSServiceProviderROS::systemStateCallback, this, std::placeholders::_1));
+      "~/system_states", 10, std::bind(&RWSServiceProviderROS::systemStateCallback, this, std::placeholders::_1));
   runtime_state_sub_ = node_->create_subscription<abb_rapid_sm_addin_msgs::msg::RuntimeState>(
-      "sm_addin/runtime_states", 10,
+      "~/sm_addin/runtime_states", 10,
       std::bind(&RWSServiceProviderROS::runtimeStateCallback, this, std::placeholders::_1));
 
   core_services_.push_back(node_->create_service<abb_robot_msgs::srv::GetRobotControllerDescription>(

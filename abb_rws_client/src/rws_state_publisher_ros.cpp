@@ -74,12 +74,12 @@ RWSStatePublisherROS::RWSStatePublisherROS(const rclcpp::Node::SharedPtr& node, 
                   rmw_qos_profile_sensor_data);
   joint_state_pub_ = node_->create_publisher<sensor_msgs::msg::JointState>("~/joint_states", sensor_qos);
 
-  system_state_pub_ = node_->create_publisher<abb_robot_msgs::msg::SystemState>("~/system_states", 1);
+  system_state_pub_ = node_->create_publisher<abb_robot_msgs::msg::SystemState>("~/system_states", 10);
 
   if (abb::robot::utilities::verifyStateMachineAddInPresence(robot_controller_description_.system_indicators()))
   {
     runtime_state_pub_ =
-        node_->create_publisher<abb_rapid_sm_addin_msgs::msg::RuntimeState>("~/sm_addin/runtime_states", 1);
+        node_->create_publisher<abb_rapid_sm_addin_msgs::msg::RuntimeState>("~/sm_addin/runtime_states", 10);
   }
   auto polling_rate = node_->get_parameter("polling_rate").as_double();
   timer_ = node_->create_wall_timer(std::chrono::milliseconds(static_cast<long>(1000.0 / polling_rate)),
