@@ -37,7 +37,7 @@
 // This file is a modified copy from
 // https://github.com/ros-industrial/abb_robot_driver/blob/master/abb_robot_cpp_utilities/src/mapping.cpp
 
-#include <abb_rws_client/mapping.hpp>
+#include <abb_common/mapping.hpp>
 
 #include <sstream>
 #include <stdexcept>

@@ -19,6 +19,7 @@ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
 endif()
 
 set(THIS_PACKAGE_INCLUDE_DEPENDS
+    abb_common
     abb_egm_rws_managers
     hardware_interface
     pluginlib
@@ -41,7 +42,6 @@ add_library(
   ${PROJECT_NAME}
   SHARED
   src/abb_hardware_interface.cpp
-  src/utilities.cpp
 )
 ament_target_dependencies(${PROJECT_NAME} ${THIS_PACKAGE_INCLUDE_DEPENDS})
 target_include_directories(

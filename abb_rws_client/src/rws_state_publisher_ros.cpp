@@ -40,8 +40,8 @@
 
 #include <abb_rws_client/rws_state_publisher_ros.hpp>
 
-#include <abb_rws_client/mapping.hpp>
-#include <abb_hardware_interface/utilities.hpp>
+#include <abb_common/mapping.hpp>
+#include <abb_common/utilities.hpp>
 
 namespace
 {
