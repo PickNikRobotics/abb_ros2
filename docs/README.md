@@ -100,11 +100,17 @@ After launching the controllers, launch MoveIt:
 
     ros2 launch abb_bringup abb_moveit.launch.py robot_xacro_file:=irb1200_5_90.xacro support_package:=abb_irb1200_support moveit_config_package:=abb_irb1200_5_90_moveit_config moveit_config_file:=abb_irb1200_5_90.srdf.xacro
 
+
 ## Connecting to RWS
 
 RWS is a platform that allows interaction with the robot controller over HTTP, which is used by the driver to get information about the robot. Note that only RWS 1.0 is supported - RobotWare 7.0 and higher use RWS 2.0 and are not currently supported.
+
+To launch only RWS communication:
+
+    ros2 launch abb_bringup abb_rws_client.launch.py robot_ip:=<ROBOT_IP>
 
 # More Info
 - [Robot Studio Setup Guide](./RobotStudioSetup.md)
 - [Network Configuration](./NetworkingConfiguration.md)
 - [Troubleshooting](./Troubleshooting.md)
+- [RWSQuickStart](./RWSQuickStart.md)

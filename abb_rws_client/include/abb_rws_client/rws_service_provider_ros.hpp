@@ -89,6 +89,10 @@ public:
    */
   RWSServiceProviderROS(const rclcpp::Node::SharedPtr& node, const std::string& robot_ip, unsigned short robot_port);
 
+  RWSServiceProviderROS() = delete;
+
+  virtual ~RWSServiceProviderROS() = default;
+
 private:
   /**
    * \brief Callback for robot controller system state messages.
@@ -208,7 +212,7 @@ private:
 
   /**
    * \brief Sets all RAPID program pointers to respective main procedure.
-   *
+   * Starts all RAPID programs.
    * \param request to process.
    * \param response for containing the result.
    *
@@ -218,11 +222,11 @@ private:
                 abb_robot_msgs::srv::TriggerWithResultCode::Response::SharedPtr res);
 
   /**
-   * \brief Signals that SmartGripper command(s) should be run for all RAPID programs.
+   * \brief Signals that custom RAPID routine(s) should be run for all RAPID programs.
    *
    * Notes:
    * - Requires the StateMachine Add-In.
-   * - The desired SmartGripper command(s) needs to be specified beforehand (one per RAPID task).
+   * - The desired RAPID routine(s) needs to be specified beforehand (one per RAPID task).
    *
    * \param request to process.
    * \param response for containing the result.
