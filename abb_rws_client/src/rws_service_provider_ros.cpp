@@ -51,8 +51,16 @@ namespace abb_rws_client
 {
 RWSServiceProviderROS::RWSServiceProviderROS(const rclcpp::Node::SharedPtr& node, const std::string& robot_ip,
                                              unsigned short robot_port)
-  : RWSClient(node, robot_ip, robot_port)
+  : node_(node)
+  , rws_manager_{ robot_ip, robot_port, abb::rws::SystemConstants::General::DEFAULT_USERNAME,
+                  abb::rws::SystemConstants::General::DEFAULT_PASSWORD }
 {
+  std::string robot_id = node_->get_parameter("robot_nickname").as_string();
+  bool no_connection_timeout = node_->get_parameter("no_connection_timeout").as_bool();
+  robot_controller_description_ =
+      abb::robot::utilities::establishRWSConnection(rws_manager_, robot_id, no_connection_timeout);
+  abb::robot::utilities::verifyRobotWareVersion(robot_controller_description_.header().robot_ware_version());
+
   system_state_sub_ = node_->create_subscription<abb_robot_msgs::msg::SystemState>(
       "system_states", 10, std::bind(&RWSServiceProviderROS::systemStateCallback, this, std::placeholders::_1));
   runtime_state_sub_ = node_->create_subscription<abb_rapid_sm_addin_msgs::msg::RuntimeState>(
@@ -152,26 +160,26 @@ RWSServiceProviderROS::RWSServiceProviderROS(const rclcpp::Node::SharedPtr& node
     if (system_indicators.options().egm())
     {
       sm_services_.push_back(node_->create_service<abb_rapid_sm_addin_msgs::srv::GetEGMSettings>(
-          "get_egm_settings",
+          "~/get_egm_settings",
           std::bind(&RWSServiceProviderROS::getEGMSettings, this, std::placeholders::_1, std::placeholders::_2)));
       sm_services_.push_back(node_->create_service<abb_rapid_sm_addin_msgs::srv::SetEGMSettings>(
-          "set_egm_settings",
+          "~/set_egm_settings",
           std::bind(&RWSServiceProviderROS::setEGMSettings, this, std::placeholders::_1, std::placeholders::_2)));
       sm_services_.push_back(node_->create_service<abb_robot_msgs::srv::TriggerWithResultCode>(
-          "start_egm_joint",
+          "~/start_egm_joint",
           std::bind(&RWSServiceProviderROS::startEGMJoint, this, std::placeholders::_1, std::placeholders::_2)));
       sm_services_.push_back(node_->create_service<abb_robot_msgs::srv::TriggerWithResultCode>(
-          "start_egm_pose",
+          "~/start_egm_pose",
           std::bind(&RWSServiceProviderROS::startEGMPose, this, std::placeholders::_1, std::placeholders::_2)));
       sm_services_.push_back(node_->create_service<abb_robot_msgs::srv::TriggerWithResultCode>(
-          "stop_egm", std::bind(&RWSServiceProviderROS::stopEGM, this, std::placeholders::_1, std::placeholders::_2)));
+          "~/stop_egm", std::bind(&RWSServiceProviderROS::stopEGM, this, std::placeholders::_1, std::placeholders::_2)));
       if (has_sm_1_1)
       {
         sm_services_.push_back(node_->create_service<abb_robot_msgs::srv::TriggerWithResultCode>(
-            "start_egm_stream",
+            "~/start_egm_stream",
             std::bind(&RWSServiceProviderROS::startEGMStream, this, std::placeholders::_1, std::placeholders::_2)));
         sm_services_.push_back(node_->create_service<abb_robot_msgs::srv::TriggerWithResultCode>(
-            "stop_egm_stream",
+            "~/stop_egm_stream",
             std::bind(&RWSServiceProviderROS::stopEGMStream, this, std::placeholders::_1, std::placeholders::_2)));
       }
     }
@@ -179,10 +187,10 @@ RWSServiceProviderROS::RWSServiceProviderROS(const rclcpp::Node::SharedPtr& node
     if (system_indicators.addins().smart_gripper())
     {
       sm_services_.push_back(node_->create_service<abb_robot_msgs::srv::TriggerWithResultCode>(
-          "run_sg_routine",
+          "~/run_sg_routine",
           std::bind(&RWSServiceProviderROS::runSGRoutine, this, std::placeholders::_1, std::placeholders::_2)));
       sm_services_.push_back(node_->create_service<abb_rapid_sm_addin_msgs::srv::SetSGCommand>(
-          "set_sg_command",
+          "~/set_sg_command",
           std::bind(&RWSServiceProviderROS::setSGCOmmand, this, std::placeholders::_1, std::placeholders::_2)));
     }
   }

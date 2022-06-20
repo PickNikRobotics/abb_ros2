@@ -55,9 +55,18 @@ namespace abb_rws_client
 {
 RWSStatePublisherROS::RWSStatePublisherROS(const rclcpp::Node::SharedPtr& node, const std::string& robot_ip,
                                            unsigned short robot_port)
-  : RWSClient(node, robot_ip, robot_port)
+  : node_(node)
+  , rws_manager_{ robot_ip, robot_port, abb::rws::SystemConstants::General::DEFAULT_USERNAME,
+                  abb::rws::SystemConstants::General::DEFAULT_PASSWORD }
 {
   node_->declare_parameter("polling_rate", 5.0);
+
+  std::string robot_id = node_->get_parameter("robot_nickname").as_string();
+  bool no_connection_timeout = node_->get_parameter("no_connection_timeout").as_bool();
+  robot_controller_description_ =
+      abb::robot::utilities::establishRWSConnection(rws_manager_, robot_id, no_connection_timeout);
+  abb::robot::utilities::verifyRobotWareVersion(robot_controller_description_.header().robot_ware_version());
+
   abb::robot::initializeMotionData(motion_data_, robot_controller_description_);
 
   auto sensor_qos =
@@ -75,6 +84,7 @@ RWSStatePublisherROS::RWSStatePublisherROS(const rclcpp::Node::SharedPtr& node, 
   auto polling_rate = node_->get_parameter("polling_rate").as_double();
   timer_ = node_->create_wall_timer(std::chrono::milliseconds(static_cast<long>(1000.0 / polling_rate)),
                                     std::bind(&RWSStatePublisherROS::timer_callback, this));
+  RCLCPP_INFO(node_->get_logger(), "RWS state publisher initialized!");
 }
 
 void RWSStatePublisherROS::timer_callback()

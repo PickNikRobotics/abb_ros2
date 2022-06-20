@@ -41,8 +41,6 @@ endforeach()
 ###########
 
 add_library(rws_client_lib
-  src/rws_client_node.cpp
-  src/rws_client.cpp
   src/rws_service_provider_ros.cpp
   src/rws_state_publisher_ros.cpp
   src/mapping.cpp
@@ -54,7 +52,7 @@ target_include_directories(
   include
 )
 
-add_executable(rws_client src/rws_client.cpp)
+add_executable(rws_client src/rws_client_node.cpp)
 target_link_libraries(rws_client rws_client_lib)
 ament_target_dependencies(rws_client "rclcpp")
 target_include_directories(
