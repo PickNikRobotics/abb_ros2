@@ -37,11 +37,12 @@
 
 // This file is a modified copy from
 // https://github.com/ros-industrial/abb_robot_driver/blob/master/abb_robot_cpp_utilities/src/initialization.cpp
+// https://github.com/ros-industrial/abb_robot_driver/blob/master/abb_robot_cpp_utilities/src/verification.cpp
 
 #include <abb_hardware_interface/utilities.hpp>
 #include <stdexcept>
 
-#include "rclcpp/rclcpp.hpp"
+#include <rclcpp/rclcpp.hpp>
 
 namespace abb
 {
@@ -99,6 +100,21 @@ RobotControllerDescription establishRWSConnection(RWSManager& rws_manager, const
   throw std::runtime_error{ RWS_CONNECTION_ERROR_MESSAGE };
 }
 
+void verifyRobotWareVersion(const RobotWareVersion& rw_version)
+{
+  if (rw_version.major_number() == 6 && rw_version.minor_number() < 7 && rw_version.patch_number() < 1)
+  {
+    auto error_message{ "Unsupported RobotWare version (" + rw_version.name() + ", need at least 6.07.01)" };
+
+    RCLCPP_FATAL_STREAM(LOGGER, error_message);
+    throw std::runtime_error{ error_message };
+  }
+}
+
+bool verifyStateMachineAddInPresence(const SystemIndicators& system_indicators)
+{
+  return system_indicators.addins().state_machine_1_0() || system_indicators.addins().state_machine_1_1();
+}
 }  // namespace utilities
 }  // namespace robot
 }  // namespace abb

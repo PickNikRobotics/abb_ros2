@@ -11,3 +11,7 @@ repositories:
     type: git
     url: https://github.com/ros-industrial/abb_egm_rws_managers.git
     version: master
+  abb_ros2_msgs:
+    type: git
+    url: https://github.com/gbartyzel/abb_ros2_msgs.git
+    version: rolling

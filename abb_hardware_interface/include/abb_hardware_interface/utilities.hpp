@@ -37,8 +37,11 @@
 
 // This file is a modified copy from
 // https://github.com/ros-industrial/abb_robot_driver/blob/master/abb_robot_cpp_utilities/include/abb_robot_cpp_utilities/initialization.h
+// https://github.com/ros-industrial/abb_robot_driver/blob/master/abb_robot_cpp_utilities/include/abb_robot_cpp_utilities/verification.h
 
 #pragma once
+
+#include <string>
 
 #include <abb_egm_rws_managers/rws_manager.h>
 #include <string>
@@ -65,6 +68,25 @@ namespace utilities
 RobotControllerDescription establishRWSConnection(RWSManager& rws_manager, const std::string& robot_controller_id,
                                                   const bool no_connection_timeout);
 
+/**
+ * \brief Verifies that the RobotWare version is supported.
+ *
+ * Note: For now, only RobotWare versions in the range [6.07.01, 7.0) are supported (i.e. excluding 7.0).
+ *
+ * \param rw_version to verify.
+ *
+ * \throw std::runtime_error if the RobotWare version is not supported.
+ */
+void verifyRobotWareVersion(const RobotWareVersion& rw_version);
+
+/**
+ * \brief Verifies that the RobotWare StateMachine Add-In is present in a system.
+ *
+ * \param system_indicators to verify.
+ *
+ * \return bool true if the StateMachine Add-In is present.
+ */
+bool verifyStateMachineAddInPresence(const SystemIndicators& system_indicators);
 }  // namespace utilities
 }  // namespace robot
 }  // namespace abb
