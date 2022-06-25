@@ -78,19 +78,19 @@ RWSServiceProviderROS::RWSServiceProviderROS(const rclcpp::Node::SharedPtr& node
       std::bind(&RWSServiceProviderROS::getIOSignal, this, std::placeholders::_1, std::placeholders::_2)));
   core_services_.push_back(node_->create_service<abb_robot_msgs::srv::GetRAPIDBool>(
       "~/get_rapid_bool",
-      std::bind(&RWSServiceProviderROS::getRapidBool, this, std::placeholders::_1, std::placeholders::_2)));
+      std::bind(&RWSServiceProviderROS::getRAPIDBool, this, std::placeholders::_1, std::placeholders::_2)));
   core_services_.push_back(node_->create_service<abb_robot_msgs::srv::GetRAPIDDnum>(
       "~/get_rapid_dnum",
-      std::bind(&RWSServiceProviderROS::getRapidDNum, this, std::placeholders::_1, std::placeholders::_2)));
+      std::bind(&RWSServiceProviderROS::getRAPIDDNum, this, std::placeholders::_1, std::placeholders::_2)));
   core_services_.push_back(node_->create_service<abb_robot_msgs::srv::GetRAPIDNum>(
       "~/get_rapid_num",
-      std::bind(&RWSServiceProviderROS::getRapidNum, this, std::placeholders::_1, std::placeholders::_2)));
+      std::bind(&RWSServiceProviderROS::getRAPIDNum, this, std::placeholders::_1, std::placeholders::_2)));
   core_services_.push_back(node_->create_service<abb_robot_msgs::srv::GetRAPIDString>(
       "~/get_rapid_string",
-      std::bind(&RWSServiceProviderROS::getRapidString, this, std::placeholders::_1, std::placeholders::_2)));
+      std::bind(&RWSServiceProviderROS::getRAPIDString, this, std::placeholders::_1, std::placeholders::_2)));
   core_services_.push_back(node_->create_service<abb_robot_msgs::srv::GetRAPIDSymbol>(
       "~/get_rapid_symbol",
-      std::bind(&RWSServiceProviderROS::getRapidSymbol, this, std::placeholders::_1, std::placeholders::_2)));
+      std::bind(&RWSServiceProviderROS::getRAPIDSymbol, this, std::placeholders::_1, std::placeholders::_2)));
   core_services_.push_back(node_->create_service<abb_robot_msgs::srv::GetSpeedRatio>(
       "~/get_speed_ratio",
       std::bind(&RWSServiceProviderROS::getSpeedRatio, this, std::placeholders::_1, std::placeholders::_2)));
@@ -110,27 +110,27 @@ RWSServiceProviderROS::RWSServiceProviderROS(const rclcpp::Node::SharedPtr& node
       std::bind(&RWSServiceProviderROS::setMotorsOn, this, std::placeholders::_1, std::placeholders::_2)));
   core_services_.push_back(node_->create_service<abb_robot_msgs::srv::SetRAPIDBool>(
       "~/set_rapid_bool",
-      std::bind(&RWSServiceProviderROS::setRapidBool, this, std::placeholders::_1, std::placeholders::_2)));
+      std::bind(&RWSServiceProviderROS::setRAPIDBool, this, std::placeholders::_1, std::placeholders::_2)));
   core_services_.push_back(node_->create_service<abb_robot_msgs::srv::SetRAPIDDnum>(
       "~/set_rapid_dnum",
-      std::bind(&RWSServiceProviderROS::setRapidDNum, this, std::placeholders::_1, std::placeholders::_2)));
+      std::bind(&RWSServiceProviderROS::setRAPIDDNum, this, std::placeholders::_1, std::placeholders::_2)));
   core_services_.push_back(node_->create_service<abb_robot_msgs::srv::SetRAPIDNum>(
       "~/set_rapid_num",
-      std::bind(&RWSServiceProviderROS::setRapidNum, this, std::placeholders::_1, std::placeholders::_2)));
+      std::bind(&RWSServiceProviderROS::setRAPIDNum, this, std::placeholders::_1, std::placeholders::_2)));
   core_services_.push_back(node_->create_service<abb_robot_msgs::srv::SetRAPIDString>(
       "~/set_rapid_string",
-      std::bind(&RWSServiceProviderROS::setRapidString, this, std::placeholders::_1, std::placeholders::_2)));
+      std::bind(&RWSServiceProviderROS::setRAPIDString, this, std::placeholders::_1, std::placeholders::_2)));
   core_services_.push_back(node_->create_service<abb_robot_msgs::srv::SetRAPIDSymbol>(
       "~/set_rapid_symbol",
-      std::bind(&RWSServiceProviderROS::setRapidSymbol, this, std::placeholders::_1, std::placeholders::_2)));
+      std::bind(&RWSServiceProviderROS::setRAPIDSymbol, this, std::placeholders::_1, std::placeholders::_2)));
   core_services_.push_back(node_->create_service<abb_robot_msgs::srv::SetSpeedRatio>(
       "~/set_speed_ratio",
       std::bind(&RWSServiceProviderROS::setSpeedRatio, this, std::placeholders::_1, std::placeholders::_2)));
   core_services_.push_back(node_->create_service<abb_robot_msgs::srv::TriggerWithResultCode>(
       "~/start_rapid",
-      std::bind(&RWSServiceProviderROS::startRapid, this, std::placeholders::_1, std::placeholders::_2)));
+      std::bind(&RWSServiceProviderROS::startRAPID, this, std::placeholders::_1, std::placeholders::_2)));
   core_services_.push_back(node_->create_service<abb_robot_msgs::srv::TriggerWithResultCode>(
-      "~/stop_rapid", std::bind(&RWSServiceProviderROS::stopRapid, this, std::placeholders::_1, std::placeholders::_2)));
+      "~/stop_rapid", std::bind(&RWSServiceProviderROS::stopRAPID, this, std::placeholders::_1, std::placeholders::_2)));
 
   const auto& system_indicators = robot_controller_description_.system_indicators();
 
@@ -153,10 +153,10 @@ RWSServiceProviderROS::RWSServiceProviderROS(const rclcpp::Node::SharedPtr& node
   {
     sm_services_.push_back(node_->create_service<abb_robot_msgs::srv::TriggerWithResultCode>(
         "~/run_rapid_routine",
-        std::bind(&RWSServiceProviderROS::runRapidRoutine, this, std::placeholders::_1, std::placeholders::_2)));
+        std::bind(&RWSServiceProviderROS::runRAPIDRoutine, this, std::placeholders::_1, std::placeholders::_2)));
     sm_services_.push_back(node_->create_service<abb_rapid_sm_addin_msgs::srv::SetRAPIDRoutine>(
         "~/set_rapid_routine",
-        std::bind(&RWSServiceProviderROS::setRapidRoutine, this, std::placeholders::_1, std::placeholders::_2)));
+        std::bind(&RWSServiceProviderROS::setRAPIDRoutine, this, std::placeholders::_1, std::placeholders::_2)));
     if (system_indicators.options().egm())
     {
       sm_services_.push_back(node_->create_service<abb_rapid_sm_addin_msgs::srv::GetEGMSettings>(
@@ -281,10 +281,10 @@ bool RWSServiceProviderROS::getIOSignal(const abb_robot_msgs::srv::GetIOSignal::
   return true;
 }
 
-bool RWSServiceProviderROS::getRapidBool(const abb_robot_msgs::srv::GetRAPIDBool::Request::SharedPtr req,
+bool RWSServiceProviderROS::getRAPIDBool(const abb_robot_msgs::srv::GetRAPIDBool::Request::SharedPtr req,
                                          abb_robot_msgs::srv::GetRAPIDBool::Response::SharedPtr res)
 {
-  if (!verifyArgumentRapidSymbolPath(req->path, res->result_code, res->message))
+  if (!verifyArgumentRAPIDSymbolPath(req->path, res->result_code, res->message))
   {
     return true;
   }
@@ -311,10 +311,10 @@ bool RWSServiceProviderROS::getRapidBool(const abb_robot_msgs::srv::GetRAPIDBool
   return true;
 }
 
-bool RWSServiceProviderROS::getRapidDNum(const abb_robot_msgs::srv::GetRAPIDDnum::Request::SharedPtr req,
+bool RWSServiceProviderROS::getRAPIDDNum(const abb_robot_msgs::srv::GetRAPIDDnum::Request::SharedPtr req,
                                          abb_robot_msgs::srv::GetRAPIDDnum::Response::SharedPtr res)
 {
-  if (!verifyArgumentRapidSymbolPath(req->path, res->result_code, res->message))
+  if (!verifyArgumentRAPIDSymbolPath(req->path, res->result_code, res->message))
   {
     return true;
   }
@@ -341,10 +341,10 @@ bool RWSServiceProviderROS::getRapidDNum(const abb_robot_msgs::srv::GetRAPIDDnum
   return true;
 }
 
-bool RWSServiceProviderROS::getRapidNum(const abb_robot_msgs::srv::GetRAPIDNum::Request::SharedPtr req,
+bool RWSServiceProviderROS::getRAPIDNum(const abb_robot_msgs::srv::GetRAPIDNum::Request::SharedPtr req,
                                         abb_robot_msgs::srv::GetRAPIDNum::Response::SharedPtr res)
 {
-  if (!verifyArgumentRapidSymbolPath(req->path, res->result_code, res->message))
+  if (!verifyArgumentRAPIDSymbolPath(req->path, res->result_code, res->message))
   {
     return true;
   }
@@ -371,10 +371,10 @@ bool RWSServiceProviderROS::getRapidNum(const abb_robot_msgs::srv::GetRAPIDNum::
   return true;
 }
 
-bool RWSServiceProviderROS::getRapidString(const abb_robot_msgs::srv::GetRAPIDString::Request::SharedPtr req,
+bool RWSServiceProviderROS::getRAPIDString(const abb_robot_msgs::srv::GetRAPIDString::Request::SharedPtr req,
                                            abb_robot_msgs::srv::GetRAPIDString::Response::SharedPtr res)
 {
-  if (!verifyArgumentRapidSymbolPath(req->path, res->result_code, res->message))
+  if (!verifyArgumentRAPIDSymbolPath(req->path, res->result_code, res->message))
   {
     return true;
   }
@@ -401,10 +401,10 @@ bool RWSServiceProviderROS::getRapidString(const abb_robot_msgs::srv::GetRAPIDSt
   return true;
 }
 
-bool RWSServiceProviderROS::getRapidSymbol(const abb_robot_msgs::srv::GetRAPIDSymbol::Request::SharedPtr req,
+bool RWSServiceProviderROS::getRAPIDSymbol(const abb_robot_msgs::srv::GetRAPIDSymbol::Request::SharedPtr req,
                                            abb_robot_msgs::srv::GetRAPIDSymbol::Response::SharedPtr res)
 {
-  if (!verifyArgumentRapidSymbolPath(req->path, res->result_code, res->message))
+  if (!verifyArgumentRAPIDSymbolPath(req->path, res->result_code, res->message))
   {
     return true;
   }
@@ -463,7 +463,7 @@ bool RWSServiceProviderROS::ppToMain(const abb_robot_msgs::srv::TriggerWithResul
   {
     return true;
   }
-  if (!verifyRapidStopped(res->result_code, res->message))
+  if (!verifyRAPIDStopped(res->result_code, res->message))
   {
     return true;
   }
@@ -597,10 +597,10 @@ bool RWSServiceProviderROS::setMotorsOn(const abb_robot_msgs::srv::TriggerWithRe
   return true;
 }
 
-bool RWSServiceProviderROS::setRapidBool(const abb_robot_msgs::srv::SetRAPIDBool::Request::SharedPtr req,
+bool RWSServiceProviderROS::setRAPIDBool(const abb_robot_msgs::srv::SetRAPIDBool::Request::SharedPtr req,
                                          abb_robot_msgs::srv::SetRAPIDBool::Response::SharedPtr res)
 {
-  if (!verifyArgumentRapidSymbolPath(req->path, res->result_code, res->message))
+  if (!verifyArgumentRAPIDSymbolPath(req->path, res->result_code, res->message))
   {
     return true;
   }
@@ -630,10 +630,10 @@ bool RWSServiceProviderROS::setRapidBool(const abb_robot_msgs::srv::SetRAPIDBool
   return true;
 }
 
-bool RWSServiceProviderROS::setRapidDNum(const abb_robot_msgs::srv::SetRAPIDDnum::Request::SharedPtr req,
+bool RWSServiceProviderROS::setRAPIDDNum(const abb_robot_msgs::srv::SetRAPIDDnum::Request::SharedPtr req,
                                          abb_robot_msgs::srv::SetRAPIDDnum::Response::SharedPtr res)
 {
-  if (!verifyArgumentRapidSymbolPath(req->path, res->result_code, res->message))
+  if (!verifyArgumentRAPIDSymbolPath(req->path, res->result_code, res->message))
   {
     return true;
   }
@@ -663,10 +663,10 @@ bool RWSServiceProviderROS::setRapidDNum(const abb_robot_msgs::srv::SetRAPIDDnum
   return true;
 }
 
-bool RWSServiceProviderROS::setRapidNum(const abb_robot_msgs::srv::SetRAPIDNum::Request::SharedPtr req,
+bool RWSServiceProviderROS::setRAPIDNum(const abb_robot_msgs::srv::SetRAPIDNum::Request::SharedPtr req,
                                         abb_robot_msgs::srv::SetRAPIDNum::Response::SharedPtr res)
 {
-  if (!verifyArgumentRapidSymbolPath(req->path, res->result_code, res->message))
+  if (!verifyArgumentRAPIDSymbolPath(req->path, res->result_code, res->message))
   {
     return true;
   }
@@ -696,10 +696,10 @@ bool RWSServiceProviderROS::setRapidNum(const abb_robot_msgs::srv::SetRAPIDNum::
   return true;
 }
 
-bool RWSServiceProviderROS::setRapidString(const abb_robot_msgs::srv::SetRAPIDString::Request::SharedPtr req,
+bool RWSServiceProviderROS::setRAPIDString(const abb_robot_msgs::srv::SetRAPIDString::Request::SharedPtr req,
                                            abb_robot_msgs::srv::SetRAPIDString::Response::SharedPtr res)
 {
-  if (!verifyArgumentRapidSymbolPath(req->path, res->result_code, res->message))
+  if (!verifyArgumentRAPIDSymbolPath(req->path, res->result_code, res->message))
   {
     return true;
   }
@@ -729,10 +729,10 @@ bool RWSServiceProviderROS::setRapidString(const abb_robot_msgs::srv::SetRAPIDSt
   return true;
 }
 
-bool RWSServiceProviderROS::setRapidSymbol(const abb_robot_msgs::srv::SetRAPIDSymbol::Request::SharedPtr req,
+bool RWSServiceProviderROS::setRAPIDSymbol(const abb_robot_msgs::srv::SetRAPIDSymbol::Request::SharedPtr req,
                                            abb_robot_msgs::srv::SetRAPIDSymbol::Response::SharedPtr res)
 {
-  if (!verifyArgumentRapidSymbolPath(req->path, res->result_code, res->message))
+  if (!verifyArgumentRAPIDSymbolPath(req->path, res->result_code, res->message))
   {
     return true;
   }
@@ -796,7 +796,7 @@ bool RWSServiceProviderROS::setSpeedRatio(const abb_robot_msgs::srv::SetSpeedRat
   return true;
 }
 
-bool RWSServiceProviderROS::startRapid(const abb_robot_msgs::srv::TriggerWithResultCode::Request::SharedPtr,
+bool RWSServiceProviderROS::startRAPID(const abb_robot_msgs::srv::TriggerWithResultCode::Request::SharedPtr,
                                        abb_robot_msgs::srv::TriggerWithResultCode::Response::SharedPtr res)
 {
   if (!verifyAutoMode(res->result_code, res->message))
@@ -827,10 +827,10 @@ bool RWSServiceProviderROS::startRapid(const abb_robot_msgs::srv::TriggerWithRes
   return true;
 }
 
-bool RWSServiceProviderROS::stopRapid(const abb_robot_msgs::srv::TriggerWithResultCode::Request::SharedPtr,
+bool RWSServiceProviderROS::stopRAPID(const abb_robot_msgs::srv::TriggerWithResultCode::Request::SharedPtr,
                                       abb_robot_msgs::srv::TriggerWithResultCode::Response::SharedPtr res)
 {
-  if (!verifyRapidRunning(res->result_code, res->message))
+  if (!verifyRAPIDRunning(res->result_code, res->message))
   {
     return true;
   }
@@ -857,7 +857,7 @@ bool RWSServiceProviderROS::stopRapid(const abb_robot_msgs::srv::TriggerWithResu
 bool RWSServiceProviderROS::getEGMSettings(const abb_rapid_sm_addin_msgs::srv::GetEGMSettings::Request::SharedPtr req,
                                            abb_rapid_sm_addin_msgs::srv::GetEGMSettings::Response::SharedPtr res)
 {
-  if (!verifyArgumentRapidTask(req->task, res->result_code, res->message))
+  if (!verifyArgumentRAPIDTask(req->task, res->result_code, res->message))
   {
     return true;
   }
@@ -896,7 +896,7 @@ bool RWSServiceProviderROS::getEGMSettings(const abb_rapid_sm_addin_msgs::srv::G
 bool RWSServiceProviderROS::setEGMSettings(const abb_rapid_sm_addin_msgs::srv::SetEGMSettings::Request::SharedPtr req,
                                            abb_rapid_sm_addin_msgs::srv::SetEGMSettings::Response::SharedPtr res)
 {
-  if (!verifyArgumentRapidTask(req->task, res->result_code, res->message))
+  if (!verifyArgumentRAPIDTask(req->task, res->result_code, res->message))
   {
     return true;
   }
@@ -939,14 +939,14 @@ bool RWSServiceProviderROS::setEGMSettings(const abb_rapid_sm_addin_msgs::srv::S
   return true;
 }
 
-bool RWSServiceProviderROS::runRapidRoutine(const abb_robot_msgs::srv::TriggerWithResultCode::Request::SharedPtr,
+bool RWSServiceProviderROS::runRAPIDRoutine(const abb_robot_msgs::srv::TriggerWithResultCode::Request::SharedPtr,
                                             abb_robot_msgs::srv::TriggerWithResultCode::Response::SharedPtr res)
 {
   if (!verifyAutoMode(res->result_code, res->message))
   {
     return true;
   }
-  if (!verifyRapidRunning(res->result_code, res->message))
+  if (!verifyRAPIDRunning(res->result_code, res->message))
   {
     return true;
   }
@@ -982,7 +982,7 @@ bool RWSServiceProviderROS::runSGRoutine(const abb_robot_msgs::srv::TriggerWithR
   {
     return true;
   }
-  if (!verifyRapidRunning(res->result_code, res->message))
+  if (!verifyRAPIDRunning(res->result_code, res->message))
   {
     return true;
   }
@@ -1011,10 +1011,10 @@ bool RWSServiceProviderROS::runSGRoutine(const abb_robot_msgs::srv::TriggerWithR
   return true;
 }
 
-bool RWSServiceProviderROS::setRapidRoutine(const abb_rapid_sm_addin_msgs::srv::SetRAPIDRoutine::Request::SharedPtr req,
+bool RWSServiceProviderROS::setRAPIDRoutine(const abb_rapid_sm_addin_msgs::srv::SetRAPIDRoutine::Request::SharedPtr req,
                                             abb_rapid_sm_addin_msgs::srv::SetRAPIDRoutine::Response::SharedPtr res)
 {
-  if (!verifyArgumentRapidTask(req->task, res->result_code, res->message))
+  if (!verifyArgumentRAPIDTask(req->task, res->result_code, res->message))
   {
     return true;
   }
@@ -1058,7 +1058,7 @@ bool RWSServiceProviderROS::setRapidRoutine(const abb_rapid_sm_addin_msgs::srv::
 bool RWSServiceProviderROS::setSGCommand(const abb_rapid_sm_addin_msgs::srv::SetSGCommand::Request::SharedPtr req,
                                          abb_rapid_sm_addin_msgs::srv::SetSGCommand::Response::SharedPtr res)
 {
-  if (!verifyArgumentRapidTask(req->task, res->result_code, res->message))
+  if (!verifyArgumentRAPIDTask(req->task, res->result_code, res->message))
   {
     return true;
   }
@@ -1122,7 +1122,7 @@ bool RWSServiceProviderROS::startEGMJoint(const abb_robot_msgs::srv::TriggerWith
   {
     return true;
   }
-  if (!verifyRapidRunning(res->result_code, res->message))
+  if (!verifyRAPIDRunning(res->result_code, res->message))
   {
     return true;
   }
@@ -1158,7 +1158,7 @@ bool RWSServiceProviderROS::startEGMPose(const abb_robot_msgs::srv::TriggerWithR
   {
     return true;
   }
-  if (!verifyRapidRunning(res->result_code, res->message))
+  if (!verifyRAPIDRunning(res->result_code, res->message))
   {
     return true;
   }
@@ -1194,7 +1194,7 @@ bool RWSServiceProviderROS::startEGMStream(const abb_robot_msgs::srv::TriggerWit
   {
     return true;
   }
-  if (!verifyRapidRunning(res->result_code, res->message))
+  if (!verifyRAPIDRunning(res->result_code, res->message))
   {
     return true;
   }
@@ -1230,7 +1230,7 @@ bool RWSServiceProviderROS::stopEGM(const abb_robot_msgs::srv::TriggerWithResult
   {
     return true;
   }
-  if (!verifyRapidRunning(res->result_code, res->message))
+  if (!verifyRAPIDRunning(res->result_code, res->message))
   {
     return true;
   }
@@ -1262,7 +1262,7 @@ bool RWSServiceProviderROS::stopEGMStream(const abb_robot_msgs::srv::TriggerWith
   {
     return true;
   }
-  if (!verifyRapidRunning(res->result_code, res->message))
+  if (!verifyRAPIDRunning(res->result_code, res->message))
   {
     return true;
   }
@@ -1316,7 +1316,7 @@ bool RWSServiceProviderROS::verifyArgumentFilename(const std::string& filename, 
   return true;
 }
 
-bool RWSServiceProviderROS::verifyArgumentRapidSymbolPath(const abb_robot_msgs::msg::RAPIDSymbolPath& path,
+bool RWSServiceProviderROS::verifyArgumentRAPIDSymbolPath(const abb_robot_msgs::msg::RAPIDSymbolPath& path,
                                                           uint16_t& result_code, std::string& message)
 {
   if (path.task.empty())
@@ -1343,7 +1343,7 @@ bool RWSServiceProviderROS::verifyArgumentRapidSymbolPath(const abb_robot_msgs::
   return true;
 }
 
-bool RWSServiceProviderROS::verifyArgumentRapidTask(const std::string& task, uint16_t& result_code,
+bool RWSServiceProviderROS::verifyArgumentRAPIDTask(const std::string& task, uint16_t& result_code,
                                                     std::string& message)
 {
   if (task.empty())
@@ -1439,7 +1439,7 @@ bool RWSServiceProviderROS::verifySMAddinTaskInitialized(const std::string& task
   return true;
 }
 
-bool RWSServiceProviderROS::verifyRapidRunning(uint16_t& result_code, std::string& message)
+bool RWSServiceProviderROS::verifyRAPIDRunning(uint16_t& result_code, std::string& message)
 {
   if (!system_state_.rapid_running)
   {
@@ -1451,7 +1451,7 @@ bool RWSServiceProviderROS::verifyRapidRunning(uint16_t& result_code, std::strin
   return true;
 }
 
-bool RWSServiceProviderROS::verifyRapidStopped(uint16_t& result_code, std::string& message)
+bool RWSServiceProviderROS::verifyRAPIDStopped(uint16_t& result_code, std::string& message)
 {
   if (system_state_.rapid_running)
   {

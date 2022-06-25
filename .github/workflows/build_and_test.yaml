@@ -17,6 +17,7 @@ jobs:
             ROS_REPO: main
             CCOV: true
     env:
+      BEFORE_SETUP_UPSTREAM_WORKSPACE: 'sudo apt-get -qq install -y --no-upgrade --no-install-recommends git && git config --global --add safe.directory "*"'
       UPSTREAM_WORKSPACE: abb.repos
       AFTER_SETUP_UPSTREAM_WORKSPACE: 'vcs pull $BASEDIR/upstream_ws/src'
       AFTER_RUN_TARGET_TEST: ${{ matrix.env.CCOV && './.ci.prepare_codecov' || '' }}

@@ -102,11 +102,11 @@ void RWSStatePublisherROS::timer_callback()
   }
 
   sensor_msgs::msg::JointState joint_state_msg;
-  for (auto& group : motion_data_.groups)
+  for (const auto& group : motion_data_.groups)
   {
-    for (auto& unit : group.units)
+    for (const auto& unit : group.units)
     {
-      for (auto& joint : unit.joints)
+      for (const auto& joint : unit.joints)
       {
         joint_state_msg.name.push_back(joint.name);
         joint_state_msg.position.push_back(joint.state.position);

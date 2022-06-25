@@ -115,8 +115,8 @@ private:
    *
    * The file must be located in the robot controller's home directory.
    *
-   * \param request to process.
-   * \param response for containing the result.
+   * \param req request to process.
+   * \param res response for containing the result.
    *
    * \return bool true if the request was processed.
    */
@@ -125,8 +125,8 @@ private:
   /**
    * \brief Gets an IO-signal.
    *
-   * \param request to process.
-   * \param response for containing the result.
+   * \param req request to process.
+   * \param res response for containing the result.
    *
    * \return bool true if the request was processed.
    */
@@ -136,63 +136,63 @@ private:
   /**
    * \brief Gets a RAPID 'bool' symbol.
    *
-   * \param request to process.
-   * \param response for containing the result.
+   * \param req request to process.
+   * \param res response for containing the result.
    *
    * \return bool true if the request was processed.
    */
-  bool getRapidBool(const abb_robot_msgs::srv::GetRAPIDBool::Request::SharedPtr req,
+  bool getRAPIDBool(const abb_robot_msgs::srv::GetRAPIDBool::Request::SharedPtr req,
                     abb_robot_msgs::srv::GetRAPIDBool::Response::SharedPtr res);
 
   /**
    * \brief Gets a RAPID 'dnum' symbol.
    *
-   * \param request to process.
-   * \param response for containing the result.
+   * \param req request to process.
+   * \param res response for containing the result.
    *
    * \return bool true if the request was processed.
    */
-  bool getRapidDNum(const abb_robot_msgs::srv::GetRAPIDDnum::Request::SharedPtr req,
+  bool getRAPIDDNum(const abb_robot_msgs::srv::GetRAPIDDnum::Request::SharedPtr req,
                     abb_robot_msgs::srv::GetRAPIDDnum::Response::SharedPtr res);
 
   /**
    * \brief Gets a RAPID 'num' symbol.
    *
-   * \param request to process.
-   * \param response for containing the result.
+   * \param req request to process.
+   * \param res response for containing the result.
    *
    * \return bool true if the request was processed.
    */
-  bool getRapidNum(const abb_robot_msgs::srv::GetRAPIDNum::Request::SharedPtr req,
+  bool getRAPIDNum(const abb_robot_msgs::srv::GetRAPIDNum::Request::SharedPtr req,
                    abb_robot_msgs::srv::GetRAPIDNum::Response::SharedPtr res);
 
   /**
    * \brief Gets a RAPID 'string' symbol.
    *
-   * \param request to process.
-   * \param response for containing the result.
+   * \param req request to process.
+   * \param res response for containing the result.
    *
    * \return bool true if the request was processed.
    */
-  bool getRapidString(const abb_robot_msgs::srv::GetRAPIDString::Request::SharedPtr req,
+  bool getRAPIDString(const abb_robot_msgs::srv::GetRAPIDString::Request::SharedPtr req,
                       abb_robot_msgs::srv::GetRAPIDString::Response::SharedPtr res);
 
   /**
    * \brief Gets a RAPID symbol (in raw text format).
    *
-   * \param request to process.
-   * \param response for containing the result.
+   * \param req request to process.
+   * \param res response for containing the result.
    *
    * \return bool true if the request was processed.
    */
-  bool getRapidSymbol(const abb_robot_msgs::srv::GetRAPIDSymbol::Request::SharedPtr req,
+  bool getRAPIDSymbol(const abb_robot_msgs::srv::GetRAPIDSymbol::Request::SharedPtr req,
                       abb_robot_msgs::srv::GetRAPIDSymbol::Response::SharedPtr res);
 
   /**
    * \brief Gets a description of the connected robot controller.
    *
-   * \param request to process.
-   * \param response for containing the result.
+   * \param req request to process.
+   * \param res response for containing the result.
    *
    * \return bool true if the request was processed.
    */
@@ -202,8 +202,8 @@ private:
   /**
    * \brief Gets the controller speed ratio (in the range [0, 100]) for RAPID motions.
    *
-   * \param request to process.
-   * \param response for containing the result.
+   * \param req request to process.
+   * \param res response for containing the result.
    *
    * \return bool true if the request was processed.
    */
@@ -213,8 +213,8 @@ private:
   /**
    * \brief Sets all RAPID program pointers to respective main procedure.
    * Starts all RAPID programs.
-   * \param request to process.
-   * \param response for containing the result.
+   * \param req request to process.
+   * \param res response for containing the result.
    *
    * \return bool true if the request was processed.
    */
@@ -228,12 +228,12 @@ private:
    * - Requires the StateMachine Add-In.
    * - The desired RAPID routine(s) needs to be specified beforehand (one per RAPID task).
    *
-   * \param request to process.
-   * \param response for containing the result.
+   * \param req request to process.
+   * \param res response for containing the result.
    *
    * \return bool true if the request was processed.
    */
-  bool runRapidRoutine(const abb_robot_msgs::srv::TriggerWithResultCode::Request::SharedPtr req,
+  bool runRAPIDRoutine(const abb_robot_msgs::srv::TriggerWithResultCode::Request::SharedPtr req,
                        abb_robot_msgs::srv::TriggerWithResultCode::Response::SharedPtr res);
 
   /**
@@ -243,8 +243,8 @@ private:
    * - Requires the StateMachine Add-In.
    * - The desired SmartGripper command(s) needs to be specified beforehand (one per RAPID task).
    *
-   * \param request to process.
-   * \param response for containing the result.
+   * \param req request to process.
+   * \param res response for containing the result.
    *
    * \return bool true if the request was processed.
    */
@@ -256,8 +256,8 @@ private:
    *
    * The file will be uploaded to the robot controller's home directory.
    *
-   * \param request to process.
-   * \param response for containing the result.
+   * \param req request to process.
+   * \param res response for containing the result.
    *
    * \return bool true if the request was processed.
    */
@@ -267,8 +267,8 @@ private:
   /**
    * \brief Sets an IO-signal.
    *
-   * \param request to process.
-   * \param response for containing the result.
+   * \param req request to process.
+   * \param res response for containing the result.
    *
    * \return bool true if the request was processed.
    */
@@ -278,8 +278,8 @@ private:
   /**
    * \brief Sets the motors off.
    *
-   * \param request to process.
-   * \param response for containing the result.
+   * \param req request to process.
+   * \param res response for containing the result.
    *
    * \return bool true if the request was processed.
    */
@@ -289,8 +289,8 @@ private:
   /**
    * \brief Sets the motors on.
    *
-   * \param request to process.
-   * \param response for containing the result.
+   * \param req request to process.
+   * \param res response for containing the result.
    *
    * \return bool true if the request was processed.
    */
@@ -300,63 +300,63 @@ private:
   /**
    * \brief Sets a RAPID 'bool' symbol.
    *
-   * \param request to process.
-   * \param response for containing the result.
+   * \param req request to process.
+   * \param res response for containing the result.
    *
    * \return bool true if the request was processed.
    */
-  bool setRapidBool(const abb_robot_msgs::srv::SetRAPIDBool::Request::SharedPtr req,
+  bool setRAPIDBool(const abb_robot_msgs::srv::SetRAPIDBool::Request::SharedPtr req,
                     abb_robot_msgs::srv::SetRAPIDBool::Response::SharedPtr res);
 
   /**
    * \brief Sets a RAPID 'dnum' symbol.
    *
-   * \param request to process.
-   * \param response for containing the result.
+   * \param req request to process.
+   * \param res response for containing the result.
    *
    * \return bool true if the request was processed.
    */
-  bool setRapidDNum(const abb_robot_msgs::srv::SetRAPIDDnum::Request::SharedPtr req,
+  bool setRAPIDDNum(const abb_robot_msgs::srv::SetRAPIDDnum::Request::SharedPtr req,
                     abb_robot_msgs::srv::SetRAPIDDnum::Response::SharedPtr res);
 
   /**
    * \brief Sets a RAPID 'num' symbol.
    *
-   * \param request to process.
-   * \param response for containing the result.
+   * \param req request to process.
+   * \param res response for containing the result.
    *
    * \return bool true if the request was processed.
    */
-  bool setRapidNum(const abb_robot_msgs::srv::SetRAPIDNum::Request::SharedPtr req,
+  bool setRAPIDNum(const abb_robot_msgs::srv::SetRAPIDNum::Request::SharedPtr req,
                    abb_robot_msgs::srv::SetRAPIDNum::Response::SharedPtr res);
 
   /**
    * \brief Sets a RAPID 'string' symbol.
    *
-   * \param request to process.
-   * \param response for containing the result.
+   * \param req request to process.
+   * \param res response for containing the result.
    *
    * \return bool true if the request was processed.
    */
-  bool setRapidString(const abb_robot_msgs::srv::SetRAPIDString::Request::SharedPtr req,
+  bool setRAPIDString(const abb_robot_msgs::srv::SetRAPIDString::Request::SharedPtr req,
                       abb_robot_msgs::srv::SetRAPIDString::Response::SharedPtr res);
 
   /**
    * \brief Sets a RAPID symbol.
    *
-   * \param request to process.
-   * \param response for containing the result.
+   * \param req request to process.
+   * \param res response for containing the result.
    *
    * \return bool true if the request was processed.
    */
-  bool setRapidSymbol(const abb_robot_msgs::srv::SetRAPIDSymbol::Request::SharedPtr req,
+  bool setRAPIDSymbol(const abb_robot_msgs::srv::SetRAPIDSymbol::Request::SharedPtr req,
                       abb_robot_msgs::srv::SetRAPIDSymbol::Response::SharedPtr res);
 
   /**
    * \brief Sets the controller speed ratio (in the range [0, 100]) for RAPID motions.
    *
-   * \param request to process.
-   * \param response for containing the result.
+   * \param req request to process.
+   * \param res response for containing the result.
    *
    * \return bool true if the request was processed.
    */
@@ -366,23 +366,23 @@ private:
   /**
    * \brief Starts all RAPID programs.
    *
-   * \param request to process.
-   * \param response for containing the result.
+   * \param req request to process.
+   * \param res response for containing the result.
    *
    * \return bool true if the request was processed.
    */
-  bool startRapid(const abb_robot_msgs::srv::TriggerWithResultCode::Request::SharedPtr req,
+  bool startRAPID(const abb_robot_msgs::srv::TriggerWithResultCode::Request::SharedPtr req,
                   abb_robot_msgs::srv::TriggerWithResultCode::Response::SharedPtr res);
 
   /**
    * \brief Stop all RAPID programs.
    *
-   * \param request to process.
-   * \param response for containing the result.
+   * \param req request to process.
+   * \param res response for containing the result.
    *
    * \return bool true if the request was processed.
    */
-  bool stopRapid(const abb_robot_msgs::srv::TriggerWithResultCode::Request::SharedPtr req,
+  bool stopRAPID(const abb_robot_msgs::srv::TriggerWithResultCode::Request::SharedPtr req,
                  abb_robot_msgs::srv::TriggerWithResultCode::Response::SharedPtr res);
 
   /**
@@ -390,8 +390,8 @@ private:
    *
    * Note: Requires the StateMachine Add-In.
    *
-   * \param request to process.
-   * \param response for containing the result.
+   * \param req request to process.
+   * \param res response for containing the result.
    *
    * \return bool true if the request was processed.
    */
@@ -403,8 +403,8 @@ private:
    *
    * Note: Requires the StateMachine Add-In.
    *
-   * \param request to process.
-   * \param response for containing the result.
+   * \param req request to process.
+   * \param res response for containing the result.
    *
    * \return bool true if the request was processed.
    */
@@ -416,12 +416,12 @@ private:
    *
    * Note: Requires the StateMachine Add-In.
    *
-   * \param request to process.
-   * \param response for containing the result.
+   * \param req request to process.
+   * \param res response for containing the result.
    *
    * \return bool true if the request was processed.
    */
-  bool setRapidRoutine(const abb_rapid_sm_addin_msgs::srv::SetRAPIDRoutine::Request::SharedPtr req,
+  bool setRAPIDRoutine(const abb_rapid_sm_addin_msgs::srv::SetRAPIDRoutine::Request::SharedPtr req,
                        abb_rapid_sm_addin_msgs::srv::SetRAPIDRoutine::Response::SharedPtr res);
 
   /**
@@ -429,8 +429,8 @@ private:
    *
    * Note: Requires the StateMachine Add-In.
    *
-   * \param request to process.
-   * \param response for containing the result.
+   * \param req request to process.
+   * \param res response for containing the result.
    *
    * \return bool true if the request was processed.
    */
@@ -442,8 +442,8 @@ private:
    *
    * Note: Requires the StateMachine Add-In.
    *
-   * \param request to process.
-   * \param response for containing the result.
+   * \param req request to process.
+   * \param res response for containing the result.
    *
    * \return bool true if the request was processed.
    */
@@ -455,8 +455,8 @@ private:
    *
    * Note: Requires the StateMachine Add-In.
    *
-   * \param request to process.
-   * \param response for containing the result.
+   * \param req request to process.
+   * \param res response for containing the result.
    *
    * \return bool true if the request was processed.
    */
@@ -468,8 +468,8 @@ private:
    *
    * Note: Requires the StateMachine Add-In.
    *
-   * \param request to process.
-   * \param response for containing the result.
+   * \param req request to process.
+   * \param res response for containing the result.
    *
    * \return bool true if the request was processed.
    */
@@ -481,8 +481,8 @@ private:
    *
    * Note: Requires the StateMachine Add-In.
    *
-   * \param request to process.
-   * \param response for containing the result.
+   * \param req request to process.
+   * \param res response for containing the result.
    *
    * \return bool true if the request was processed.
    */
@@ -494,8 +494,8 @@ private:
    *
    * Note: Requires the StateMachine Add-In.
    *
-   * \param request to process.
-   * \param response for containing the result.
+   * \param req request to process.
+   * \param res response for containing the result.
    *
    * \return bool true if the request was processed.
    */
@@ -532,7 +532,7 @@ private:
    *
    * \return bool true if the RAPID symbol path does not contain any empty subcomponents..
    */
-  bool verifyArgumentRapidSymbolPath(const abb_robot_msgs::msg::RAPIDSymbolPath& path, uint16_t& result_code,
+  bool verifyArgumentRAPIDSymbolPath(const abb_robot_msgs::msg::RAPIDSymbolPath& path, uint16_t& result_code,
                                      std::string& message);
 
   /**
@@ -544,7 +544,7 @@ private:
    *
    * \return bool true if the RAPID task name is not empty.
    */
-  bool verifyArgumentRapidTask(const std::string& task, uint16_t& result_code, std::string& message);
+  bool verifyArgumentRAPIDTask(const std::string& task, uint16_t& result_code, std::string& message);
 
   /**
    * \brief Verify that an IO-signal name is not empty.
@@ -617,7 +617,7 @@ private:
    *
    * \return bool true if RAPID is running.
    */
-  bool verifyRapidRunning(uint16_t& result_code, std::string& message);
+  bool verifyRAPIDRunning(uint16_t& result_code, std::string& message);
 
   /**
    * \brief Verify that RAPID is stopped.
@@ -627,7 +627,7 @@ private:
    *
    * \return bool true if RAPID is stopped.
    */
-  bool verifyRapidStopped(uint16_t& result_code, std::string& message);
+  bool verifyRAPIDStopped(uint16_t& result_code, std::string& message);
 
   /**
    * \brief Verify that the RWS communication manager is ready.
