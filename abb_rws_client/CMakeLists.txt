@@ -19,12 +19,12 @@ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
 endif()
 
 set(THIS_PACKAGE_INCLUDE_DEPENDS
+    abb_common
     abb_egm_rws_managers
     abb_egm_msgs
     abb_robot_msgs
     abb_rapid_msgs
     abb_rapid_sm_addin_msgs
-    abb_hardware_interface
     rclcpp
     sensor_msgs
 )
@@ -43,7 +43,6 @@ endforeach()
 add_library(rws_client_lib
   src/rws_service_provider_ros.cpp
   src/rws_state_publisher_ros.cpp
-  src/mapping.cpp
 )
 ament_target_dependencies(rws_client_lib ${THIS_PACKAGE_INCLUDE_DEPENDS})
 target_include_directories(

@@ -14,7 +14,7 @@
 // limitations under the License.
 
 #include <abb_hardware_interface/abb_hardware_interface.hpp>
-#include <abb_hardware_interface/utilities.hpp>
+#include <abb_common/utilities.hpp>
 
 using namespace std::chrono_literals;
 

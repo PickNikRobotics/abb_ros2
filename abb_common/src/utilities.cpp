@@ -39,7 +39,7 @@
 // https://github.com/ros-industrial/abb_robot_driver/blob/master/abb_robot_cpp_utilities/src/initialization.cpp
 // https://github.com/ros-industrial/abb_robot_driver/blob/master/abb_robot_cpp_utilities/src/verification.cpp
 
-#include <abb_hardware_interface/utilities.hpp>
+#include <abb_common/utilities.hpp>
 #include <stdexcept>
 
 #include <rclcpp/rclcpp.hpp>
