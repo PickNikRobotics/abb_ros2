@@ -20,7 +20,7 @@ joint_trajectory_controller:
     - joint_4
     - joint_5
     - joint_6
-    
+
 joint_traj_compliance_controller:
   action_ns: follow_joint_trajectory
   type: FollowJointTrajectory
@@ -32,5 +32,3 @@ joint_traj_compliance_controller:
     - joint_4
     - joint_5
     - joint_6
-    
-       
