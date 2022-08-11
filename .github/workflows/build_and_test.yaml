@@ -13,13 +13,13 @@ jobs:
     strategy:
       matrix:
         env:
-          - ROS_DISTRO: rolling
+          - ROS_DISTRO: foxy
             ROS_REPO: main
             CCOV: true
     env:
       BEFORE_SETUP_UPSTREAM_WORKSPACE: 'sudo apt-get -qq install -y --no-upgrade --no-install-recommends git && git config --global --add safe.directory "*"'
       UPSTREAM_WORKSPACE: abb.repos
-      AFTER_SETUP_UPSTREAM_WORKSPACE: 'vcs pull $BASEDIR/upstream_ws/src'
+      AFTER_SETUP_UPSTREAM_WORKSPACE: "vcs pull $BASEDIR/upstream_ws/src"
       AFTER_RUN_TARGET_TEST: ${{ matrix.env.CCOV && './.ci.prepare_codecov' || '' }}
       TARGET_CMAKE_ARGS: >
         -DCMAKE_BUILD_TYPE=${{ matrix.env.CCOV && 'Debug' || 'Release'}}
@@ -58,7 +58,7 @@ jobs:
             ccache-${{ env.CACHE_PREFIX }}-${{ github.sha }}
             ccache-${{ env.CACHE_PREFIX }}
       - name: industrial_ci
-        uses: 'ros-industrial/industrial_ci@master'
+        uses: "ros-industrial/industrial_ci@master"
         env: ${{ matrix.env }}
       - name: upload test artifacts (on failure)
         uses: actions/upload-artifact@v2
