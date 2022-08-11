@@ -13,5 +13,5 @@ repositories:
     version: master
   abb_ros2_msgs:
     type: git
-    url: https://github.com/gbartyzel/abb_ros2_msgs.git
-    version: rolling
+    url: https://github.com/stephanie-eng/abb_ros2_msgs.git
+    version: seng/add_ci
