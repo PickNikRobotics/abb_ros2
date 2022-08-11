@@ -32,7 +32,7 @@ joint_trajectory_controller:
     constraints:
       stopped_velocity_tolerance: 0.0
       goal_time: 0.0
-    
+
 forward_command_controller_position:
   ros__parameters:
     joints:
