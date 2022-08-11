@@ -34,10 +34,10 @@
 #include <rclcpp/macros.hpp>
 #include <rclcpp/rclcpp.hpp>
 #include <rclcpp_lifecycle/node_interfaces/lifecycle_node_interface.hpp>
-#include <rclcpp_lifecycle/state.hpp>
 
+using hardware_interface::HardwareInfo;
 using hardware_interface::return_type;
-using CallbackReturn = rclcpp_lifecycle::node_interfaces::LifecycleNodeInterface::CallbackReturn;
+using hardware_interface::status;
 
 namespace abb_hardware_interface
 {
@@ -47,7 +47,7 @@ public:
   RCLCPP_SHARED_PTR_DEFINITIONS(ABBSystemPositionOnlyHardware)
 
   ROS2_CONTROL_DRIVER_PUBLIC
-  CallbackReturn on_init(const hardware_interface::HardwareInfo& info) override;
+  return_type configure(const hardware_interface::HardwareInfo& info) override;
 
   ROS2_CONTROL_DRIVER_PUBLIC
   std::vector<hardware_interface::StateInterface> export_state_interfaces() override;
@@ -56,7 +56,10 @@ public:
   std::vector<hardware_interface::CommandInterface> export_command_interfaces() override;
 
   ROS2_CONTROL_DRIVER_PUBLIC
-  CallbackReturn on_activate(const rclcpp_lifecycle::State& previous_state) override;
+  return_type start() override;
+
+  ROS2_CONTROL_DRIVER_PUBLIC
+  return_type stop() override;
 
   ROS2_CONTROL_DRIVER_PUBLIC
   return_type read() override;
@@ -64,7 +67,20 @@ public:
   ROS2_CONTROL_DRIVER_PUBLIC
   return_type write() override;
 
+  status get_status() const
+  {
+    return status_;
+  }
+
+  std::string get_name() const
+  {
+    return info_.name;
+  }
+
 private:
+  HardwareInfo info_;
+  status status_;
+
   // EGM
   abb::robot::RobotControllerDescription robot_controller_description_;
   std::unique_ptr<abb::robot::EGMManager> egm_manager_;

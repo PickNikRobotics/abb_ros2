@@ -99,7 +99,7 @@ private:
    *
    * \param message to process.
    */
-  void systemStateCallback(const abb_robot_msgs::msg::SystemState& msg);
+  void systemStateCallback(const abb_robot_msgs::msg::SystemState::SharedPtr msg);
 
   /**
    * \brief Callback for RobotWare StateMachine Add-In runtime state messages.
@@ -108,7 +108,7 @@ private:
    *
    * \param message to process.
    */
-  void runtimeStateCallback(const abb_rapid_sm_addin_msgs::msg::RuntimeState& msg);
+  void runtimeStateCallback(const abb_rapid_sm_addin_msgs::msg::RuntimeState::SharedPtr msg);
 
   /**
    * \brief Gets the contents of a file.

@@ -23,20 +23,17 @@ namespace abb_hardware_interface
 static constexpr size_t NUM_CONNECTION_TRIES = 100;
 static const rclcpp::Logger LOGGER = rclcpp::get_logger("ABBSystemPositionOnlyHardware");
 
-CallbackReturn ABBSystemPositionOnlyHardware::on_init(const hardware_interface::HardwareInfo& info)
+return_type ABBSystemPositionOnlyHardware::configure(const hardware_interface::HardwareInfo& info)
 {
-  if (hardware_interface::SystemInterface::on_init(info) != CallbackReturn::SUCCESS)
-  {
-    return CallbackReturn::ERROR;
-  }
+  info_ = info;
 
-  const auto rws_port = stoi(info_.hardware_parameters["rws_port"]);
+  const auto rws_port = std::stoi(info_.hardware_parameters["rws_port"]);
   const auto rws_ip = info_.hardware_parameters["rws_ip"];
 
   if (rws_ip == "None")
   {
     RCLCPP_FATAL(LOGGER, "RWS IP not specified");
-    return CallbackReturn::ERROR;
+    return return_type::ERROR;
   }
 
   // Get robot controller description from RWS
@@ -52,42 +49,42 @@ CallbackReturn ABBSystemPositionOnlyHardware::on_init(const hardware_interface::
     {
       RCLCPP_FATAL(LOGGER, "Joint '%s' has %zu command interfaces found. 2 expected.", joint.name.c_str(),
                    joint.command_interfaces.size());
-      return CallbackReturn::ERROR;
+      return return_type::ERROR;
     }
 
     if (joint.command_interfaces[0].name != hardware_interface::HW_IF_POSITION)
     {
       RCLCPP_FATAL(LOGGER, "Joint '%s' have %s command interfaces found as first command interface. '%s' expected.",
                    joint.name.c_str(), joint.command_interfaces[0].name.c_str(), hardware_interface::HW_IF_POSITION);
-      return CallbackReturn::ERROR;
+      return return_type::ERROR;
     }
 
     if (joint.command_interfaces[1].name != hardware_interface::HW_IF_VELOCITY)
     {
       RCLCPP_FATAL(LOGGER, "Joint '%s' have %s command interfaces found as second command interface. '%s' expected.",
                    joint.name.c_str(), joint.command_interfaces[1].name.c_str(), hardware_interface::HW_IF_VELOCITY);
-      return CallbackReturn::ERROR;
+      return return_type::ERROR;
     }
 
     if (joint.state_interfaces.size() != 2)
     {
       RCLCPP_FATAL(LOGGER, "Joint '%s' has %zu state interface. 2 expected.", joint.name.c_str(),
                    joint.state_interfaces.size());
-      return CallbackReturn::ERROR;
+      return return_type::ERROR;
     }
 
     if (joint.state_interfaces[0].name != hardware_interface::HW_IF_POSITION)
     {
       RCLCPP_FATAL(LOGGER, "Joint '%s' have %s state interface as first state interface. '%s' expected.",
                    joint.name.c_str(), joint.state_interfaces[0].name.c_str(), hardware_interface::HW_IF_POSITION);
-      return CallbackReturn::ERROR;
+      return return_type::ERROR;
     }
 
     if (joint.state_interfaces[1].name != hardware_interface::HW_IF_VELOCITY)
     {
       RCLCPP_FATAL(LOGGER, "Joint '%s' have %s state interface as first state interface. '%s' expected.",
                    joint.name.c_str(), joint.state_interfaces[1].name.c_str(), hardware_interface::HW_IF_VELOCITY);
-      return CallbackReturn::ERROR;
+      return return_type::ERROR;
     }
   }
 
@@ -102,7 +99,7 @@ CallbackReturn ABBSystemPositionOnlyHardware::on_init(const hardware_interface::
   catch (...)
   {
     RCLCPP_ERROR_STREAM(LOGGER, "Failed to initialize motion data from robot controller description");
-    return CallbackReturn::ERROR;
+    return return_type::ERROR;
   }
 
   // Create channel configuration for each mechanical unit group
@@ -111,7 +108,7 @@ CallbackReturn ABBSystemPositionOnlyHardware::on_init(const hardware_interface::
   {
     try
     {
-      const auto egm_port = stoi(info_.hardware_parameters[group.name() + "egm_port"]);
+      const auto egm_port = std::stoi(info_.hardware_parameters[group.name() + "egm_port"]);
       const auto channel_configuration =
           abb::robot::EGMManager::ChannelConfiguration{ static_cast<uint16_t>(egm_port), group };
       channel_configurations.emplace_back(channel_configuration);
@@ -122,7 +119,7 @@ CallbackReturn ABBSystemPositionOnlyHardware::on_init(const hardware_interface::
     {
       RCLCPP_FATAL_STREAM(LOGGER, "EGM port for mechanical unit group \"" << group.name()
                                                                           << "\" not specified in hardware parameters");
-      return CallbackReturn::ERROR;
+      return return_type::ERROR;
     }
   }
   try
@@ -132,10 +129,10 @@ CallbackReturn ABBSystemPositionOnlyHardware::on_init(const hardware_interface::
   catch (std::runtime_error& e)
   {
     RCLCPP_ERROR_STREAM(LOGGER, "Failed to initialize EGM connection");
-    return CallbackReturn::ERROR;
+    return return_type::ERROR;
   }
 
-  return CallbackReturn::SUCCESS;
+  return return_type::OK;
 }
 
 std::vector<hardware_interface::StateInterface> ABBSystemPositionOnlyHardware::export_state_interfaces()
@@ -185,7 +182,7 @@ std::vector<hardware_interface::CommandInterface> ABBSystemPositionOnlyHardware:
   return command_interfaces;
 }
 
-CallbackReturn ABBSystemPositionOnlyHardware::on_activate(const rclcpp_lifecycle::State& /* previous_state */)
+return_type ABBSystemPositionOnlyHardware::start()
 {
   size_t counter = 0;
   RCLCPP_INFO(LOGGER, "Connecting to robot...");
@@ -202,7 +199,7 @@ CallbackReturn ABBSystemPositionOnlyHardware::on_activate(const rclcpp_lifecycle
     if (counter == NUM_CONNECTION_TRIES)
     {
       RCLCPP_ERROR(LOGGER, "Failed to connect to robot");
-      return CallbackReturn::ERROR;
+      return return_type::ERROR;
     }
     rclcpp::sleep_for(500ms);
   }
@@ -210,8 +207,16 @@ CallbackReturn ABBSystemPositionOnlyHardware::on_activate(const rclcpp_lifecycle
   egm_manager_->read(motion_data_);
 
   RCLCPP_INFO(LOGGER, "ros2_control hardware interface was successfully started!");
+  return return_type::OK;
+}
 
-  return CallbackReturn::SUCCESS;
+return_type ABBSystemPositionOnlyHardware::stop()
+{
+  status_ = hardware_interface::status::STOPPED;
+
+  RCLCPP_INFO(LOGGER, "ros2_control hardware interface wassuccessfully stopped!");
+
+  return return_type::OK;
 }
 
 return_type ABBSystemPositionOnlyHardware::read()

@@ -68,7 +68,7 @@ def generate_test_description():
     )
     joint_state_broadcaster_spawner = Node(
         package="controller_manager",
-        executable="spawner",
+        executable="spawner.py",
         arguments=[
             "joint_state_broadcaster",
             "--controller-manager",
@@ -78,7 +78,7 @@ def generate_test_description():
 
     initial_joint_controller_spawner = Node(
         package="controller_manager",
-        executable="spawner",
+        executable="spawner.py",
         arguments=["joint_trajectory_controller", "-c", "/controller_manager"],
     )
     test_command_topics = Node(

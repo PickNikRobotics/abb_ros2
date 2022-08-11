@@ -197,14 +197,14 @@ RWSServiceProviderROS::RWSServiceProviderROS(const rclcpp::Node::SharedPtr& node
   RCLCPP_INFO(node_->get_logger(), "RWS client services initialized!");
 }
 
-void RWSServiceProviderROS::systemStateCallback(const abb_robot_msgs::msg::SystemState& msg)
+void RWSServiceProviderROS::systemStateCallback(const abb_robot_msgs::msg::SystemState::SharedPtr msg)
 {
-  system_state_ = msg;
+  system_state_ = *msg;
 }
 
-void RWSServiceProviderROS::runtimeStateCallback(const abb_rapid_sm_addin_msgs::msg::RuntimeState& msg)
+void RWSServiceProviderROS::runtimeStateCallback(const abb_rapid_sm_addin_msgs::msg::RuntimeState::SharedPtr msg)
 {
-  runtime_state_ = msg;
+  runtime_state_ = *msg;
 }
 
 /*************************************************************************************************************
