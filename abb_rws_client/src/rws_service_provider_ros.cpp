@@ -1423,7 +1423,9 @@ bool RWSServiceProviderROS::verifySMAddinTaskInitialized(const std::string& task
                                                          std::string& message)
 {
   if (!verifySMAddinTaskExist(task, result_code, message))
+  {
     return false;
+  }
 
   auto it = std::find_if(runtime_state_.state_machines.begin(), runtime_state_.state_machines.end(),
                          [&](const auto& sm) { return sm.rapid_task == task; });
