@@ -41,10 +41,10 @@ using CallbackReturn = rclcpp_lifecycle::node_interfaces::LifecycleNodeInterface
 
 namespace abb_hardware_interface
 {
-class ABBSystemPositionOnlyHardware : public hardware_interface::SystemInterface
+class ABBSystemHardware : public hardware_interface::SystemInterface
 {
 public:
-  RCLCPP_SHARED_PTR_DEFINITIONS(ABBSystemPositionOnlyHardware)
+  RCLCPP_SHARED_PTR_DEFINITIONS(ABBSystemHardware)
 
   ROS2_CONTROL_DRIVER_PUBLIC
   CallbackReturn on_init(const hardware_interface::HardwareInfo& info) override;
