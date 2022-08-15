@@ -21,9 +21,9 @@ using namespace std::chrono_literals;
 namespace abb_hardware_interface
 {
 static constexpr size_t NUM_CONNECTION_TRIES = 100;
-static const rclcpp::Logger LOGGER = rclcpp::get_logger("ABBSystemPositionOnlyHardware");
+static const rclcpp::Logger LOGGER = rclcpp::get_logger("ABBSystemHardware");
 
-return_type ABBSystemPositionOnlyHardware::configure(const hardware_interface::HardwareInfo& info)
+return_type ABBSystemHardware::configure(const hardware_interface::HardwareInfo& info)
 {
   info_ = info;
 
@@ -135,7 +135,7 @@ return_type ABBSystemPositionOnlyHardware::configure(const hardware_interface::H
   return return_type::OK;
 }
 
-std::vector<hardware_interface::StateInterface> ABBSystemPositionOnlyHardware::export_state_interfaces()
+std::vector<hardware_interface::StateInterface> ABBSystemHardware::export_state_interfaces()
 {
   std::vector<hardware_interface::StateInterface> state_interfaces;
   for (auto& group : motion_data_.groups)
@@ -158,7 +158,7 @@ std::vector<hardware_interface::StateInterface> ABBSystemPositionOnlyHardware::e
   return state_interfaces;
 }
 
-std::vector<hardware_interface::CommandInterface> ABBSystemPositionOnlyHardware::export_command_interfaces()
+std::vector<hardware_interface::CommandInterface> ABBSystemHardware::export_command_interfaces()
 {
   std::vector<hardware_interface::CommandInterface> command_interfaces;
   for (auto& group : motion_data_.groups)
@@ -182,7 +182,7 @@ std::vector<hardware_interface::CommandInterface> ABBSystemPositionOnlyHardware:
   return command_interfaces;
 }
 
-return_type ABBSystemPositionOnlyHardware::start()
+return_type ABBSystemHardware::start()
 {
   size_t counter = 0;
   RCLCPP_INFO(LOGGER, "Connecting to robot...");
@@ -210,7 +210,7 @@ return_type ABBSystemPositionOnlyHardware::start()
   return return_type::OK;
 }
 
-return_type ABBSystemPositionOnlyHardware::stop()
+return_type ABBSystemHardware::stop()
 {
   status_ = hardware_interface::status::STOPPED;
 
@@ -219,13 +219,13 @@ return_type ABBSystemPositionOnlyHardware::stop()
   return return_type::OK;
 }
 
-return_type ABBSystemPositionOnlyHardware::read()
+return_type ABBSystemHardware::read()
 {
   egm_manager_->read(motion_data_);
   return return_type::OK;
 }
 
-return_type ABBSystemPositionOnlyHardware::write()
+return_type ABBSystemHardware::write()
 {
   egm_manager_->write(motion_data_);
   return return_type::OK;
@@ -235,4 +235,4 @@ return_type ABBSystemPositionOnlyHardware::write()
 
 #include "pluginlib/class_list_macros.hpp"
 
-PLUGINLIB_EXPORT_CLASS(abb_hardware_interface::ABBSystemPositionOnlyHardware, hardware_interface::SystemInterface)
+PLUGINLIB_EXPORT_CLASS(abb_hardware_interface::ABBSystemHardware, hardware_interface::SystemInterface)

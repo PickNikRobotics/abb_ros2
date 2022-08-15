@@ -12,7 +12,7 @@
         </xacro:if>
         <!-- physical hardware or RobotStudio simulation -->
         <xacro:unless value="${use_fake_hardware}">
-          <plugin>abb_hardware_interface/ABBSystemPositionOnlyHardware</plugin>
+          <plugin>abb_hardware_interface/ABBSystemHardware</plugin>
           <param name="rws_port">${rws_port}</param>
           <param name="rws_ip">${rws_ip}</param>
           <!-- The following parameter is used for non-MultiMove only -->
