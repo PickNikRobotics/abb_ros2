@@ -3,9 +3,15 @@
 <package format="3">
   <name>abb_rws_client</name>
   <version>0.0.0</version>
-  <description>TODO: Package description</description>
+  <description>Package for receiving data and sending commands from ABB robots via RWS interface.</description>
+
   <maintainer email="gbartyzel@hotmail.com">Grzegorz Bartyzel</maintainer>
+
   <license>Apache2</license>
+  <license>BSD-3-Clause</license>
+
+  <author email="jon.tjerngren@se.abb.com">Jon Tjerngren</author>
+  <buildtool_depend>ament_cmake</buildtool_depend>
 
   <depend>abb_common</depend>
   <depend>abb_egm_rws_managers</depend>

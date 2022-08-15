@@ -3,10 +3,14 @@
 <package format="3">
   <name>abb_common</name>
   <version>0.0.0</version>
-  <description>TODO: Package description</description>
-  <maintainer email="gbartyzel@hotmail.com">souphis</maintainer>
-  <license>TODO: License declaration</license>
+  <description>Package providing common function for abb_ros2</description>
 
+  <maintainer email="gbartyzel@hotmail.com">Grzegorz Bartyzel</maintainer>
+
+  <license>Apache2</license>
+  <license>BSD-3-Clause</license>
+
+  <author email="jon.tjerngren@se.abb.com">Jon Tjerngren</author>
   <buildtool_depend>ament_cmake</buildtool_depend>
 
   <depend>rclcpp</depend>
