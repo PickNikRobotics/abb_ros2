@@ -1,0 +1,9 @@
+pull_request_rules:
+  - name: backport to foxy at reviewers discretion
+    conditions:
+      - base=rolling
+      - "label=backport-foxy"
+    actions:
+      backport:
+        branches:
+          - foxy
