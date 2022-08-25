@@ -90,7 +90,7 @@ The driver reqiures some network information to connect to EGM and RWS. This inf
         - Uncomment the lines for the `rob1egm_port` and `extaxegm_port` parameters (ports 6511 and 6512)
      - If not using MultiMove:
         - Comment out the `rob1egm_port` and `extaxegm_port` parameters
-        - Uncommnet the `egm_port` parameter
+        - Uncomment the `egm_port` parameter
 
 To launch with RobotStudio, set `use_fake_hardware:=false` and `rws_ip:=<ROBOTSTUDIO_IP>`, substituting `<ROBOTSTUDIO_IP>` with the IP of the RobotStudio computer. As far as ROS is aware, RobotStudio is a real robot:
 
