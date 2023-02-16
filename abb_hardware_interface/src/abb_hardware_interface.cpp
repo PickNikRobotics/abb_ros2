@@ -46,6 +46,7 @@ CallbackReturn ABBSystemHardware::on_init(const hardware_interface::HardwareInfo
   RCLCPP_INFO_STREAM(LOGGER, "Robot controller description:\n"
                                  << abb::robot::summaryText(robot_controller_description_));
 
+  std::vector<abb::robot::InitialJointValue> initial_joint_values = {};
   for (const hardware_interface::ComponentInfo& joint : info_.joints)
   {
     if (joint.command_interfaces.size() != 2)
@@ -89,6 +90,27 @@ CallbackReturn ABBSystemHardware::on_init(const hardware_interface::HardwareInfo
                    joint.name.c_str(), joint.state_interfaces[1].name.c_str(), hardware_interface::HW_IF_VELOCITY);
       return CallbackReturn::ERROR;
     }
+    // Set the initial values for state and position interfaces.
+    auto get_value_from_info =
+      [](const std::string& info_value) -> double
+      {
+        if (info_value.empty())
+          return 0.0;
+        try
+        {
+          return std::stod(info_value);
+        }
+        catch(const std::exception& e)
+        {
+          return 0.0;
+        }
+      };
+    abb::robot::InitialJointValue initial_value;
+    initial_value.position_state = get_value_from_info(joint.state_interfaces[0].initial_value);
+    initial_value.velocity_state = get_value_from_info(joint.state_interfaces[1].initial_value);
+    initial_value.position_command = get_value_from_info(joint.command_interfaces[0].initial_value);
+    initial_value.velocity_command = get_value_from_info(joint.command_interfaces[1].initial_value);
+    initial_joint_values.push_back(std::move(initial_value));
   }
 
   // Configure EGM
@@ -97,7 +119,7 @@ CallbackReturn ABBSystemHardware::on_init(const hardware_interface::HardwareInfo
   // Initialize motion data from robot controller description
   try
   {
-    abb::robot::initializeMotionData(motion_data_, robot_controller_description_);
+    abb::robot::initializeMotionData(motion_data_, robot_controller_description_, initial_joint_values);
   }
   catch (...)
   {
