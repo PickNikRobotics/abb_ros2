@@ -60,7 +60,7 @@ public:
   /**
    * \brief Creates a state publisher.
    *
-   * \param node ROS2 node.
+   * \param node ROS 2 node.
    * \param robot_ip IP address for the robot controller's RWS server.
    * \param robot_poty Port number for the robot controller's RWS server.
    */

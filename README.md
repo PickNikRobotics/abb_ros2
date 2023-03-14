@@ -1,4 +1,4 @@
-This is a meta-package containing everything to run an ABB robot or simulation with ROS2.
+This is a meta-package containing everything to run an ABB robot or simulation with ROS 2.
 
 - `abb_bringup`: Launch files and ros2_control config files that are generic to many types of ABB robots.
 - `abb_hardware_interface`: A ros2_control hardware interface using abb_libegm.
@@ -15,7 +15,7 @@ There are three ways to use this package:
 
 - With an actual, physical ABB robot
 
-- With ROS2 simulating the robot controllers
+- With ROS 2 simulating the robot controllers
 
 - With an ABB RobotStudio simulation. Requires 2 PC's (one Windows, one Linux)
 
