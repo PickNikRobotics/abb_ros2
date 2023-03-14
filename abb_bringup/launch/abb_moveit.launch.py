@@ -64,7 +64,9 @@ def launch_setup(context, *args, **kwargs):
     )
 
     joint_limits_yaml = {
-        "robot_description_planning": load_yaml(moveit_config_package.perform(context), "config/joint_limits.yaml")
+        "robot_description_planning": load_yaml(
+            moveit_config_package.perform(context), "config/joint_limits.yaml"
+        )
     }
 
     # Planning Functionality
