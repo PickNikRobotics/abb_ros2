@@ -3,7 +3,7 @@
 <package format="3">
   <name>abb_ros2</name>
   <version>0.0.0</version>
-  <description>Meta package containing everything to run an ABB robot or simulation with ROS2</description>
+  <description>Meta package containing everything to run an ABB robot or simulation with ROS 2</description>
 
   <maintainer email="stephanie.eng@picknik.ai">Stephanie Eng</maintainer>
   <maintainer email="zelenak@picknik.ai">Andy Zelenak</maintainer>
