@@ -40,7 +40,7 @@ def load_yaml(package_name, file_path):
 def generate_launch_description():
     description_file_arg = DeclareLaunchArgument(
         "description_file",
-        default_value=TextSubstitution(text="irb4600_60_205.xacro"),
+        default_value=TextSubstitution(text="irb4600_40_255.xacro"),
         description="Name of a supported robot description file in package.",
     )
     description_file = LaunchConfiguration("description_file")
