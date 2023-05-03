@@ -36,7 +36,7 @@
     </link>
     <link name="${prefix}link_2">
       <visual>
-        <origin xyz="-0.15 -0.57 -0.445" rpy="0 0 0" />
+        <origin xyz="-0.15 0 -0.445" rpy="0 0 0" />
         <geometry>
           <mesh filename="package://abb_irb2600_support/meshes/irb2600_12_185/visual/link_2.stl" />
         </geometry>
