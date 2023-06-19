@@ -3,7 +3,7 @@
          type="abb_hardware_interface::ABBSystemHardware"
          base_class_type="hardware_interface::SystemInterface">
     <description>
-		ROS2 Control ABB driver.
+		ROS 2 Control ABB driver.
     </description>
   </class>
 </library>

@@ -1,6 +1,6 @@
-# Building the package in ROS2
+# Building the package in ROS 2
 
-Create a ROS2 workspace per the online tutorial. Clone this package into your workspace's `src` directory.
+Create a ROS 2 workspace per the online tutorial. Clone this package into your workspace's `src` directory.
 
 Import package dependencies:
 
@@ -20,9 +20,9 @@ Quickly verify the build by launching RViz and viewing the robot:
 
     ros2 launch abb_irb1200_support view_robot.launch.py
 
-# Simulating a robot in ROS2
+# Simulating a robot in ROS 2
 
-For this simulation, ROS2 simulates the robot controllers. RobotStudio or a physical robot are not needed.
+For this simulation, ROS 2 simulates the robot controllers. RobotStudio or a physical robot are not needed.
 
     ros2 launch abb_bringup abb_control.launch.py description_package:=abb_irb1200_support description_file:=irb1200_5_90.xacro launch_rviz:=false moveit_config_package:=abb_irb1200_5_90_moveit_config use_fake_hardware:=true
 
@@ -34,7 +34,7 @@ After launching the controllers, launch MoveIt:
 
 The simulation files are a modified version from the [abb_libegm library](https://github.com/ros-industrial/abb_libegm/issues/18#issuecomment-473262645) with some additional details about setting up EGM.
 
-Running this simulation requires two computers communicating over the network: a Windows computer running RobotStudio, and a ROS2 computer running the driver.
+Running this simulation requires two computers communicating over the network: a Windows computer running RobotStudio, and a ROS 2 computer running the driver.
 
 ## Packaged Sim
 
@@ -61,12 +61,12 @@ Once the simulation is set up, either via the Pack and Go or by setting up a new
 
 Start the controller under the `RAPID` tab by selecting `T_ROB1` (and `T_EXTAXIS` for the external axis example) as the task under `Selected Tasks`, and pressing the `Start` icon on the ribbon.
 
-The simulation will then try to connect with the ROS2 driver every few seconds. Once the connection is established, the simulated robot can be controlled from the ROS2 computer.
+The simulation will then try to connect with the ROS 2 driver every few seconds. Once the connection is established, the simulated robot can be controlled from the ROS 2 computer.
 
 ![start](images/egm5.png)
 
-## Connecting with ROS2
-Connecting RWS with ROS2 may require some configuration. See [Networking Configuration](./NetworkingConfiguration.md) for more details.
+## Connecting with ROS 2
+Connecting RWS with ROS 2 may require some configuration. See [Networking Configuration](./NetworkingConfiguration.md) for more details.
 
 The driver reqiures some network information to connect to EGM and RWS. This information is stored in the ros2_control [robot description file](../robot_specific_config/abb_irb1200_support/urdf/irb1200.ros2_control.xacro). Change the following lines as required (below configured for an example not using MultiMove):
 

@@ -23,14 +23,14 @@ The following steps will cover how to set up the controller for EGM with a robot
 
 ## Controller Configuration
 
-3. Configure the communication settings for the controller to connect with the ROS2 computer. Identify the IP of the ROS2 computer, and the port used for EGM communication. The port is set by the `robotstudio_port` hardware parameter in the robot ros2_control description file. To configure the controller, navigate to the `Controller Tab` --> `Configuration` --> `Communication`. On the right, under `Transmission Protocol` right click and `Add new`.
+3. Configure the communication settings for the controller to connect with the ROS 2 computer. Identify the IP of the ROS 2 computer, and the port used for EGM communication. The port is set by the `robotstudio_port` hardware parameter in the robot ros2_control description file. To configure the controller, navigate to the `Controller Tab` --> `Configuration` --> `Communication`. On the right, under `Transmission Protocol` right click and `Add new`.
 
 ![communication](images/egm2.png)
 
  - Set the name to be `ROB_1`
  - Set the type to `UDPUC`. If you don't see this option, EGM was not added to the controller.
- - Set the Remote Address to be that of the ROS2 computer. In the Pack and Go file, this is set to `169.254.53.52`, but this will likely need to be changed.
- - Set the Remote port number to match what ROS2 control driver is expecting. In the sample solution, it is set to `6511`.
+ - Set the Remote Address to be that of the ROS 2 computer. In the Pack and Go file, this is set to `169.254.53.52`, but this will likely need to be changed.
+ - Set the Remote port number to match what ROS 2 control driver is expecting. In the sample solution, it is set to `6511`.
  - Leave the Local port number set to `0`
  - Press OK at the bottom of the window to confirm the changes
 
@@ -124,8 +124,8 @@ Your Task configuration should look similar to the screenshot below:
     - Add a new configuration for the external axis.
         - Set the Transmission Protocol name (`EXTAX` in the example)
         - Set the type to `UDPUC`. If you don't see this option, EGM was not added to the controller.
-        -  Set the Remote Address to be that of the ROS2 computer. In the Pack and Go file, this is set to `169.254.53.52`, but this will likely need to be changed.
-        - Set the Remote port number to match what ROS2 control driver is expecting (`6512` in the example).
+        -  Set the Remote Address to be that of the ROS 2 computer. In the Pack and Go file, this is set to `169.254.53.52`, but this will likely need to be changed.
+        - Set the Remote port number to match what ROS 2 control driver is expecting (`6512` in the example).
 
 ![new transmission](images/multimove11.PNG)
 

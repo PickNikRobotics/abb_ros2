@@ -63,6 +63,12 @@ def launch_setup(context, *args, **kwargs):
         "abb_irb1200_5_90_moveit_config", "config/kinematics.yaml"
     )
 
+    joint_limits_yaml = {
+        "robot_description_planning": load_yaml(
+            moveit_config_package.perform(context), "config/joint_limits.yaml"
+        )
+    }
+
     # Planning Functionality
     ompl_planning_pipeline_config = {
         "move_group": {
@@ -113,6 +119,7 @@ def launch_setup(context, *args, **kwargs):
             trajectory_execution,
             moveit_controllers,
             planning_scene_monitor_parameters,
+            joint_limits_yaml,
         ],
     )
 
@@ -132,6 +139,7 @@ def launch_setup(context, *args, **kwargs):
             robot_description_semantic,
             ompl_planning_pipeline_config,
             kinematics_yaml,
+            joint_limits_yaml,
         ],
     )
 
