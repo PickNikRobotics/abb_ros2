@@ -10,6 +10,8 @@ from launch.substitutions import (
 )
 from launch_ros.actions import Node
 from launch_ros.substitutions import FindPackageShare
+from moveit_configs_utils import MoveItConfigsBuilder
+
 import os
 import yaml
 
@@ -32,78 +34,36 @@ def launch_setup(context, *args, **kwargs):
     moveit_config_package = LaunchConfiguration("moveit_config_package")
     moveit_config_file = LaunchConfiguration("moveit_config_file")
 
-    # Planning context
-    robot_description_content = Command(
-        [
-            PathJoinSubstitution([FindExecutable(name="xacro")]),
-            " ",
-            PathJoinSubstitution(
-                [FindPackageShare(support_package), "urdf", robot_xacro_file]
-            ),
-        ]
-    )
-    robot_description = {"robot_description": robot_description_content}
-
-    robot_description_semantic_content = Command(
-        [
-            PathJoinSubstitution([FindExecutable(name="xacro")]),
-            " ",
-            PathJoinSubstitution(
-                [FindPackageShare(moveit_config_package), "config", moveit_config_file]
-            ),
-        ]
-    )
-    robot_description_semantic = {
-        "robot_description_semantic": robot_description_semantic_content.perform(
-            context
-        )
-    }
-
-    kinematics_yaml = load_yaml(
-        "abb_irb1200_5_90_moveit_config", "config/kinematics.yaml"
+    # MoveIt configuration
+    moveit_config = (
+        MoveItConfigsBuilder("abb_irb1200_5_90")
+        .robot_description(file_path=os.path.join(
+            get_package_share_directory(f'{support_package.perform(context)}'),
+            'urdf', f'{robot_xacro_file.perform(context)}'))
+        .robot_description_semantic(file_path=os.path.join(
+            get_package_share_directory(f'{moveit_config_package.perform(context)}'),
+            'config', f'{moveit_config_file.perform(context)}'))
+        .planning_pipelines(
+            pipelines=["ompl"],
+            default_planning_pipeline="ompl",)
+        .robot_description_kinematics(file_path=os.path.join(
+            get_package_share_directory(f'{moveit_config_package.perform(context)}'),
+            'config', 'kinematics.yaml'))
+        .trajectory_execution(file_path=os.path.join(
+            get_package_share_directory(f'{moveit_config_package.perform(context)}'),
+            'config', 'moveit_controllers.yaml'))
+        .planning_scene_monitor(True, True, True, True, True, True)
+        .joint_limits(file_path=os.path.join(
+            get_package_share_directory(f'{moveit_config_package.perform(context)}'),
+            'config', 'joint_limits.yaml'))
+        .to_moveit_configs()
     )
 
-    joint_limits_yaml = {
-        "robot_description_planning": load_yaml(
-            moveit_config_package.perform(context), "config/joint_limits.yaml"
-        )
-    }
-
-    # Planning Functionality
-    ompl_planning_pipeline_config = {
-        "move_group": {
-            "planning_plugin": "ompl_interface/OMPLPlanner",
-            "request_adapters": """default_planner_request_adapters/AddTimeOptimalParameterization default_planner_request_adapters/ResolveConstraintFrames default_planner_request_adapters/FixWorkspaceBounds default_planner_request_adapters/FixStartStateBounds default_planner_request_adapters/FixStartStateCollision default_planner_request_adapters/FixStartStatePathConstraints""",
-            "start_state_max_bounds_error": 0.1,
-        }
-    }
-    ompl_planning_yaml = load_yaml(
-        "abb_irb1200_5_90_moveit_config", "config/ompl_planning.yaml"
-    )
-    ompl_planning_pipeline_config["move_group"].update(ompl_planning_yaml)
-
-    # Trajectory Execution Functionality
-    moveit_simple_controllers_yaml = load_yaml(
-        "abb_irb1200_5_90_moveit_config", "config/moveit_controllers.yaml"
-    )
+    # MoveIt controllers
     moveit_controllers = {
-        "moveit_simple_controller_manager": moveit_simple_controllers_yaml,
+        "moveit_simple_controller_manager": load_yaml(f"{moveit_config_package.perform(context)}",
+                                                        "config/moveit_controllers.yaml"),
         "moveit_controller_manager": "moveit_simple_controller_manager/MoveItSimpleControllerManager",
-    }
-
-    trajectory_execution = {
-        # MoveIt does not handle controller switching automatically
-        "moveit_manage_controllers": False,
-        "trajectory_execution.allowed_execution_duration_scaling": 1.2,
-        "trajectory_execution.allowed_goal_duration_margin": 0.5,
-        "trajectory_execution.allowed_start_tolerance": 0.01,
-    }
-
-    planning_scene_monitor_parameters = {
-        "publish_planning_scene": True,
-        "publish_geometry_updates": True,
-        "publish_state_updates": True,
-        "publish_transforms_updates": True,
     }
 
     # Start the actual move_group node/action server
@@ -112,14 +72,9 @@ def launch_setup(context, *args, **kwargs):
         executable="move_group",
         output="screen",
         parameters=[
-            robot_description,
-            robot_description_semantic,
-            kinematics_yaml,
-            ompl_planning_pipeline_config,
-            trajectory_execution,
+            moveit_config.trajectory_execution,
             moveit_controllers,
-            planning_scene_monitor_parameters,
-            joint_limits_yaml,
+            moveit_config.to_dict(),
         ],
     )
 
@@ -135,11 +90,7 @@ def launch_setup(context, *args, **kwargs):
         output="log",
         arguments=["-d", rviz_config],
         parameters=[
-            robot_description,
-            robot_description_semantic,
-            ompl_planning_pipeline_config,
-            kinematics_yaml,
-            joint_limits_yaml,
+            moveit_config.to_dict(),
         ],
     )
 
@@ -158,7 +109,7 @@ def launch_setup(context, *args, **kwargs):
         executable="robot_state_publisher",
         name="robot_state_publisher",
         output="both",
-        parameters=[robot_description],
+        parameters=[moveit_config.robot_description],
     )
 
     nodes_to_start = [move_group_node, rviz_node, static_tf_node, robot_state_pub_node]
