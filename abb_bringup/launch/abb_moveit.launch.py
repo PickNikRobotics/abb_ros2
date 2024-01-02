@@ -32,7 +32,7 @@ def launch_setup(context, *args, **kwargs):
 
     # MoveIt configuration
     moveit_config = (
-        MoveItConfigsBuilder("abb_irb1200_5_90")
+        MoveItConfigsBuilder("abb_bringup", package_name=f'{moveit_config_package.perform(context)}')
         .robot_description(file_path=os.path.join(
             get_package_share_directory(f'{support_package.perform(context)}'),
             'urdf', f'{robot_xacro_file.perform(context)}'))
