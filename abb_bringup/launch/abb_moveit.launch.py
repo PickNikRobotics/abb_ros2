@@ -48,7 +48,11 @@ def launch_setup(context, *args, **kwargs):
         .trajectory_execution(file_path=os.path.join(
             get_package_share_directory(f'{moveit_config_package.perform(context)}'),
             'config', 'moveit_controllers.yaml'))
-        .planning_scene_monitor(True, True, True, True, True, True)
+       .planning_scene_monitor(
+           publish_planning_scene=True,
+           publish_geometry_updates=True,
+           publish_state_updates=True,
+           publish_transforms_updates=True)
         .joint_limits(file_path=os.path.join(
             get_package_share_directory(f'{moveit_config_package.perform(context)}'),
             'config', 'joint_limits.yaml'))
