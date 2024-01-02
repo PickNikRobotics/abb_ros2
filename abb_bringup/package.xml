@@ -33,6 +33,7 @@
   <exec_depend>rviz2</exec_depend>
   <exec_depend>urdf</exec_depend>
   <exec_depend>xacro</exec_depend>
+  <exec_depend>moveit_configs_utils</exec_depend>
 
   <export>
     <build_type>ament_cmake</build_type>
