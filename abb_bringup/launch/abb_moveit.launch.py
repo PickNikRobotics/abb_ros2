@@ -51,10 +51,7 @@ def launch_setup(context, *args, **kwargs):
                 f"{moveit_config_file.perform(context)}",
             )
         )
-        .planning_pipelines(
-            pipelines=["ompl"],
-            default_planning_pipeline="ompl",
-        )
+        .planning_pipelines()
         .robot_description_kinematics(
             file_path=os.path.join(
                 get_package_share_directory(
