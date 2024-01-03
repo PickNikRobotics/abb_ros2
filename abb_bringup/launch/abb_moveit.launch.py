@@ -44,7 +44,9 @@ def launch_setup(context, *args, **kwargs):
         )
         .robot_description_semantic(
             file_path=os.path.join(
-                get_package_share_directory(f"{moveit_config_package.perform(context)}"),
+                get_package_share_directory(
+                    f"{moveit_config_package.perform(context)}"
+                ),
                 "config",
                 f"{moveit_config_file.perform(context)}",
             )
@@ -55,14 +57,18 @@ def launch_setup(context, *args, **kwargs):
         )
         .robot_description_kinematics(
             file_path=os.path.join(
-                get_package_share_directory(f"{moveit_config_package.perform(context)}"),
+                get_package_share_directory(
+                    f"{moveit_config_package.perform(context)}"
+                ),
                 "config",
                 "kinematics.yaml",
             )
         )
         .trajectory_execution(
             file_path=os.path.join(
-                get_package_share_directory(f"{moveit_config_package.perform(context)}"),
+                get_package_share_directory(
+                    f"{moveit_config_package.perform(context)}"
+                ),
                 "config",
                 "moveit_controllers.yaml",
             )
@@ -73,11 +79,13 @@ def launch_setup(context, *args, **kwargs):
             publish_state_updates=True,
             publish_transforms_updates=True,
             publish_robot_description=True,
-            publish_robot_description_semantic=True
+            publish_robot_description_semantic=True,
         )
         .joint_limits(
             file_path=os.path.join(
-                get_package_share_directory(f"{moveit_config_package.perform(context)}"),
+                get_package_share_directory(
+                    f"{moveit_config_package.perform(context)}"
+                ),
                 "config",
                 "joint_limits.yaml",
             )
@@ -89,7 +97,7 @@ def launch_setup(context, *args, **kwargs):
     moveit_controllers = {
         "moveit_simple_controller_manager": load_yaml(
             f"{moveit_config_package.perform(context)}",
-            "config/moveit_controllers.yaml"
+            "config/moveit_controllers.yaml",
         ),
         "moveit_controller_manager": "moveit_simple_controller_manager/MoveItSimpleControllerManager",
     }
