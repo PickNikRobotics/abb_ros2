@@ -157,28 +157,24 @@ def generate_launch_description():
         DeclareLaunchArgument(
             "robot_xacro_file",
             description="Xacro describing the robot.",
-            choices=["irb1200_5_90.xacro"],
         )
     )
     declared_arguments.append(
         DeclareLaunchArgument(
             "support_package",
             description="Name of the support package",
-            choices=["abb_irb1200_support"],
         )
     )
     declared_arguments.append(
         DeclareLaunchArgument(
             "moveit_config_package",
             description="Name of the support package",
-            choices=["abb_irb1200_5_90_moveit_config"],
         )
     )
     declared_arguments.append(
         DeclareLaunchArgument(
             "moveit_config_file",
             description="Name of the SRDF file",
-            choices=["abb_irb1200_5_90.srdf.xacro"],
         )
     )
 
