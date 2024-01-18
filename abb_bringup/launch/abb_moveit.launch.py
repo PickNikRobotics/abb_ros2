@@ -61,6 +61,7 @@ def launch_setup(context, *args, **kwargs):
                 "kinematics.yaml",
             )
         )
+        # MoveIt does not handle controller switching automatically
         .trajectory_execution(
             file_path=os.path.join(
                 get_package_share_directory(
@@ -68,7 +69,8 @@ def launch_setup(context, *args, **kwargs):
                 ),
                 "config",
                 "moveit_controllers.yaml",
-            )
+            ),
+            moveit_manage_controllers=False,
         )
         .planning_scene_monitor(
             publish_planning_scene=True,
@@ -90,23 +92,12 @@ def launch_setup(context, *args, **kwargs):
         .to_moveit_configs()
     )
 
-    # MoveIt controllers
-    moveit_controllers = {
-        "moveit_simple_controller_manager": load_yaml(
-            f"{moveit_config_package.perform(context)}",
-            "config/moveit_controllers.yaml",
-        ),
-        "moveit_controller_manager": "moveit_simple_controller_manager/MoveItSimpleControllerManager",
-    }
-
     # Start the actual move_group node/action server
     move_group_node = Node(
         package="moveit_ros_move_group",
         executable="move_group",
         output="screen",
         parameters=[
-            moveit_config.trajectory_execution,
-            moveit_controllers,
             moveit_config.to_dict(),
         ],
     )
