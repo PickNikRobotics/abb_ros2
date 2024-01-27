@@ -21,5 +21,4 @@
     rws_ip="${rws_ip}"
     rws_port="${rws_port}"
     configure_via_rws="${configure_via_rws}"/>
-
 </robot>
