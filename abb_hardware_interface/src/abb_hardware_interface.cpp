@@ -30,22 +30,7 @@ CallbackReturn ABBSystemHardware::on_init(const hardware_interface::HardwareInfo
     return CallbackReturn::ERROR;
   }
 
-  const auto rws_port = stoi(info_.hardware_parameters["rws_port"]);
-  const auto rws_ip = info_.hardware_parameters["rws_ip"];
-
-  if (rws_ip == "None")
-  {
-    RCLCPP_FATAL(LOGGER, "RWS IP not specified");
-    return CallbackReturn::ERROR;
-  }
-
-  // Get robot controller description from RWS
-  abb::robot::RWSManager rws_manager(rws_ip, rws_port, "Default User", "robotics");
-  const auto robot_controller_description_ =
-      abb::robot::utilities::establishRWSConnection(rws_manager, "IRB1200", true);
-  RCLCPP_INFO_STREAM(LOGGER, "Robot controller description:\n"
-                                 << abb::robot::summaryText(robot_controller_description_));
-
+  // Validate interfaces configured in ros2_control xacro.
   for (const hardware_interface::ComponentInfo& joint : info_.joints)
   {
     if (joint.command_interfaces.size() != 2)
@@ -90,6 +75,90 @@ CallbackReturn ABBSystemHardware::on_init(const hardware_interface::HardwareInfo
       return CallbackReturn::ERROR;
     }
   }
+
+  // By default, construct the robot_controller_description_ by connecting to RWS.
+  // If configure_via_rws is set to false, configure the robot_controller_description_
+  // relying on joint information in the ros2_control xacro.
+  const auto configure_it = info_.hardware_parameters.find("configure_via_rws");
+  const bool configure_via_rws = configure_it == info_.hardware_parameters.end()                    ? true :
+                                 configure_it->second == "false" || configure_it->second == "False" ? false :
+                                                                                                      true;
+
+  if (configure_via_rws)
+  {
+    RCLCPP_INFO_STREAM(LOGGER, "Generating robot controller description from RWS.");
+    const auto rws_port = stoi(info_.hardware_parameters["rws_port"]);
+    const auto rws_ip = info_.hardware_parameters["rws_ip"];
+
+    if (rws_ip == "None")
+    {
+      RCLCPP_FATAL(LOGGER, "RWS IP not specified");
+      return CallbackReturn::ERROR;
+    }
+
+    // Get robot controller description from RWS
+    abb::robot::RWSManager rws_manager(rws_ip, rws_port, "Default User", "robotics");
+    robot_controller_description_ = abb::robot::utilities::establishRWSConnection(rws_manager, "IRB1200", true);
+  }
+  else
+  {
+    RCLCPP_INFO_STREAM(LOGGER, "Generating robot controller description from HardwareInfo.");
+
+    // Add header.
+    auto header{ robot_controller_description_.mutable_header() };
+    // Omnicore controllers have RobotWare version >=7.0.0.
+    header->mutable_robot_ware_version()->set_major_number(7);
+    header->mutable_robot_ware_version()->set_minor_number(3);
+    header->mutable_robot_ware_version()->set_patch_number(2);
+
+    // Add system indicators.
+    auto system_indicators{ robot_controller_description_.mutable_system_indicators() };
+    system_indicators->mutable_options()->set_egm(true);
+
+    // Add single mechanical units group.
+    auto mug{ robot_controller_description_.add_mechanical_units_groups() };
+    mug->set_name("");
+
+    // Add single robot to mechanical units group.
+    auto robot{ mug->mutable_robot() };
+    robot->set_type(abb::robot::MechanicalUnit_Type_TCP_ROBOT);
+    robot->set_axes_total(info_.joints.size());
+    robot->set_mode(abb::robot::MechanicalUnit_Mode_ACTIVATED);
+
+    // Add joints to robot.
+    for (std::size_t i = 0; i < info_.joints.size(); ++i)
+    {
+      const hardware_interface::ComponentInfo& joint = info_.joints[i];
+      // We assume it's a revolute joint unless explicitly specified.
+      // Check if a "type" key is present in joint.parameters with value other than "revolute"
+      // as per sdformat conventions http://sdformat.org/spec?elem=joint.
+      const auto type_it = joint.parameters.find("type");
+      const bool is_revolute = type_it != joint.parameters.end() && type_it->second != "revolute" ? false : true;
+
+      // Get the range of the joint from its command interfaces.
+      for (const hardware_interface::InterfaceInfo& joint_info : joint.command_interfaces)
+      {
+        if (joint_info.name == hardware_interface::HW_IF_POSITION)
+        {
+          const double min = std::stod(joint_info.min);
+          const double max = std::stod(joint_info.max);
+
+          abb::robot::StandardizedJoint* p_joint = robot->add_standardized_joints();
+          p_joint->set_standardized_name(joint.name);
+          p_joint->set_rotating_move(is_revolute);
+          p_joint->set_lower_joint_bound(min);
+          p_joint->set_upper_joint_bound(max);
+
+          RCLCPP_INFO(LOGGER, "Configured component %s of type %s with range [%.3f, %.3f]", joint.name.c_str(),
+                      joint.type.c_str(), min, max);
+          break;
+        }
+      }
+    }
+  }
+
+  RCLCPP_INFO_STREAM(LOGGER, "Robot controller description:\n"
+                                 << abb::robot::summaryText(robot_controller_description_));
 
   // Configure EGM
   RCLCPP_INFO(LOGGER, "Configuring EGM interface...");
