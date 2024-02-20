@@ -27,7 +27,7 @@
           <plugin>robot_hardware_inteface/RobotHardwareInteface</plugin>
         </xacro:unless>
       </hardware>
-      <joint name="${prefix}joint1">
+      <joint name="${prefix}joint_1">
         <command_interface name="position">     <!-- Add/Remove interfaces as needed -->
           <param name="min">-1</param>
           <param name="max">1</param>
@@ -38,7 +38,7 @@
         <state_interface name="velocity"/>
         <state_interface name="acceleration"/>
       </joint>
-      <joint name="${prefix}joint2">
+      <joint name="${prefix}joint_2">
         <command_interface name="position">     <!-- Add/Remove interfaces as needed -->
           <param name="min">-1</param>
           <param name="max">1</param>
@@ -49,7 +49,7 @@
         <state_interface name="velocity"/>
         <state_interface name="acceleration"/>
       </joint>
-      <joint name="${prefix}joint3">
+      <joint name="${prefix}joint_3">
         <command_interface name="position">     <!-- Add/Remove interfaces as needed -->
           <param name="min">-1</param>
           <param name="max">1</param>
@@ -60,7 +60,7 @@
         <state_interface name="velocity"/>
         <state_interface name="acceleration"/>
       </joint>
-      <joint name="${prefix}joint4">
+      <joint name="${prefix}joint_4">
         <command_interface name="position">     <!-- Add/Remove interfaces as needed -->
           <param name="min">-1</param>
           <param name="max">1</param>
@@ -71,7 +71,7 @@
         <state_interface name="velocity"/>
         <state_interface name="acceleration"/>
       </joint>
-      <joint name="${prefix}joint5">
+      <joint name="${prefix}joint_5">
         <command_interface name="position">     <!-- Add/Remove interfaces as needed -->
           <param name="min">-1</param>
           <param name="max">1</param>
@@ -82,7 +82,7 @@
         <state_interface name="velocity"/>
         <state_interface name="acceleration"/>
       </joint>
-      <joint name="${prefix}joint6">
+      <joint name="${prefix}joint_6">
         <command_interface name="position">     <!-- Add/Remove interfaces as needed -->
           <param name="min">-1</param>
           <param name="max">1</param>
@@ -93,27 +93,6 @@
         <state_interface name="velocity"/>
         <state_interface name="acceleration"/>
       </joint>
-      <sensor name="tcp_fts_sensor">            <!-- Remove/change sensors as needed -->
-        <state_interface name="fx"/>
-        <state_interface name="fy"/>
-        <state_interface name="fz"/>
-        <state_interface name="tx"/>
-        <state_interface name="ty"/>
-        <state_interface name="tz"/>
-        <param name="frame_id">tool0</param>    <!-- Change sensors as needed -->
-        <param name="min_fx">-100</param>
-        <param name="max_fx">100</param>
-        <param name="min_fy">-100</param>
-        <param name="max_fy">100</param>
-        <param name="min_fz">-200</param>
-        <param name="max_fz">200</param>
-        <param name="min_tx">-10</param>
-        <param name="max_tx">10</param>
-        <param name="min_ty">-10</param>
-        <param name="max_ty">10</param>
-        <param name="min_tz">-15</param>
-        <param name="max_tz">15</param>
-      </sensor>
     </ros2_control>
 
     <xacro:if value="$(arg sim_gazebo_classic)">

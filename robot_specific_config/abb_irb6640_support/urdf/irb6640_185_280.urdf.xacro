@@ -13,13 +13,9 @@
   <xacro:include filename="$(find abb_irb6640_support)/urdf/irb6640_185_280/irb6640_185_280_macro.xacro"/>
   <xacro:include filename="$(find abb_irb6640_support)/urdf/irb6640_185_280/irb6640_185_280_macro.ros2_control.xacro"/>
 
-  <!-- create link fixed to the "world" -->
-  <link name="world" />
-
   <!-- Load robot's macro with parameters -->
   <!-- set prefix if multiple robots are used -->
-  <xacro:irb6640_185_280 prefix="$(arg prefix)" parent="world" >
-    <origin xyz="0 0 0" rpy="0 0 0" />          <!-- position robot in the world -->
+  <xacro:irb6640_185_280 prefix="$(arg prefix)" >
   </xacro:irb6640_185_280>
 
   <xacro:irb6640_185_280_ros2_control
