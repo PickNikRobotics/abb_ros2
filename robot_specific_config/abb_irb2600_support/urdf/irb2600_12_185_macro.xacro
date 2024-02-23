@@ -106,7 +106,7 @@
       <parent link="${prefix}base_link"/>
       <child link="${prefix}link_1"/>
       <!-- See note 2 in package.xml about effort limits and dynamics values -->
-      <limit lower="-3.14159" upper="3.14159" effort="0" velocity="3.054"/>
+      <limit lower="-3.142" upper="3.142" effort="0" velocity="3.054"/>
       <dynamics damping="50.0" friction="1.0"/>
     </joint>
     <joint type="revolute" name="${prefix}joint_2">
@@ -115,7 +115,7 @@
       <parent link="${prefix}link_1"/>
       <child link="${prefix}link_2"/>
       <!-- See note 2 in package.xml about effort limits and dynamics values -->
-      <limit lower="-2.705" upper="1.658" effort="0" velocity="3.054"/>
+      <limit lower="-1.658" upper="2.705" effort="0" velocity="3.054"/>
       <dynamics damping="50.0" friction="1.0"/>
     </joint>
     <joint type="revolute" name="${prefix}joint_3">
@@ -124,7 +124,7 @@
       <parent link="${prefix}link_2"/>
       <child link="${prefix}link_3"/>
       <!-- See note 2 in package.xml about effort limits and dynamics values -->
-      <limit lower="-2.705" upper="1.309" effort="0" velocity="3.054"/>
+      <limit lower="-3.142" upper="1.309" effort="0" velocity="3.054"/>
       <dynamics damping="10.0" friction="1.0"/>
     </joint>
     <joint type="revolute" name="${prefix}joint_4">
