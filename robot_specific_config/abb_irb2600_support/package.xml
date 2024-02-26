@@ -54,6 +54,9 @@
   <!-- This package is referenced in the warehouse launch files, but does not build out of the box at the moment. Commented the dependency until this works. -->
   <!-- <exec_depend>warehouse_ros_mongo</exec_depend> -->
   <exec_depend>xacro</exec_depend>
+  <exec_depend>launch</exec_depend>
+  <exec_depend>launch_ros</exec_depend>
+  <exec_depend>urdf</exec_depend>
 
   <export>
       <build_type>ament_cmake</build_type>
