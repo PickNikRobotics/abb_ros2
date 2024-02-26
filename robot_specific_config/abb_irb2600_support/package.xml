@@ -36,8 +36,8 @@
       robot model and configuration you intend to use them with.
     </p>
   </description>
-  <author>Geoffrey Chiou (Southwest Research Institute)</author>
-  <maintainer email="levi.armstrong@swri.org">Levi Armstrong (Southwest Research Institute)</maintainer>
+  <author>Anouk Leunissen</author>
+  <maintainer email="anouk.leunissen@wur.nl">Anouk Leunissen</maintainer>
   <license>Apache2</license>
 
   <url type="website">http://wiki.ros.org/abb_irb2600_support</url>

@@ -5,6 +5,6 @@ moveit_setup_assistant_config:
   SRDF:
     relative_path: config/abb_irb2600_12_185.srdf
   CONFIG:
-    author_name: Andrew Short
-    author_email: andrewjshort@gmail.com
+    author_name: Anouk Leunissen
+    author_email: anouk.leunissen@wur.nl
     generated_timestamp: 1505444071

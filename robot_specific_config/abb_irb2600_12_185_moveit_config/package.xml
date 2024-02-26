@@ -12,9 +12,8 @@
       Framework.
     </p>
   </description>
-  <author email="andrewjshort@gmail.com">Andrew Short</author>
-  <maintainer email="andrewjshort@gmail.com">Andrew Short</maintainer>
-  <maintainer email="levi.armstrong@swri.org">Levi Armstrong (Southwest Research Institute)</maintainer>
+  <author>Anouk Leunissen</author>
+  <maintainer email="anouk.leunissen@wur.nl">Anouk Leunissen</maintainer>
 
   <license>BSD</license>
 
