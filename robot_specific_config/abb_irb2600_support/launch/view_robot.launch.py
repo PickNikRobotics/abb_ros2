@@ -55,7 +55,7 @@ def generate_launch_description():
             PathJoinSubstitution([FindExecutable(name="xacro")]),
             " ",
             PathJoinSubstitution(
-                [FindPackageShare("abb_irb2600_support"), "urdf", robot_description_file]
+                [robot_description_path, "urdf", robot_description_file]
             ),
             " ",
         ]
