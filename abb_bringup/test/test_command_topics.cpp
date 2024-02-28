@@ -27,7 +27,7 @@ TEST_F(TaskPlanningFixture, ControllerTopicsTest)
   // Define a map of the topics to check and their types
   std::map<std::string, std::string> expected_topic_names_and_types = {
     { "/joint_trajectory_controller/joint_trajectory", "trajectory_msgs/msg/JointTrajectory" },
-    { "/joint_trajectory_controller/state", "control_msgs/msg/JointTrajectoryControllerState" }
+    { "/joint_trajectory_controller/controller_state", "control_msgs/msg/JointTrajectoryControllerState" }
   };
   for (const auto& [topic_name, topic_type] : expected_topic_names_and_types)
   {
