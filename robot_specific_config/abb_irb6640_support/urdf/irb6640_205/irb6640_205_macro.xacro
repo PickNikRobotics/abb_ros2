@@ -196,7 +196,7 @@
 
     <!-- JOINTS -->
     <!-- joint 1 -->  
-    <joint name="${prefix}joint1" type="revolute">
+    <joint name="${prefix}joint_1" type="revolute">
       <origin xyz="0 ${y1} ${z1}"/>
       <parent link="${prefix}base_link" />
       <child link="${prefix}link1" />
@@ -204,7 +204,7 @@
       <limit effort="0" lower="${radians(-170)}" upper="${radians(170)}" velocity="${radians(100)}" />
     </joint>
     <!-- joint 2 -->
-    <joint name="${prefix}joint2" type="revolute">
+    <joint name="${prefix}joint_2" type="revolute">
       <origin xyz="${x2} ${y2} ${z2}"/>
       <parent link="${prefix}link1" />
       <child link="${prefix}link2" />
@@ -212,7 +212,7 @@
       <limit effort="0" lower="${radians(-65)}" upper="${radians(85)}" velocity="${radians(90)}" />
     </joint>
     <!-- joint 3 -->
-    <joint name="${prefix}joint3" type="revolute">
+    <joint name="${prefix}joint_3" type="revolute">
       <origin xyz="${x3} ${y3} ${z3}"/>
       <parent link="${prefix}link2" />
       <child link="${prefix}link3" />
@@ -220,7 +220,7 @@
       <limit effort="0" lower="${radians(-180)}" upper="${radians(70)}" velocity="${radians(90)}" />
     </joint>
     <!-- joint 4 -->
-    <joint name="${prefix}joint4" type="revolute">
+    <joint name="${prefix}joint_4" type="revolute">
       <origin xyz="${x4} ${y4} ${z4}"/>
       <parent link="${prefix}link3" />
       <child link="${prefix}link4" />
@@ -228,7 +228,7 @@
       <limit effort="0" lower="${radians(-300)}" upper="${radians(300)}" velocity="${radians(170)}" />
     </joint>
     <!-- joint 5 -->
-    <joint name="${prefix}joint5" type="revolute">
+    <joint name="${prefix}joint_5" type="revolute">
       <origin xyz="${x5} ${y5} ${z5}"/>
       <parent link="${prefix}link4" />
       <child link="${prefix}link5" />
@@ -236,7 +236,7 @@
       <limit effort="0" lower="${radians(-100)}" upper="${radians(100)}" velocity="${radians(120)}" />
     </joint>
     <!-- joint 6 -->
-    <joint name="${prefix}joint6" type="revolute">
+    <joint name="${prefix}joint_6" type="revolute">
       <origin xyz="${x6} ${y6} ${z6}"/>
       <parent link="${prefix}link5" />
       <child link="${prefix}link6" />
@@ -245,7 +245,7 @@
     </joint>
 
     <!-- tool frame - fixed frame -->
-    <joint name="${prefix}joint6-tool0" type="fixed">
+    <joint name="${prefix}joint_6-tool0" type="fixed">
       <origin xyz="${xt} ${yt} ${zt}" rpy="0 ${radians(90)} 0"/>
       <parent link="${prefix}link6" />
       <child link="${prefix}tool0" />
@@ -257,14 +257,14 @@
       <axis xyz="0 1 0"/>
       <parent link="${prefix}link2"/>
       <child link="${prefix}piston_link"/>
-      <mimic joint="${prefix}joint2" multiplier="-1.3"/>
+      <mimic joint="${prefix}joint_2" multiplier="-1.3"/>
     </joint>
     <joint name="${prefix}cylinder_joint" type="continuous">
       <origin xyz="${xc} ${yc} ${zc}"/>
       <axis xyz="0 1 0"/>
       <parent link="${prefix}link1"/>
       <child link="${prefix}cylinder_link"/>
-      <mimic joint="${prefix}joint2" multiplier="-0.3"/>
+      <mimic joint="${prefix}joint_2" multiplier="-0.3"/>
     </joint>
     <!-- END JOINTS -->
 
