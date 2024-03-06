@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot xmlns:xacro="http://wiki.ros.org/xacro">
+
+  <xacro:include filename="$(find abb_resources)/urdf/common_materials.xacro"/>
+  <xacro:include filename="$(find abb_resources)/urdf/inertials.xacro"/>
+
+  <!-- tuning of origins declared here, as both link and joint origin has to be adjusted.
+      Joint offsets are relative to previous joint.
+      Link offsets are relative to base frame. -->
+  <!-- joint1 -->
+  <xacro:property name="x1" value="0.0" />
+  <xacro:property name="y1" value="0.0" />
+  <xacro:property name="z1" value="0.2345" />
+  <!-- joint2 -->
+  <xacro:property name="x2" value="0.32" />
+  <xacro:property name="y2" value="-0.01" />
+  <xacro:property name="z2" value="0.5455" />
+  <!-- joint3 -->
+  <xacro:property name="x3" value="0.0" />
+  <xacro:property name="y3" value="-0.175" />
+  <xacro:property name="z3" value="1.28" />
+  <!-- joint4 -->
+  <xacro:property name="x4" value="0.231" />
+  <xacro:property name="y4" value="0.185" />
+  <xacro:property name="z4" value="0.2" />
+  <!-- joint5 -->
+  <xacro:property name="x5" value="0.9115" />
+  <xacro:property name="y5" value="0.0" />
+  <xacro:property name="z5" value="0.0" />
+  <!-- joint6 -->
+  <xacro:property name="x6" value="0.2" />
+  <xacro:property name="y6" value="0.0" />
+  <xacro:property name="z6" value="0.0" />
+
+  <!-- tool0 -->
+  <xacro:property name="xt" value="0.0" />
+  <xacro:property name="yt" value="0.0" />
+  <xacro:property name="zt" value="0.0" />
+  <!-- piston -->
+  <xacro:property name="xp" value="-0.21995" />
+  <xacro:property name="yp" value="0.0" />
+  <xacro:property name="zp" value="-0.06725" />
+  <!-- cylinder -->
+  <xacro:property name="xc" value="-0.3647" />
+  <xacro:property name="yc" value="0.0" />
+  <xacro:property name="zc" value="0.4" />
+
+
+  <xacro:macro name="irb6640_205" params="prefix">
+    <!-- LINKS -->
+    <!-- base link -->
+    <link name="${prefix}base_link">
+      <xacro:default_inertial/>
+      <visual>
+        <geometry>
+          <mesh filename="package://abb_irb6640_support/meshes/irb6640_205/visual/base_link.dae" /> 
+        </geometry>
+      </visual>
+      <collision>
+        <geometry>
+          <mesh filename="package://abb_irb6640_support/meshes/irb6640_205/collision/base_link.dae" />
+        </geometry> 
+      </collision>
+    </link>
+    <!-- link 1 -->
+    <link name="${prefix}link1">
+      <xacro:default_inertial/>
+      <visual>
+        <origin xyz="${-x1} ${-y1} ${-z1}"/>
+        <geometry>
+          <mesh filename="package://abb_irb6640_support/meshes/irb6640_205/visual/link1.dae" />
+        </geometry>
+      </visual>
+      <collision>
+        <origin xyz="${-x1} ${-y1} ${-z1}"/>
+        <geometry>
+          <mesh filename="package://abb_irb6640_support/meshes/irb6640_205/collision/link1.dae" />
+        </geometry>
+      </collision>
+    </link>
+    <!-- link 2 -->
+    <link name="${prefix}link2">
+      <xacro:default_inertial/>
+      <visual>
+        <origin xyz="${-(x2+x1)} ${-(y2+y1)} ${-(z2+z1)}" />
+        <geometry>
+           <mesh filename="package://abb_irb6640_support/meshes/irb6640_205/visual/link2.dae" />
+        </geometry>
+      </visual>
+      <collision>
+        <origin xyz="${-(x2+x1)} ${-(y2+y1)} ${-(z2+z1)}" />
+        <geometry>
+           <mesh filename="package://abb_irb6640_support/meshes/irb6640_205/collision/link2.dae" />
+        </geometry>
+      </collision>
+    </link>
+    <!-- link 3 -->
+    <link name="${prefix}link3">     
+      <xacro:default_inertial/>
+      <visual>
+        <origin xyz="${-(x3+x2+x1)} ${-(y3+y2+y1)} ${-(z3+z2+z1)}" />
+        <geometry>
+          <mesh filename="package://abb_irb6640_support/meshes/irb6640_205/visual/link3.dae" /> 
+        </geometry>
+      </visual>
+      <collision>
+        <origin xyz="${-(x3+x2+x1)} ${-(y3+y2+y1)} ${-(z3+z2+z1)}" />
+        <geometry>
+          <mesh filename="package://abb_irb6640_support/meshes/irb6640_205/collision/link3.dae" /> 
+        </geometry>
+      </collision>
+    </link>
+    <!-- link 4 -->
+    <link name="${prefix}link4">
+      <xacro:default_inertial/>
+      <visual>
+        <origin xyz="${-(x4+x3+x2+x1)} ${-(y4+y3+y2+y1)} ${-(z4+z3+z2+z1)}" />
+        <geometry>
+          <mesh filename="package://abb_irb6640_support/meshes/irb6640_205/visual/link4.dae" /> 
+        </geometry>
+      </visual>
+      <collision>
+        <origin xyz="${-(x4+x3+x2+x1)} ${-(y4+y3+y2+y1)} ${-(z4+z3+z2+z1)}" />
+        <geometry>
+          <mesh filename="package://abb_irb6640_support/meshes/irb6640_205/collision/link4.dae" /> 
+        </geometry>
+      </collision>
+    </link>
+    <!-- link 5 -->
+    <link name="${prefix}link5">
+      <xacro:default_inertial/>
+      <visual>
+        <origin xyz="${-(x5+x4+x3+x2+x1)} ${-(y5+y4+y3+y2+y1)} ${-(z5+z4+z3+z2+z1)}" />
+        <geometry>
+          <mesh filename="package://abb_irb6640_support/meshes/irb6640_205/visual/link5.dae" /> 
+        </geometry>
+      </visual>
+      <collision>
+        <origin xyz="${-(x5+x4+x3+x2+x1)} ${-(y5+y4+y3+y2+y1)} ${-(z5+z4+z3+z2+z1)}" />
+        <geometry>
+          <mesh filename="package://abb_irb6640_support/meshes/irb6640_205/collision/link5.dae" /> 
+        </geometry>
+      </collision>
+    </link>
+    <!-- link 6 -->
+    <link name="${prefix}link6">
+      <xacro:default_inertial/>
+      <visual>
+        <origin xyz="${-(x6+x5+x4+x3+x2+x1)} ${-(y6+y5+y4+y3+y2+y1)} ${-(z6+z5+z4+z3+z2+z1)}" />
+        <geometry>
+          <mesh filename="package://abb_irb6640_support/meshes/irb6640_205/visual/link6.dae" />
+        </geometry>
+      </visual>
+      <collision>
+        <origin xyz="${-(x6+x5+x4+x3+x2+x1)} ${-(y6+y5+y4+y3+y2+y1)} ${-(z6+z5+z4+z3+z2+z1)}" />
+        <geometry>
+          <mesh filename="package://abb_irb6640_support/meshes/irb6640_205/collision/link6.dae" />
+        </geometry>
+      </collision>
+    </link>
+    <!-- All-zero tool frame. This frame should correspond to the TOOL frame of the robot's controller.) -->
+    <link name="${prefix}tool0" />
+
+    <!-- cylinder and piston -->
+    <link name="${prefix}cylinder_link">
+      <xacro:default_inertial/>
+      <visual>
+        <origin xyz="${-(xc+x1)} ${-(yc+y1)} ${-(zc+z1)}" />
+        <geometry>
+          <mesh filename="package://abb_irb6640_support/meshes/irb6640_205/visual/cylinder_link.dae"/>
+        </geometry>
+      </visual>
+      <collision>
+        <origin xyz="${-(xc+x1)} ${-(yc+y1)} ${-(zc+z1)}" />
+        <geometry>
+          <mesh filename="package://abb_irb6640_support/meshes/irb6640_205/collision/cylinder_link.dae"/>
+        </geometry>
+      </collision>
+    </link>
+    <link name="${prefix}piston_link">
+      <xacro:default_inertial/>
+      <visual>
+        <origin xyz="${-(xp+x2+x1)} ${-(yp+y2+y1)} ${-(zp+z2+z1)}" />
+        <geometry>
+          <mesh filename="package://abb_irb6640_support/meshes/irb6640_205/visual/piston_link.dae"/>
+        </geometry>
+      </visual>
+      <collision>
+        <origin xyz="${-(xp+x2+x1)} ${-(yp+y2+y1)} ${-(zp+z2+z1)}" />
+        <geometry>
+          <mesh filename="package://abb_irb6640_support/meshes/irb6640_205/collision/piston_link.dae"/>
+        </geometry>
+      </collision>
+    </link>
+    <!-- END LINKS -->
+
+    <!-- JOINTS -->
+    <!-- joint 1 -->  
+    <joint name="${prefix}joint1" type="revolute">
+      <origin xyz="0 ${y1} ${z1}"/>
+      <parent link="${prefix}base_link" />
+      <child link="${prefix}link1" />
+      <axis xyz="0 0 1"/>
+      <limit effort="0" lower="${radians(-170)}" upper="${radians(170)}" velocity="${radians(100)}" />
+    </joint>
+    <!-- joint 2 -->
+    <joint name="${prefix}joint2" type="revolute">
+      <origin xyz="${x2} ${y2} ${z2}"/>
+      <parent link="${prefix}link1" />
+      <child link="${prefix}link2" />
+      <axis xyz="0 1 0" />
+      <limit effort="0" lower="${radians(-65)}" upper="${radians(85)}" velocity="${radians(90)}" />
+    </joint>
+    <!-- joint 3 -->
+    <joint name="${prefix}joint3" type="revolute">
+      <origin xyz="${x3} ${y3} ${z3}"/>
+      <parent link="${prefix}link2" />
+      <child link="${prefix}link3" />
+      <axis xyz="0 1 0" />
+      <limit effort="0" lower="${radians(-180)}" upper="${radians(70)}" velocity="${radians(90)}" />
+    </joint>
+    <!-- joint 4 -->
+    <joint name="${prefix}joint4" type="revolute">
+      <origin xyz="${x4} ${y4} ${z4}"/>
+      <parent link="${prefix}link3" />
+      <child link="${prefix}link4" />
+      <axis xyz="1 0 0" />
+      <limit effort="0" lower="${radians(-300)}" upper="${radians(300)}" velocity="${radians(170)}" />
+    </joint>
+    <!-- joint 5 -->
+    <joint name="${prefix}joint5" type="revolute">
+      <origin xyz="${x5} ${y5} ${z5}"/>
+      <parent link="${prefix}link4" />
+      <child link="${prefix}link5" />
+      <axis xyz="0 1 0" />
+      <limit effort="0" lower="${radians(-100)}" upper="${radians(100)}" velocity="${radians(120)}" />
+    </joint>
+    <!-- joint 6 -->
+    <joint name="${prefix}joint6" type="revolute">
+      <origin xyz="${x6} ${y6} ${z6}"/>
+      <parent link="${prefix}link5" />
+      <child link="${prefix}link6" />
+      <axis xyz="1 0 0" />
+      <limit effort="0" lower="${radians(-360)}" upper="${radians(360)}" velocity="${radians(190)}" />
+    </joint>
+
+    <!-- tool frame - fixed frame -->
+    <joint name="${prefix}joint6-tool0" type="fixed">
+      <origin xyz="${xt} ${yt} ${zt}" rpy="0 ${radians(90)} 0"/>
+      <parent link="${prefix}link6" />
+      <child link="${prefix}tool0" />
+    </joint>
+
+    <!-- piston & cylinder joints -->
+    <joint name="${prefix}piston_joint" type="continuous">
+      <origin xyz="${xp} ${yp} ${zp}"/>
+      <axis xyz="0 1 0"/>
+      <parent link="${prefix}link2"/>
+      <child link="${prefix}piston_link"/>
+      <mimic joint="${prefix}joint2" multiplier="-1.3"/>
+    </joint>
+    <joint name="${prefix}cylinder_joint" type="continuous">
+      <origin xyz="${xc} ${yc} ${zc}"/>
+      <axis xyz="0 1 0"/>
+      <parent link="${prefix}link1"/>
+      <child link="${prefix}cylinder_link"/>
+      <mimic joint="${prefix}joint2" multiplier="-0.3"/>
+    </joint>
+    <!-- END JOINTS -->
+
+
+    <!-- Standard frames for industrial robots. Also useful for manipulators.
+         (ROS-I specs - https://wiki.ros.org/Industrial/Tutorials/WorkingWithRosIndustrialRobotSupportPackages#Standardised_links_.2F_frames)-->
+    <!-- This frame should correspond to the BASE coordinate system of robot's controller.) -->
+    <link name="${prefix}base" />
+    <!-- ROS base_link to ABB World Coordinates transform -->
+    <joint name="${prefix}base_link-base" type="fixed">
+      <origin xyz="0 0 0" />
+      <parent link="${prefix}base_link" />
+      <child link="${prefix}base" />
+    </joint>
+
+  </xacro:macro>
+</robot>
