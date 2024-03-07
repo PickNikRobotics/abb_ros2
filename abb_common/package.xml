@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="3">
-  <name>abb_rws_client</name>
+  <name>abb_common</name>
   <version>0.0.0</version>
-  <description>Package for receiving data and sending commands from ABB robots via RWS interface.</description>
+  <description>Package providing common function for abb_ros2</description>
 
   <maintainer email="gbartyzel@hotmail.com">Grzegorz Bartyzel</maintainer>
 
@@ -13,16 +13,12 @@
   <author email="jon.tjerngren@se.abb.com">Jon Tjerngren</author>
   <buildtool_depend>ament_cmake</buildtool_depend>
 
-  <depend>abb_common</depend>
+  <depend>rclcpp</depend>
   <depend>abb_egm_rws_managers</depend>
   <depend>abb_egm_msgs</depend>
   <depend>abb_rapid_msgs</depend>
   <depend>abb_rapid_sm_addin_msgs</depend>
   <depend>abb_robot_msgs</depend>
-  <depend>rclcpp</depend>
-  <depend>sensor_msgs</depend>
-
-  <test_depend>ament_cmake_gtest</test_depend>
 
   <test_depend>ament_lint_auto</test_depend>
   <test_depend>ament_lint_common</test_depend>

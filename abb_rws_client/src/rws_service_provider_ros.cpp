@@ -42,8 +42,8 @@
 
 #include <abb_robot_msgs/msg/service_responses.hpp>
 
-#include <abb_rws_client/mapping.hpp>
-#include <abb_hardware_interface/utilities.hpp>
+#include <abb_common/mapping.hpp>
+#include <abb_common/utilities.hpp>
 
 using RAPIDSymbols = abb::rws::RWSStateMachineInterface::ResourceIdentifiers::RAPID::Symbols;
 
