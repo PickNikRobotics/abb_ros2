@@ -1,0 +1,21 @@
+<?xml version="1.0" ?>
+<robot name="abb_irb2600_12_165" xmlns:xacro="http://ros.org/wiki/xacro">
+  <xacro:arg name="use_fake_hardware" default="true"/>
+  <xacro:property name="use_fake_hardware" value="$(arg use_fake_hardware)"/>
+  <xacro:arg name="rws_ip" default="None"/>
+  <xacro:property name="rws_ip" value="$(arg rws_ip)"/>
+  <xacro:arg name="rws_port" default="80"/>
+  <xacro:property name="rws_port" value="$(arg rws_port)"/>
+  <!-- Robot description -->
+  <xacro:include filename="$(find abb_irb2600_support)/urdf/irb2600_12_165_macro.xacro"/>
+  <xacro:abb_irb2600_12_165 prefix=""/>
+
+  <!-- ros2_control -->
+  <xacro:include filename="$(find abb_irb2600_support)/urdf/irb2600.ros2_control.xacro" />
+  <xacro:abb_ros2_control
+    name="ABBMultiInterfaceHardware"
+    prefix=""
+    use_fake_hardware="${use_fake_hardware}"
+    rws_ip="${rws_ip}"
+    rws_port="${rws_port}"/>
+</robot>
