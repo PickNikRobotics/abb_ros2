@@ -14,7 +14,7 @@
         <geometry>
           <mesh filename="package://abb_crb15000_support/meshes/crb15000_5_95/visual/base_link.dae"/>
         </geometry>
-        <xacro:material_abb_dark_gray />
+        <xacro:material_abb_yellow />
       </visual>
     </link>
     <link name="${prefix}link_1">
@@ -27,7 +27,7 @@
         <geometry>
           <mesh filename="package://abb_crb15000_support/meshes/crb15000_5_95/visual/link_1.dae"/>
         </geometry>
-        <xacro:material_abb_dark_gray />
+        <xacro:material_abb_yellow />
       </visual>
     </link>
     <link name="${prefix}link_2">
@@ -40,7 +40,7 @@
         <geometry>
           <mesh filename="package://abb_crb15000_support/meshes/crb15000_5_95/visual/link_2.dae"/>
         </geometry>
-        <xacro:material_abb_dark_gray />
+        <xacro:material_abb_yellow />
       </visual>
     </link>
     <link name="${prefix}link_3">
@@ -53,7 +53,7 @@
         <geometry>
           <mesh filename="package://abb_crb15000_support/meshes/crb15000_5_95/visual/link_3.dae"/>
         </geometry>
-        <xacro:material_abb_dark_gray />
+        <xacro:material_abb_yellow />
       </visual>
     </link>
     <link name="${prefix}link_4">
@@ -66,7 +66,7 @@
         <geometry>
           <mesh filename="package://abb_crb15000_support/meshes/crb15000_5_95/visual/link_4.dae"/>
         </geometry>
-        <xacro:material_abb_graphite_white />
+        <xacro:material_abb_yellow />
       </visual>
     </link>
     <link name="${prefix}link_5">
@@ -79,7 +79,7 @@
         <geometry>
           <mesh filename="package://abb_crb15000_support/meshes/crb15000_5_95/visual/link_5.dae"/>
         </geometry>
-        <xacro:material_abb_graphite_white />
+        <xacro:material_abb_yellow />
       </visual>
     </link>
     <link name="${prefix}link_6">
@@ -92,7 +92,7 @@
         <geometry>
           <mesh filename="package://abb_crb15000_support/meshes/crb15000_5_95/visual/link_6.dae"/>
         </geometry>
-        <xacro:material_abb_gray_white />
+        <xacro:material_abb_yellow />
       </visual>
     </link>
     <!-- end of link list -->
