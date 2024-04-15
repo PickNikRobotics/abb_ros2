@@ -1,0 +1,27 @@
+<?xml version="1.0" ?>
+<robot name="abb_crb15000_5_95" xmlns:xacro="http://ros.org/wiki/xacro">
+  <!-- Arguments -->
+  <xacro:arg name="use_fake_hardware" default="true"/>
+  <xacro:property name="use_fake_hardware" value="$(arg use_fake_hardware)"/>
+  <xacro:arg name="rws_ip" default="None"/>
+  <xacro:property name="rws_ip" value="$(arg rws_ip)"/>
+  <xacro:arg name="rws_port" default="80"/>
+  <xacro:property name="rws_port" value="$(arg rws_port)"/>
+  <xacro:arg name="configure_via_rws" default="false"/>
+  <xacro:property name="configure_via_rws" value="$(arg configure_via_rws)"/>
+
+  <!-- Robot description -->
+  <xacro:include filename="$(find abb_crb15000_support)/urdf/crb15000_5_95_macro.xacro"/>
+  <xacro:abb_crb15000_5_95 prefix=""/>
+
+  <!-- ros2_control -->
+  <xacro:include filename="$(find abb_crb15000_support)/urdf/crb15000.ros2_control.xacro" />
+  <xacro:abb_ros2_control
+    name="ABBMultiInterfaceHardware"
+    prefix=""
+    use_fake_hardware="${use_fake_hardware}"
+    rws_ip="${rws_ip}"
+    rws_port="${rws_port}"
+    configure_via_rws="${configure_via_rws}"/>
+</robot>
+
