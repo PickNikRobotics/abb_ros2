@@ -16,6 +16,7 @@
   <author>Geoffrey Chiou (Southwest Research Institute)</author>
   <author email="stephanie.eng@picknik.ai">Stephanie Eng</author>
   <author email="zelenak@picknik.ai">Andy Zelenak</author>
+  <maintainer email="yadunund@gmail.com">Yadunund</maintainer>
 
   <buildtool_depend>ament_cmake</buildtool_depend>
 

@@ -27,6 +27,7 @@
   <author>Jonathan Meyer (Southwest Research Institute)</author>
   <author>Rik Tonnaer (SAM|XL)</author>
   <maintainer email="levi.armstrong@swri.org">Levi Armstrong (Southwest Research Institute)</maintainer>
+  <maintainer email="yadunund@gmail.com">Yadunund</maintainer>
   <license>Apache2</license>
 
   <url type="website">http://wiki.ros.org/abb_irb4600_support</url>
