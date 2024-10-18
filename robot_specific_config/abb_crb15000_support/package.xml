@@ -1,0 +1,49 @@
+<?xml version="1.0" ?>
+<package format="3">
+  <name>abb_crb15000_support</name>
+  <version>0.0.0</version>
+
+  <description>
+    <p>
+      ROS-Industrial support for the ABB CRB 1500 (and variants).
+    </p>
+    <p>
+      This package contains configuration data, 3D models and launch files
+      for ABB CRB 15000 manipulators. This currently includes the CRB 15000-5/0.95
+      and the CRB 15000-10/1.52 variants.
+    </p>
+    <p>
+      Joint limits and max joint velocities are based on the information in the
+      <em>ABB CRB 15000 Product specification</em>, document ID: <em>3HAC077390-001, Mar 2024</em>.
+      All urdfs / xacros are based on the default motion and joint velocity
+      limits, unless noted otherwise (ie: no support for high speed joints,
+      extended / limited motion ranges or other options).
+    </p>
+    <p>
+      Note: Maximum joint effort values do not correspond to real world limits 
+      of the robot. The current values were chosen to accomodate simulations 
+      but are fictional values.
+    </p>
+    <p>
+      Before using any of the configuration files and / or meshes included
+      in this package, be sure to check they are correct for the particular
+      robot model and configuration you intend to use them with.
+    </p>
+  </description>
+
+  <author>Gal Gorjup</author>
+  <maintainer email="gal@sunriserobotics.co">Gal Gorjup</maintainer>
+
+  <license>Apache2</license>
+
+  <buildtool_depend>ament_cmake</buildtool_depend>
+
+  <exec_depend>joint_state_publisher</exec_depend>
+  <exec_depend>robot_state_publisher</exec_depend>
+  <exec_depend>rviz2</exec_depend>
+  <exec_depend>xacro</exec_depend>
+
+  <export>
+      <build_type>ament_cmake</build_type>
+  </export>
+</package>
