@@ -22,6 +22,7 @@ namespace abb_hardware_interface
 {
 static constexpr size_t NUM_CONNECTION_TRIES = 100;
 static const rclcpp::Logger LOGGER = rclcpp::get_logger("ABBSystemHardware");
+static const std::string ROBOT_TYPE = "ABB_Robot";
 
 CallbackReturn ABBSystemHardware::on_init(const hardware_interface::HardwareInfo& info)
 {
@@ -42,13 +43,14 @@ CallbackReturn ABBSystemHardware::on_init(const hardware_interface::HardwareInfo
   // Get robot controller description from RWS
   abb::robot::RWSManager rws_manager(rws_ip, rws_port, "Default User", "robotics");
   const auto robot_controller_description_ =
-      abb::robot::utilities::establishRWSConnection(rws_manager, "IRB1200", true);
+      abb::robot::utilities::establishRWSConnection(rws_manager, ROBOT_TYPE, true);
   RCLCPP_INFO_STREAM(LOGGER, "Robot controller description:\n"
                                  << abb::robot::summaryText(robot_controller_description_));
 
   std::vector<abb::robot::InitialJointValue> initial_joint_values = {};
   for (const hardware_interface::ComponentInfo& joint : info_.joints)
   {
+    RCLCPP_WARN(LOGGER, "Joint '%s' found. Command interface size: %zu. State interface size: %zu", joint.name.c_str(),joint.command_interfaces.size(),joint.state_interfaces.size());
     if (joint.command_interfaces.size() != 2)
     {
       RCLCPP_FATAL(LOGGER, "Joint '%s' has %zu command interfaces found. 2 expected.", joint.name.c_str(),
@@ -169,10 +171,12 @@ std::vector<hardware_interface::StateInterface> ABBSystemHardware::export_state_
     {
       for (auto& joint : unit.joints)
       {
-        // TODO(seng): Consider changing joint names in robot description to match what comes
-        // from the ABB robot description to avoid needing to strip the prefix here
-        const auto pos = joint.name.find("joint");
-        const auto joint_name = joint.name.substr(pos);
+        const auto pos = joint.name.find(ROBOT_TYPE);
+        std::string joint_name;
+        if (pos != std::string::npos) { // Ensure ROBOT_TYPE is found in the joint name
+          joint_name = joint.name.substr(pos + ROBOT_TYPE.size() + 1);
+        }
+        RCLCPP_INFO(LOGGER, "Configuring joint %s (original name %s)",joint_name.c_str(),joint.name.c_str());
         state_interfaces.emplace_back(
             hardware_interface::StateInterface(joint_name, hardware_interface::HW_IF_POSITION, &joint.state.position));
         state_interfaces.emplace_back(
@@ -192,10 +196,11 @@ std::vector<hardware_interface::CommandInterface> ABBSystemHardware::export_comm
     {
       for (auto& joint : unit.joints)
       {
-        // TODO(seng): Consider changing joint names in robot description to match what comes
-        // from the ABB robot description to avoid needing to strip the prefix here
-        const auto pos = joint.name.find("joint");
-        const auto joint_name = joint.name.substr(pos);
+        const auto pos = joint.name.find(ROBOT_TYPE);
+        std::string joint_name;
+        if (pos != std::string::npos) { // Ensure ROBOT_TYPE is found in the joint name
+          joint_name = joint.name.substr(pos + ROBOT_TYPE.size() + 1);
+        }
         command_interfaces.emplace_back(hardware_interface::CommandInterface(
             joint_name, hardware_interface::HW_IF_POSITION, &joint.command.position));
         command_interfaces.emplace_back(hardware_interface::CommandInterface(
