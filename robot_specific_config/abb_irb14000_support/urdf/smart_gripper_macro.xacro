@@ -1,0 +1,95 @@
+<?xml version="1.0"?>
+<robot name="smart_gripper" xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <xacro:include filename="$(find abb_resources)/urdf/common_materials.xacro" />
+
+  <xacro:macro name="smart_gripper" params="parent prefix *origin">
+    <!-- Links -->
+    <link name="${prefix}base">
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <mass value="0.2" />
+        <inertia ixx="0.0001" ixy="0" ixz="0" iyy="0.0001" iyz="0" izz="0.0001" />
+      </inertial>
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="package://abb_irb14000_support/meshes/smart_gripper/visual/base.stl" />
+        </geometry>
+        <xacro:material_abb_graphite_white />
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="package://abb_irb14000_support/meshes/smart_gripper/collision/base.stl" />
+        </geometry>
+        <xacro:material_abb_yellow />
+      </collision>
+    </link>
+    <link name="${prefix}finger_r">
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <mass value="0.04" />
+        <inertia ixx="0.000016" ixy="0" ixz="0" iyy="0.000016" iyz="0" izz="0.000016" />
+      </inertial>
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="package://abb_irb14000_support/meshes/smart_gripper/visual/finger.stl" />
+        </geometry>
+        <xacro:material_abb_graphite_white />
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="package://abb_irb14000_support/meshes/smart_gripper/collision/finger.stl" />
+        </geometry>
+        <xacro:material_abb_yellow />
+      </collision>
+    </link>
+    <link name="${prefix}finger_l">
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <mass value="0.04" />
+        <inertia ixx="0.000016" ixy="0" ixz="0" iyy="0.000016" iyz="0" izz="0.000016" />
+      </inertial>
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="package://abb_irb14000_support/meshes/smart_gripper/visual/finger.stl" />
+        </geometry>
+        <xacro:material_abb_graphite_white />
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="package://abb_irb14000_support/meshes/smart_gripper/collision/finger.stl" />
+        </geometry>
+        <xacro:material_abb_yellow />
+      </collision>
+    </link>
+
+    <!-- Joints -->
+    <joint name="${parent}base_joint" type="fixed">
+      <xacro:insert_block name="origin" />
+      <parent link="${parent}" />
+      <child link="${prefix}base" />
+    </joint>
+    <joint name="${prefix}half_aperture_joint" type="prismatic">
+      <parent link="${prefix}base" />
+      <child link="${prefix}finger_r" />
+      <origin xyz="0 -0.0065 0.0837" rpy="0 0 0" />
+      <axis xyz="-1 0 0" />
+      <limit lower="0" upper="0.025" effort="20" velocity="2" />
+      <dynamics damping="1.0" />
+    </joint>
+    <joint name="${prefix}half_aperture_joint_mimic" type="prismatic">
+      <parent link="${prefix}base" />
+      <child link="${prefix}finger_l" />
+      <origin xyz="0 0.0065 0.0837" rpy="0 0 ${radians(180)}" />
+      <axis xyz="-1 0 0" />
+      <limit lower="0" upper="0.025" effort="20" velocity="2" />
+      <dynamics damping="1.0" />
+      <mimic joint="${prefix}half_aperture_joint" />
+    </joint>
+  </xacro:macro>
+</robot>
