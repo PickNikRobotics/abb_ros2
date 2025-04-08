@@ -277,6 +277,17 @@ CallbackReturn ABBSystemHardware::on_activate(const rclcpp_lifecycle::State& /* 
   }
 
   egm_manager_->read(motion_data_);
+  for (auto& group : motion_data_.groups)
+  {
+    for (auto& unit : group.units)
+    {
+      for (auto& joint : unit.joints)
+      {
+        joint.command.position = joint.state.position;
+        joint.command.velocity = 0.0;
+      }
+    }
+  }
 
   RCLCPP_INFO(LOGGER, "ros2_control hardware interface was successfully started!");
 
