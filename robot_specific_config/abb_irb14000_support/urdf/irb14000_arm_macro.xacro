@@ -4,6 +4,7 @@
 
   <xacro:macro name="irb14000_arm" params="parent prefix *origin">
     <!-- Links -->
+    <link name="${prefix}base_link" />
     <link name="${prefix}link_1">
       <inertial>
         <origin xyz="0 -0.03 0.12" rpy="0 0 0" />
@@ -153,10 +154,15 @@
     </link>
 
     <!-- Joints -->
-    <joint name="${prefix}joint_1" type="revolute">
+    <joint name="${prefix}base_joint" type="fixed">
       <parent link="${parent}" />
-      <child link="${prefix}link_1" />
+      <child link="${prefix}base_link" />
       <xacro:insert_block name="origin" />
+    </joint>
+    <joint name="${prefix}joint_1" type="revolute">
+      <parent link="${prefix}base_link" />
+      <child link="${prefix}link_1" />
+      <origin xyz="0 0 0" rpy="0 0 0" />
       <axis xyz="0 0 1" />
       <limit lower="${radians(-168.5)}" upper="${radians(168.5)}" effort="300" velocity="${radians(180)}" />
       <dynamics damping="0.5" />
