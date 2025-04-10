@@ -60,22 +60,6 @@
       <origin xyz="0.05355 0.07250 0.41492" rpy="0.9781 -0.5716 2.3180" />
     </xacro:irb14000_arm>
 
-    <!-- Right gripper -->
-    <xacro:smart_gripper
-      parent="${prefix}robr_tool0"
-      prefix="${prefix}grpr_"
-    >
-      <origin xyz="0 0 0.007" rpy="0 0 ${radians(180)}" />
-    </xacro:smart_gripper>
-
-    <!-- Left gripper -->
-    <xacro:smart_gripper
-      parent="${prefix}robl_tool0"
-      prefix="${prefix}grpl_"
-    >
-      <origin xyz="0 0 0.007" rpy="0 0 ${radians(180)}" />
-    </xacro:smart_gripper>
-
   </xacro:macro>
 
 </robot>

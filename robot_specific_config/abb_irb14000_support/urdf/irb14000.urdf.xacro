@@ -11,6 +11,22 @@
   <xacro:include filename="$(find abb_irb14000_support)/urdf/irb14000_macro.xacro" />
   <xacro:irb14000 prefix="" />
 
+  <!-- Right gripper -->
+  <xacro:smart_gripper
+    parent="robr_tool0"
+    prefix="grpr_"
+  >
+    <origin xyz="0 0 0.007" rpy="0 0 ${radians(180)}" />
+  </xacro:smart_gripper>
+
+  <!-- Left gripper -->
+  <xacro:smart_gripper
+    parent="robl_tool0"
+    prefix="grpl_"
+  >
+    <origin xyz="0 0 0.007" rpy="0 0 ${radians(180)}" />
+  </xacro:smart_gripper>
+
   <!-- ros2_control -->
   <xacro:include filename="$(find abb_irb14000_support)/urdf/irb14000_ros2_control.xacro" />
   <xacro:irb14000_ros2_control
