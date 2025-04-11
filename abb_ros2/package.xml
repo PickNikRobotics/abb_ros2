@@ -7,6 +7,7 @@
 
   <maintainer email="stephanie.eng@picknik.ai">Stephanie Eng</maintainer>
   <maintainer email="zelenak@picknik.ai">Andy Zelenak</maintainer>
+  <maintainer email="yadunund@gmail.com">Yadunund</maintainer>
 
   <license>Apache2</license>
 
@@ -16,7 +17,6 @@
   <author>Geoffrey Chiou (Southwest Research Institute)</author>
   <author email="stephanie.eng@picknik.ai">Stephanie Eng</author>
   <author email="zelenak@picknik.ai">Andy Zelenak</author>
-  <maintainer email="yadunund@gmail.com">Yadunund</maintainer>
 
   <buildtool_depend>ament_cmake</buildtool_depend>
 
