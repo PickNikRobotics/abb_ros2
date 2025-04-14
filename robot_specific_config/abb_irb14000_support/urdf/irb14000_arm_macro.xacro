@@ -175,7 +175,7 @@
       <limit lower="${radians(-143.5)}" upper="${radians(43.5)}" effort="300" velocity="${radians(180)}" />
       <dynamics damping="0.5" />
     </joint>
-    <joint name="${prefix}joint_7" type="revolute">
+    <joint name="${prefix}joint_3" type="revolute">
       <parent link="${prefix}link_2" />
       <child link="${prefix}link_3" />
       <origin xyz="-0.03 0.17283 0.0" rpy="${radians(-90)} 0.0 0.0" />
@@ -183,7 +183,7 @@
       <limit lower="${radians(-168.5)}" upper="${radians(168.5)}" effort="300" velocity="${radians(180)}" />
       <dynamics damping="0.5" />
     </joint>
-    <joint name="${prefix}joint_3" type="revolute">
+    <joint name="${prefix}joint_4" type="revolute">
       <parent link="${prefix}link_3" />
       <child link="${prefix}link_4" />
       <origin xyz="-0.04188 0.0 0.07873" rpy="${radians(90)} ${radians(-90)} 0.0" />
@@ -191,7 +191,7 @@
       <limit lower="${radians(-123.5)}" upper="${radians(80)}" effort="300" velocity="${radians(180)}" />
       <dynamics damping="0.5" />
     </joint>
-    <joint name="${prefix}joint_4" type="revolute">
+    <joint name="${prefix}joint_5" type="revolute">
       <parent link="${prefix}link_4" />
       <child link="${prefix}link_5" />
       <origin xyz="0.0405 0.16461 0.0" rpy="-${radians(90)} 0.0 0.0" />
@@ -199,7 +199,7 @@
       <limit lower="${radians(-290)}" upper="${radians(290)}" effort="300" velocity="${radians(400)}" />
       <dynamics damping="0.5" />
     </joint>
-    <joint name="${prefix}joint_5" type="revolute">
+    <joint name="${prefix}joint_6" type="revolute">
       <parent link="${prefix}link_5" />
       <child link="${prefix}link_6" />
       <origin xyz="-0.027 0 0.10039" rpy="${radians(90)} 0.0 0.0" />
@@ -207,7 +207,7 @@
       <limit lower="${radians(-88)}" upper="${radians(138)}" effort="300" velocity="${radians(400)}" />
       <dynamics damping="0.5" />
     </joint>
-    <joint name="${prefix}joint_6" type="revolute">
+    <joint name="${prefix}joint_7" type="revolute">
       <parent link="${prefix}link_6" />
       <child link="${prefix}link_7" />
       <origin xyz="0.027 0.029 0.0" rpy="-${radians(90)} 0.0 0.0" />
