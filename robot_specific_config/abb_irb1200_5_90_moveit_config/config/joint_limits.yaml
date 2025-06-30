@@ -5,30 +5,30 @@ joint_limits:
   joint_1:
     has_velocity_limits: true
     max_velocity: 5.027
-    has_acceleration_limits: false
-    max_acceleration: 0
+    has_acceleration_limits: true
+    max_acceleration: 5.0 # should be updated to actual values (all max_accelerations).
   joint_2:
     has_velocity_limits: true
     max_velocity: 4.189
-    has_acceleration_limits: false
-    max_acceleration: 0
+    has_acceleration_limits: true
+    max_acceleration: 5.0
   joint_3:
     has_velocity_limits: true
     max_velocity: 5.236
-    has_acceleration_limits: false
-    max_acceleration: 0
+    has_acceleration_limits: true
+    max_acceleration: 5.0
   joint_4:
     has_velocity_limits: true
     max_velocity: 6.981
-    has_acceleration_limits: false
-    max_acceleration: 0
+    has_acceleration_limits: true
+    max_acceleration: 5.0
   joint_5:
     has_velocity_limits: true
     max_velocity: 7.069
-    has_acceleration_limits: false
-    max_acceleration: 0
+    has_acceleration_limits: true
+    max_acceleration: 5.0
   joint_6:
     has_velocity_limits: true
     max_velocity: 10.472
-    has_acceleration_limits: false
-    max_acceleration: 0
+    has_acceleration_limits: true
+    max_acceleration: 5.0
