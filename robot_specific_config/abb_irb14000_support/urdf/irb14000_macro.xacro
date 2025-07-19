@@ -1,0 +1,65 @@
+<?xml version="1.0"?>
+<robot name="irb14000" xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <xacro:include filename="$(find abb_resources)/urdf/common_materials.xacro" />
+  <xacro:include filename="$(find abb_irb14000_support)/urdf/irb14000_arm_macro.xacro" />
+  <xacro:include filename="$(find abb_irb14000_support)/urdf/smart_gripper_macro.xacro" />
+
+  <xacro:macro name="irb14000" params="prefix">
+    <!-- Base link -->
+    <link name="${prefix}base_link" />
+    <joint name="${prefix}base_joint" type="fixed">
+      <parent link="${prefix}base_link" />
+      <child link="${prefix}body" />
+      <origin xyz="0 0 0" rpy="0 0 0" />
+    </joint>
+
+    <!-- ROS-Industrial 'base' frame - base_link to ABB World Coordinates transform -->
+    <link name="${prefix}base" />
+    <joint name="${prefix}base_link-base" type="fixed">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <parent link="${prefix}base_link" />
+      <child link="${prefix}base" />
+    </joint>
+
+    <!-- Body -->
+    <link name="${prefix}body">
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <mass value="15" />
+        <inertia ixx="0.5" ixy="0" ixz="0" iyy="0.6" iyz="0" izz="0.3" />
+      </inertial>
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="package://abb_irb14000_support/meshes/irb14000/visual/body.stl" />
+        </geometry>
+        <xacro:material_abb_graphite_white />
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="package://abb_irb14000_support/meshes/irb14000/collision/body.stl" />
+        </geometry>
+        <xacro:material_abb_yellow />
+      </collision>
+    </link>
+
+    <!-- Right arm -->
+    <xacro:irb14000_arm
+      parent="${prefix}body"
+      prefix="${prefix}robr_"
+    >
+      <origin xyz="0.05355 -0.07250 0.41492" rpy="-0.9795 -0.5682 -2.3155" />
+    </xacro:irb14000_arm>
+
+    <!-- Left arm -->
+    <xacro:irb14000_arm
+      parent="${prefix}body"
+      prefix="${prefix}robl_"
+    >
+      <origin xyz="0.05355 0.07250 0.41492" rpy="0.9781 -0.5716 2.3180" />
+    </xacro:irb14000_arm>
+
+  </xacro:macro>
+
+</robot>
