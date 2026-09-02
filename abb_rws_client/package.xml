@@ -6,7 +6,7 @@
   <description>TODO: Package description</description>
   <maintainer email="gbartyzel@hotmail.com">Grzegorz Bartyzel</maintainer>
   <maintainer email="yadunund@gmail.com">Yadunund</maintainer>
-  <license>Apache2</license>
+  <license>Apache-2.0</license>
 
   <depend>rclcpp</depend>
   <depend>abb_egm_rws_managers</depend>

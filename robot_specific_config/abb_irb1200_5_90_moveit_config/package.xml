@@ -17,7 +17,7 @@
   <maintainer email="levi.armstrong@swri.org">Levi Armstrong (Southwest Research Institute)</maintainer>
   <maintainer email="yadunund@gmail.com">Yadunund</maintainer>
 
-  <license>BSD</license>
+  <license>BSD-3-Clause</license>
 
   <url type="website">http://wiki.ros.org/abb_irb1200_5_90_moveit_config</url>
   <url type="bugtracker">https://github.com/ros-industrial/abb_experimental/issues</url>

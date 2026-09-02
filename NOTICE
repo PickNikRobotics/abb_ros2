@@ -1,0 +1,35 @@
+abb_ros2
+Copyright (c) 2022 PickNik Inc.
+
+This product includes software developed by third parties, listed below with
+the license under which each is distributed. See LICENSE for the Apache License
+2.0 text, and the headers of individual source files for the notice that
+applies to them.
+
+--------------------------------------------------------------------------------
+ABB Schweiz AG
+Copyright (c) 2020, ABB Schweiz AG
+Licensed under BSD-3-Clause.
+Covers the ABB robot interface utilities in abb_hardware_interface (for example
+abb_hardware_interface/src/utilities.cpp), which is why that package declares
+both Apache-2.0 and BSD-3-Clause in its package.xml.
+
+--------------------------------------------------------------------------------
+ROS 2 Control Development Team
+Copyright 2020 ROS2-Control Development Team
+Licensed under the Apache License, Version 2.0.
+Covers the hardware interface implementation in abb_hardware_interface, modified
+by PickNik Inc. in 2022.
+
+--------------------------------------------------------------------------------
+Open Source Robotics Foundation, Inc.
+Copyright 2017 Open Source Robotics Foundation, Inc.
+Licensed under the Apache License, Version 2.0.
+
+--------------------------------------------------------------------------------
+ROS-Industrial
+Licensed under BSD-3-Clause.
+Covers robot_specific_config/abb_irb1200_5_90_moveit_config, an automatically
+generated MoveIt configuration authored by Andrew Short and maintained by Levi
+Armstrong (Southwest Research Institute). This package is BSD-3-Clause rather
+than Apache-2.0, and its package.xml declares that deliberately.
