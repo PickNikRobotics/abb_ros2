@@ -41,14 +41,14 @@ def load_yaml(package_name, file_path):
 def generate_launch_description():
 
     # Initialize Arguments
-    robot_description_file = LaunchConfiguration("robot_description_file", default="irb4600_60_205.xacro")
+    robot_description_file = LaunchConfiguration("robot_description_file", default="irb2600_12_185.xacro")
 
     robot_description_file_arg = DeclareLaunchArgument(
         "robot_description_file",
-        default_value="irb4600_60_205.xacro"
+        default_value="irb2600_12_185.xacro"
     )
 
-    robot_description_path = FindPackageShare("abb_irb4600_support")
+    robot_description_path = FindPackageShare("abb_irb2600_support")
 
     robot_description_content = Command(
         [
@@ -92,6 +92,4 @@ def generate_launch_description():
         output="screen",
     )
 
-    return LaunchDescription(
-        [robot_description_file_arg, robot_state_publisher_node, joint_state_sliders, rviz]
-    )
+    return LaunchDescription([robot_description_file_arg, robot_state_publisher_node, joint_state_sliders, rviz])

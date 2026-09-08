@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>abb_irb2600_12_185_moveit_config</name>
+  <version>0.0.0</version>
+  <description>
+    <p>
+      MoveIt package for the ABB IRB 2800-12/1.85.
+    </p>
+    <p>
+      An automatically generated package with all the configuration files
+      for using the ABB IRB 2800-12/1.18 with the MoveIt Motion Planning
+      Framework.
+    </p>
+  </description>
+  <author>Anouk Leunissen</author>
+  <maintainer email="anouk.leunissen@wur.nl">Anouk Leunissen</maintainer>
+
+  <license>BSD</license>
+
+  <url type="website">http://wiki.ros.org/abb_irb2600_12_185_moveit_config</url>
+  <url type="bugtracker">https://github.com/ros-industrial/abb_experimental/issues</url>
+  <url type="repository">https://github.com/ros-industrial/abb_experimental</url>
+
+  <buildtool_depend>ament_cmake</buildtool_depend>
+
+  <exec_depend>abb_irb2600_support</exec_depend>
+
+
+  <export>
+      <build_type>ament_cmake</build_type>
+    <!-- <architecture_independent /> -->
+  </export>
+</package>
