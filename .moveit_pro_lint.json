@@ -1,0 +1,14 @@
+{
+  "license_mismatch_exceptions": [
+    {
+      "license": "BSD-3-Clause",
+      "path": "abb_hardware_interface/package.xml",
+      "reason": "ABB interface utilities preserved under the upstream BSD-3-Clause license"
+    },
+    {
+      "license": "BSD-3-Clause",
+      "path": "robot_specific_config/abb_irb1200_5_90_moveit_config/package.xml",
+      "reason": "ROS-Industrial MoveIt configuration preserved under its upstream license"
+    }
+  ]
+}
