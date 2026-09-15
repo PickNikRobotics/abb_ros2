@@ -1,0 +1,27 @@
+<?xml version="1.0" ?>
+<robot name="abb_irb6700_150_320" xmlns:xacro="http://ros.org/wiki/xacro">
+  <xacro:arg name="use_fake_hardware" default="true"/>
+  <xacro:property name="use_fake_hardware" value="$(arg use_fake_hardware)"/>
+  <xacro:arg name="rws_ip" default="None"/>
+  <xacro:property name="rws_ip" value="$(arg rws_ip)"/>
+  <xacro:arg name="rws_port" default="80"/>
+  <xacro:property name="rws_port" value="$(arg rws_port)"/>
+  <xacro:arg name="configure_via_rws" default="true"/>
+  <xacro:property name="configure_via_rws" value="$(arg configure_via_rws)"/>
+  
+  <!-- Includo il file macro specifico della variante 150kg 320cm -->
+  <xacro:include filename="$(find abb_irb6700_support)/urdf/irb6700_150_320_macro.xacro"/>
+  
+  <!-- Istanzio la macro senza prefisso -->
+  <xacro:abb_irb6700_150_320 prefix=""/>
+
+  <!-- ros2_control -->
+  <xacro:include filename="$(find abb_irb6700_support)/urdf/irb6700.ros2_control.xacro" />
+  <xacro:abb_ros2_control
+    name="ABBMultiInterfaceHardware"
+    prefix=""
+    use_fake_hardware="${use_fake_hardware}"
+    rws_ip="${rws_ip}"
+    rws_port="${rws_port}"
+    configure_via_rws="${configure_via_rws}"/>
+</robot>
