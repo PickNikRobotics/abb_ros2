@@ -1,0 +1,166 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <xacro:macro name="irb14000_ros2_control" params="name prefix use_fake_hardware:=true rws_ip rws_port">
+    <ros2_control name="${name}" type="system">
+      <hardware>
+        <!-- ros2_control simulation -->
+        <xacro:if value="${use_fake_hardware}">
+          <plugin>mock_components/GenericSystem</plugin>
+          <param name="fake_sensor_commands">false</param>
+          <param name="state_following_offset">0.0</param>
+        </xacro:if>
+        <!-- physical hardware or RobotStudio simulation -->
+        <xacro:unless value="${use_fake_hardware}">
+          <plugin>abb_hardware_interface/ABBSystemHardware</plugin>
+          <param name="rws_port">${rws_port}</param>
+          <param name="rws_ip">${rws_ip}</param>
+          <!-- EGM with MultiMove -->
+          <param name="rob_legm_port">6511</param>
+          <param name="rob_regm_port">6512</param>
+        </xacro:unless>
+      </hardware>
+      <joint name="${prefix}robl_joint_1">
+        <command_interface name="position" />
+        <command_interface name="velocity" />
+        <state_interface name="position">
+          <param name="initial_value">0.0</param>
+        </state_interface>
+        <state_interface name="velocity">
+          <param name="initial_value">0.0</param>
+        </state_interface>
+      </joint>
+      <joint name="${prefix}robl_joint_2">
+        <command_interface name="position" />
+        <command_interface name="velocity" />
+        <state_interface name="position">
+          <param name="initial_value">${radians(-130)}</param>
+        </state_interface>
+        <state_interface name="velocity">
+          <param name="initial_value">0.0</param>
+        </state_interface>
+      </joint>
+      <joint name="${prefix}robl_joint_3">
+        <command_interface name="position" />
+        <command_interface name="velocity" />
+        <state_interface name="position">
+          <param name="initial_value">${radians(135)}</param>
+        </state_interface>
+        <state_interface name="velocity">
+          <param name="initial_value">0.0</param>
+        </state_interface>
+      </joint>
+      <joint name="${prefix}robl_joint_4">
+        <command_interface name="position" />
+        <command_interface name="velocity" />
+        <state_interface name="position">
+          <param name="initial_value">${radians(30)}</param>
+        </state_interface>
+        <state_interface name="velocity">
+          <param name="initial_value">0.0</param>
+        </state_interface>
+      </joint>
+      <joint name="${prefix}robl_joint_5">
+        <command_interface name="position" />
+        <command_interface name="velocity" />
+        <state_interface name="position">
+          <param name="initial_value">0.0</param>
+        </state_interface>
+        <state_interface name="velocity">
+          <param name="initial_value">0.0</param>
+        </state_interface>
+      </joint>
+      <joint name="${prefix}robl_joint_6">
+        <command_interface name="position" />
+        <command_interface name="velocity" />
+        <state_interface name="position">
+          <param name="initial_value">${radians(40)}</param>
+        </state_interface>
+        <state_interface name="velocity">
+          <param name="initial_value">0.0</param>
+        </state_interface>
+      </joint>
+      <joint name="${prefix}robl_joint_7">
+        <command_interface name="position" />
+        <command_interface name="velocity" />
+        <state_interface name="position">
+          <param name="initial_value">0.0</param>
+        </state_interface>
+        <state_interface name="velocity">
+          <param name="initial_value">0.0</param>
+        </state_interface>
+      </joint>
+      <joint name="${prefix}robr_joint_1">
+        <command_interface name="position" />
+        <command_interface name="velocity" />
+        <state_interface name="position">
+          <param name="initial_value">0.0</param>
+        </state_interface>
+        <state_interface name="velocity">
+          <param name="initial_value">0.0</param>
+        </state_interface>
+      </joint>
+      <joint name="${prefix}robr_joint_2">
+        <command_interface name="position" />
+        <command_interface name="velocity" />
+        <state_interface name="position">
+          <param name="initial_value">${radians(-130)}</param>
+        </state_interface>
+        <state_interface name="velocity">
+          <param name="initial_value">0.0</param>
+        </state_interface>
+      </joint>
+      <joint name="${prefix}robr_joint_3">
+        <command_interface name="position" />
+        <command_interface name="velocity" />
+        <state_interface name="position">
+          <param name="initial_value">${radians(-135)}</param>
+        </state_interface>
+        <state_interface name="velocity">
+          <param name="initial_value">0.0</param>
+        </state_interface>
+      </joint>
+      <joint name="${prefix}robr_joint_4">
+        <command_interface name="position" />
+        <command_interface name="velocity" />
+        <state_interface name="position">
+          <param name="initial_value">${radians(30)}</param>
+        </state_interface>
+        <state_interface name="velocity">
+          <param name="initial_value">0.0</param>
+        </state_interface>
+      </joint>
+      <joint name="${prefix}robr_joint_5">
+        <command_interface name="position" />
+        <command_interface name="velocity" />
+        <state_interface name="position">
+          <param name="initial_value">0.0</param>
+        </state_interface>
+        <state_interface name="velocity">
+          <param name="initial_value">0.0</param>
+        </state_interface>
+      </joint>
+      <joint name="${prefix}robr_joint_6">
+        <command_interface name="position" />
+        <command_interface name="velocity" />
+        <state_interface name="position">
+          <param name="initial_value">${radians(40)}</param>
+        </state_interface>
+        <state_interface name="velocity">
+          <param name="initial_value">0.0</param>
+        </state_interface>
+      </joint>
+      <joint name="${prefix}robr_joint_7">
+        <command_interface name="position" />
+        <command_interface name="velocity" />
+        <state_interface name="position">
+          <param name="initial_value">0.0</param>
+        </state_interface>
+        <state_interface name="velocity">
+          <param name="initial_value">0.0</param>
+        </state_interface>
+      </joint>
+    </ros2_control>
+  </xacro:macro>
+
+</robot>
