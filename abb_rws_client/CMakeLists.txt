@@ -45,16 +45,25 @@ add_library(rws_client_lib
   src/rws_state_publisher_ros.cpp
   src/mapping.cpp
 )
-ament_target_dependencies(rws_client_lib ${THIS_PACKAGE_INCLUDE_DEPENDS})
+target_link_libraries(rws_client_lib PUBLIC
+  abb_egm_rws_managers::abb_egm_rws_managers
+  ${abb_egm_msgs_TARGETS}
+  ${abb_robot_msgs_TARGETS}
+  ${abb_rapid_msgs_TARGETS}
+  ${abb_rapid_sm_addin_msgs_TARGETS}
+  ${abb_hardware_interface_LIBRARIES}
+  rclcpp::rclcpp
+  ${sensor_msgs_TARGETS}
+)
 target_include_directories(
   rws_client_lib
   PRIVATE
   include
+  ${abb_hardware_interface_INCLUDE_DIRS}
 )
 
 add_executable(rws_client src/rws_client_node.cpp)
 target_link_libraries(rws_client rws_client_lib)
-ament_target_dependencies(rws_client "rclcpp")
 target_include_directories(
   rws_client
   PRIVATE

@@ -15,7 +15,7 @@ if(BUILD_TESTING)
   find_package(trajectory_msgs REQUIRED)
   # GTests
   ament_add_gtest_executable(test_command_topics test/test_command_topics.cpp)
-  ament_target_dependencies(test_command_topics rclcpp trajectory_msgs)
+  target_link_libraries(test_command_topics rclcpp::rclcpp ${trajectory_msgs_TARGETS})
   add_ros_test(test/launch/test_command_topics.test.py TIMEOUT 120 ARGS "test_binary_dir:=${CMAKE_CURRENT_BINARY_DIR}")
 endif()
 

@@ -23,9 +23,9 @@ namespace abb_hardware_interface
 static constexpr size_t NUM_CONNECTION_TRIES = 100;
 static const rclcpp::Logger LOGGER = rclcpp::get_logger("ABBSystemHardware");
 
-CallbackReturn ABBSystemHardware::on_init(const hardware_interface::HardwareInfo& info)
+CallbackReturn ABBSystemHardware::on_init(const hardware_interface::HardwareComponentInterfaceParams& params)
 {
-  if (hardware_interface::SystemInterface::on_init(info) != CallbackReturn::SUCCESS)
+  if (hardware_interface::SystemInterface::on_init(params) != CallbackReturn::SUCCESS)
   {
     return CallbackReturn::ERROR;
   }

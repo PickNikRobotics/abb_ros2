@@ -43,7 +43,13 @@ add_library(
   src/abb_hardware_interface.cpp
   src/utilities.cpp
 )
-ament_target_dependencies(${PROJECT_NAME} ${THIS_PACKAGE_INCLUDE_DEPENDS})
+target_link_libraries(${PROJECT_NAME} PUBLIC
+  abb_egm_rws_managers::abb_egm_rws_managers
+  hardware_interface::hardware_interface
+  pluginlib::pluginlib
+  rclcpp::rclcpp
+  rclcpp_lifecycle::rclcpp_lifecycle
+)
 target_include_directories(
   ${PROJECT_NAME}
   PRIVATE
